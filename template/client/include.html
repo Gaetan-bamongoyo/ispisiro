@@ -1,0 +1,235 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Institut Supérieur Pédagogique || Isiro</title>
+    <meta name="description" content="Institut Supérieur Pédagogique d'Isiro - Formation d'excellence en pédagogie">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="éducation, pédagogie, institut, Isiro, formation">
+    <meta name="author" content="ISP Isiro">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon1.png' %}">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shortcode/shortcodes.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style-customizer.css' %}">
+    <link href="#" data-style="styles" rel="stylesheet">
+    
+    <!-- JavaScript Files -->
+    <script src="{% static 'js/vendor/modernizr-3.11.7.min.js' %}"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Header Area -->
+        <header class="header-area">
+            <!-- Header Top -->
+            <div class="header-top blue-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7 col-12">
+                            <div class="header-top-info">
+                                <ul>
+                                    <li>
+                                        <a href="tel:+00243812345678">
+                                            <i class="zmdi zmdi-phone"></i>
+                                            +243 81 234 56 78
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.ispisiro.ac.cd" target="_blank">
+                                            <i class="zmdi zmdi-globe"></i>
+                                            www.ispisiro.ac.cd
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5 d-none d-md-block">
+                            <div class="header-top-right">
+                                <div class="header-top-social f-right">
+                                    <p>Suivez-nous :</p>
+                                    <ul>
+                                        <li><a href="#" aria-label="Facebook"><i class="icofont icofont-social-facebook"></i></a></li>
+                                        <li><a href="#" aria-label="Twitter"><i class="icofont icofont-social-twitter"></i></a></li>
+                                        <li><a href="#" aria-label="GitHub"><i class="icofont icofont-social-github"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header Bottom -->
+            <div class="header-bottom stick-h2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-12">
+                            <div class="logo">
+                                <a href="{% url 'home' %}">
+                                    <img src="{% static 'images/logo/logoisp.png' %}" alt="Logo ISP Isiro">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8 hidden-sm d-none d-md-block">
+                            <div class="menu-area f-right">
+                                <nav>
+                                    <ul>
+                                        <li class="active coloumn-one">
+                                            <a href="{% url 'home' %}">Accueil</a>
+                                        </li>
+                                        {% comment %} <li class="coloumn-one">
+                                            <a href="#">NOS FILIÈRES <i class="zmdi zmdi-caret-down"></i></a>
+                                            <ul>
+                                                <li><a href="#">Informatique de gestion</a></li>
+                                                <li><a href="#">Sciences de l'éducation</a></li>
+                                                <li><a href="#">Administration scolaire</a></li>
+                                            </ul>
+                                        </li> {% endcomment %}
+                                        <li class="coloumn-one">
+                                            <a href="#">INSTITUTION <i class="zmdi zmdi-caret-down"></i></a>
+                                            <ul>
+                                                <li><a href="#">Nos enseignants</a></li>
+                                                <li><a href="#">Administration</a></li>
+                                                <li><a href="#">Histoire</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">BIBLIOTHÈQUE</a></li>
+                                        <li><a href="#">À PROPOS</a></li>
+                                        <li><a class="none-padding" href="#">CONTACT</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-area clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="d-block d-lg-none col-sm-12 col-xs-12">
+                        <div class="mobile-menu">
+                            <nav id="dropdown">
+                                <ul>
+                                    <li class="active coloumn-one">
+                                        <a href="{% url 'home' %}">Accueil</a>
+                                    </li>
+                                    {% comment %} <li class="coloumn-one">
+                                        <a href="#">NOS FILIÈRES <i class="zmdi zmdi-caret-down"></i></a>
+                                        <ul>
+                                            <li><a href="#">Informatique de gestion</a></li>
+                                            <li><a href="#">Sciences de l'éducation</a></li>
+                                        </ul>
+                                    </li> {% endcomment %}
+                                    <li><a href="#">BIBLIOTHÈQUE</a></li>
+                                    <li><a href="#">À PROPOS</a></li>
+                                    <li><a class="none-padding" href="#">CONTACT</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block content %}{% endblock  %}
+        <!-- Footer Area -->
+        <footer class="footer-area">
+            <div class="footer-top ptb-110">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="footer-text footer-social">
+                                <a href="{% url 'home' %}">
+                                    <img alt="Logo ISP Isiro" src="{% static 'images/logo/logoisp1.png' %}">
+                                </a>
+                                <p>Institut Supérieur Pédagogique d'Isiro, dédié à l'excellence dans la formation des éducateurs et la promotion de l'éducation de qualité.</p>
+                                <ul>
+                                    <li><a href="#" aria-label="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+                                    <li><a href="#" aria-label="Vimeo"><i class="zmdi zmdi-vimeo"></i></a></li>
+                                    <li><a href="#" aria-label="Tumblr"><i class="zmdi zmdi-tumblr"></i></a></li>
+                                    <li><a href="#" aria-label="Pinterest"><i class="zmdi zmdi-pinterest"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="footer-text mrg-xs mrg-sm-none">
+                                <h3>Liens Rapides</h3>
+                                <ul class="footer-text-all">
+                                    <li><a href="{% url 'home' %}">Accueil</a></li>
+                                    <li><a href="#">Horaires d'ouverture</a></li>
+                                    <li><a href="#">Nos formations</a></li>
+                                    <li><a href="#">Choisir l'ISP</a></li>
+                                    <li><a href="#">Événements à venir</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="footer-text mrg-sm3 mrg-xs">
+                                <h3>Nos filières</h3>
+                                <ul class="footer-text-all">
+                                    <li><a href="#">Informatique de gestion</a></li>
+                                    <li><a href="#">Institution</a></li>
+                                    <li><a href="#">Nos filières</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12">
+                            <div class="footer-text mrg-sm3 mrg-xs">
+                                <h3>Contactez-nous</h3>
+                                <form action="#" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input placeholder="Nom*" type="text" name="name" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="in-mrg" placeholder="Email*" type="email" name="email" required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <textarea placeholder="Message*" name="message" required></textarea>
+                                            <button class="submit" type="submit">Envoyer</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <div class="footer-bottom-text ptb-20">
+                                <p>
+                                    Copyrights © <a href="https://www.ispisiro.ac.cd" target="_blank">2024 ISP IISIRO</a> - Tous droits réservés || Helpmetek
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="{% static 'js/vendor/jquery-v1.12.4.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/ajax-mail.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

@@ -1,429 +1,220 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon - ISPISIRO</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23667eea;stop-opacity:1" /><stop offset="50%" style="stop-color:%23764ba2;stop-opacity:1" /><stop offset="100%" style="stop-color:%23f093fb;stop-opacity:1" /></linearGradient></defs><rect width="100%" height="100%" fill="url(%23grad)"/><polygon fill="%23ffffff" fill-opacity="0.1" points="0,1080 400,800 800,900 1200,700 1600,850 1920,600 1920,1080"/><polygon fill="%23ffffff" fill-opacity="0.05" points="0,1080 300,750 600,850 900,650 1200,800 1500,550 1800,700 1920,500 1920,1080"/></svg>') center/cover;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .container {
-            max-width: 800px;
-            padding: 2rem;
-            z-index: 2;
-            position: relative;
-        }
-
-        .main-title {
-            font-size: 4rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            animation: fadeInDown 1s ease-out;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-            font-weight: 300;
-            animation: fadeInUp 1s ease-out 0.2s both;
-        }
-
-        .subtitle-2 {
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            opacity: 0.9;
-            font-weight: 300;
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease-out 0.4s both;
-        }
-
-        .countdown-item {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease;
-        }
-
-        .countdown-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .countdown-number {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #e91e63;
-            line-height: 1;
-        }
-
-        .countdown-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 2px;
-        }
-
-        .notify-btn {
-            background: linear-gradient(45deg, #e91e63, #ff4081);
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        .notify-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
-        }
-
-        .social-text {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            opacity: 0.8;
-            animation: fadeInUp 1s ease-out 0.8s both;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            animation: fadeInUp 1s ease-out 1s both;
-        }
-
-        .social-link {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: white;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .social-link.facebook {
-            background: rgba(59, 89, 152, 0.8);
-        }
-
-        .social-link.twitter {
-            background: rgba(29, 161, 242, 0.8);
-        }
-
-        .social-link.google {
-            background: rgba(221, 75, 57, 0.8);
-        }
-
-        .social-link.linkedin {
-            background: rgba(0, 119, 181, 0.8);
-        }
-
-        .social-link.instagram {
-            background: linear-gradient(45deg, rgba(225, 48, 108, 0.8), rgba(255, 204, 128, 0.8));
-        }
-
-        .social-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: float 8s linear infinite;
-        }
-
-        .particle:nth-child(1) {
-            width: 4px;
-            height: 4px;
-            left: 10%;
-            animation-delay: 0s;
-            animation-duration: 8s;
-        }
-
-        .particle:nth-child(2) {
-            width: 6px;
-            height: 6px;
-            left: 20%;
-            animation-delay: 2s;
-            animation-duration: 10s;
-        }
-
-        .particle:nth-child(3) {
-            width: 3px;
-            height: 3px;
-            left: 30%;
-            animation-delay: 4s;
-            animation-duration: 6s;
-        }
-
-        .particle:nth-child(4) {
-            width: 5px;
-            height: 5px;
-            left: 40%;
-            animation-delay: 6s;
-            animation-duration: 9s;
-        }
-
-        .particle:nth-child(5) {
-            width: 4px;
-            height: 4px;
-            left: 50%;
-            animation-delay: 1s;
-            animation-duration: 7s;
-        }
-
-        .particle:nth-child(6) {
-            width: 6px;
-            height: 6px;
-            left: 60%;
-            animation-delay: 3s;
-            animation-duration: 11s;
-        }
-
-        .particle:nth-child(7) {
-            width: 3px;
-            height: 3px;
-            left: 70%;
-            animation-delay: 5s;
-            animation-duration: 8s;
-        }
-
-        .particle:nth-child(8) {
-            width: 5px;
-            height: 5px;
-            left: 80%;
-            animation-delay: 7s;
-            animation-duration: 10s;
-        }
-
-        .particle:nth-child(9) {
-            width: 4px;
-            height: 4px;
-            left: 90%;
-            animation-delay: 2s;
-            animation-duration: 9s;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.5rem;
-                letter-spacing: 2px;
-            }
-            
-            .countdown {
-                gap: 1rem;
-            }
-            
-            .countdown-item {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .countdown-number {
-                font-size: 1.4rem;
-            }
-            
-            .countdown-label {
-                font-size: 0.8rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .countdown {
-                gap: 0.5rem;
-                flex-wrap: wrap;
-            }
-            
-            .countdown-item {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .countdown-number {
-                font-size: 1.2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-
-    <div class="container">
-        <h1 class="main-title">Coming Soon</h1>
-        
-        <p class="subtitle">Notre site web est actuellement en cours de maintenance programmée.</p>
-        <p class="subtitle-2">Nous serons de retour sous peu. Merci pour votre patience.</p>
-
-        <div class="countdown">
-            <div class="countdown-item">
-                <div class="countdown-number" id="days">00</div>
-                <div class="countdown-label">Days</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="hours">00</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="minutes">00</div>
-                <div class="countdown-label">Mins</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="seconds">00</div>
-                <div class="countdown-label">Sec</div>
+{% extends 'client/include.html' %}
+{% load static %}
+{% block content %}
+        <!-- Slider Area -->
+        <div class="slider-area">
+            <div class="slider-active">
+                <div class="slider-all">
+                    <img src="{% static 'images/slider/4.jpg' %}" alt="Slider image">
+                    <div class="slider-text-wrapper">
+                        <div class="table">
+                            <div class="table-cell">
+                                <div class="slider-text animated">
+                                    <h3>La Meilleure Institution d'Apprentissage</h3>
+                                    <h2>BIENVENUE À NOTRE INSTITUT</h2>
+                                    <p>Formation d'excellence en pédagogie pour un avenir meilleur</p>
+                                    <a class="button extra-small mb-20" href="#">
+                                        <span>EN SAVOIR PLUS</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <button class="notify-btn" onclick="notifyMe()">NOTIFY US</button>
+        <!-- Top Courses Area -->
+        {% comment %} <div class="top-courses-area gray-bg pb-160 pt-110">
+            <div class="container">
+                <div class="section-title text-center mb-55">
+                    <h1 class="uppercase">NOS FILIÈRES</h1>
+                    <p>Découvrez nos programmes de formation de qualité <br>pour devenir un professionnel de l'éducation</p>
+                    <div class="separator my mtb-15">
+                        <i class="icofont icofont-hat-alt"></i>
+                    </div>
+                </div>
+                <div class="all-courses">
+                    <div class="single-course-all">
+                        <div class="single-course">
+                            <a href="#"><img src="{% static 'images/banner/s1.jpg' %}" alt="Sciences et Technologie"></a>
+                            <div class="single-coures-text">
+                                <h3><a href="#">SCIENCES & TECHNOLOGIE</a></h3>
+                                <p>Formation en sciences et technologies éducatives pour intégrer les outils numériques dans l'enseignement</p>
+                                <a href="#">EN SAVOIR PLUS</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-course-all">
+                        <div class="single-course">
+                            <a href="#"><img src="{% static 'images/banner/s3.jpg' %}" alt="Gestion et Comptabilité"></a>
+                            <div class="single-coures-text">
+                                <h3><a href="#">GESTION & COMPTABILITÉ</a></h3>
+                                <p>Formation en administration scolaire et gestion des établissements éducatifs</p>
+                                <a href="#">EN SAVOIR PLUS</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-course-all">
+                        <div class="single-course">
+                            <a href="#"><img src="{% static 'images/banner/s3.jpg' %}" alt="Gestion et Comptabilité"></a>
+                            <div class="single-coures-text">
+                                <h3><a href="#">GESTION & COMPTABILITÉ</a></h3>
+                                <p>Formation en administration scolaire et gestion des établissements éducatifs</p>
+                                <a href="#">EN SAVOIR PLUS</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
 
-        <p class="social-text">Follow us for updates</p>
-        
-        <div class="social-links">
-            <a href="#" class="social-link facebook">f</a>
-            <a href="#" class="social-link twitter">t</a>
-            <a href="#" class="social-link google">g+</a>
-            <a href="#" class="social-link linkedin">in</a>
-            <a href="#" class="social-link instagram">📷</a>
+        <!-- Counter Area -->
+        {% comment %} <div class="counter-area bg-2 bg-opacity bg-relative ptb-110">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
+                        <div class="counter-bottom2">
+                            <div class="counter-img">
+                                <img src="{% static 'images/icons/1.png' %}" alt="Icône enseignants">
+                            </div>
+                            <div class="counter-all">
+                                <div class="counter-next2">
+                                    <h2>Enseignants</h2>
+                                </div>
+                                <div class="counter cnt-two">
+                                    <h1>50</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
+                        <div class="counter-bottom2 mrg-xs mrg-sm-none">
+                            <div class="counter-img">
+                                <img src="{% static 'images/icons/2.png' %}" alt="Icône étudiants">
+                            </div>
+                            <div class="counter-all">
+                                <div class="counter-next2">
+                                    <h2>Étudiants</h2>
+                                </div>
+                                <div class="counter cnt-two">
+                                    <h1>3554</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
+                        <div class="counter-bottom2 mrg-xs">
+                            <div class="counter-img">
+                                <img src="{% static 'images/icons/3.png' %}" alt="Icône ouvrages">
+                            </div>
+                            <div class="counter-all">
+                                <div class="counter-next2">
+                                    <h2>Ouvrages</h2>
+                                </div>
+                                <div class="counter cnt-two">
+                                    <h1>0</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        <!-- Lecturers Area -->
+        <div class="lecturers-area ptb-110">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title text-center mb-60">
+                            <h1 class="uppercase">Le Comité</h1>
+                            <p>
+                                Notre équipe de direction dédiée à l'excellence académique
+                                <br>
+                                et au développement de l'institution
+                            </p>
+                            <div class="separator my mtb-15">
+                                <i class="icofont icofont-hat-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-lecturers">
+                            <div class="lecturers-img">
+                                <a href="#"><img alt="Photo du directeur" src="{% static 'images/banner/dg.jpg' %}"></a>
+                                <div class="img-title">
+                                    <h3>Prof. Dr. Gabriel ENGAMA MAGBANGBAU </h3>
+                                    <p>Directeur Général</p>
+                                </div>
+                            </div>
+                            {% comment %} <div class="lecturers-details">
+                                <h3>Prof. Dr. Gabriel ENGAMA MAGBANGBAU</h3>
+                                <p>Directeur Général</p>
+                                <div class="last-about-details">
+                                    <ul>
+                                        <li><a href="#" aria-label="LinkedIn"><i class="icofont icofont-social-pinterest"></i></a></li>
+                                        <li><a href="#" aria-label="Facebook"><i class="icofont icofont-social-facebook"></i></a></li>
+                                        <li><a href="#" aria-label="Email"><i class="icofont icofont-social-dribbble"></i></a></li>
+                                        <li><a href="#" aria-label="Website"><i class="icofont icofont-social-tumblr"></i></a></li>
+                                    </ul>
+                                </div>
+                                <p>Expert en sciences de l'éducation avec plus de 15 ans d'expérience dans la formation pédagogique</p>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-lecturers mrg-xs4">
+                            <div class="lecturers-img">
+                                <a href="#"><img alt="Photo du directeur académique" src="{% static 'images/banner/sg.jpg' %}"></a>
+                                <div class="img-title">
+                                    <h3>CT. Brigitte ABIO KOMBE</h3>
+                                    <p>Secrétaire Générale</p>
+                                </div>
+                            </div>
+                            {% comment %} <div class="lecturers-details">
+                                <h3>CT. Brigitte ABIO KOMBE</h3>
+                                <p>Secrétaire Générale</p>
+                                <div class="last-about-details">
+                                    <ul>
+                                        <li><a href="#" aria-label="LinkedIn"><i class="icofont icofont-social-pinterest"></i></a></li>
+                                        <li><a href="#" aria-label="Facebook"><i class="icofont icofont-social-facebook"></i></a></li>
+                                        <li><a href="#" aria-label="Email"><i class="icofont icofont-social-dribbble"></i></a></li>
+                                        <li><a href="#" aria-label="Website"><i class="icofont icofont-social-tumblr"></i></a></li>
+                                    </ul>
+                                </div>
+                                <p>Spécialiste en pédagogie moderne et en développement des programmes éducatifs innovants</p>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-lecturers mrg-sm mrg-xs4">
+                            <div class="lecturers-img">
+                                <a href="#"><img alt="Photo du directeur administratif" src="{% static 'images/banner/sa.jpg' %}"></a>
+                                <div class="img-title">
+                                    <h3>CT. MADRIANOKO JOSEPH</h3>
+                                    <p>Secrétaire Administratif</p>
+                                </div>
+                            </div>
+                            {% comment %} <div class="lecturers-details">
+                                <h3>CT. MADRIANOKO JOSEPH</h3>
+                                <p>Secrétaire Administratif</p>
+                                <div class="last-about-details">
+                                    <ul>
+                                        <li><a href="#" aria-label="LinkedIn"><i class="icofont icofont-social-pinterest"></i></a></li>
+                                        <li><a href="#" aria-label="Facebook"><i class="icofont icofont-social-facebook"></i></a></li>
+                                        <li><a href="#" aria-label="Email"><i class="icofont icofont-social-dribbble"></i></a></li>
+                                        <li><a href="#" aria-label="Website"><i class="icofont icofont-social-tumblr"></i></a></li>
+                                    </ul>
+                                </div>
+                                <p>Gestionnaire expérimenté spécialisé dans l'administration des institutions éducatives</p>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <script>
-        // Définir la date de fin (dans 30 jours par exemple)
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 30);
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-
-            if (distance < 0) {
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-            }
-        }
-
-        function notifyMe() {
-            const email = prompt('Entrez votre email pour être notifié:');
-            if (email && email.includes('@')) {
-                alert('Merci! Nous vous notifierons à: ' + email);
-                // Ici vous pouvez ajouter le code pour sauvegarder l'email
-            } else if (email) {
-                alert('Veuillez entrer une adresse email valide.');
-            }
-        }
-
-        // Mettre à jour le compte à rebours chaque seconde
-        setInterval(updateCountdown, 1000);
-        updateCountdown(); // Appel initial
-    </script>
-</body>
-</html>
+{% endblock  %}
+        

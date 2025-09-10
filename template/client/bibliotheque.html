@@ -1,0 +1,803 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Bibliothèque - Institut Supérieur Pédagogique || Isiro</title>
+    <meta name="description" content="Bibliothèque de l'Institut Supérieur Pédagogique d'Isiro - Ressources pédagogiques et documentaires">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="bibliothèque, pédagogie, institut, Isiro, ressources, livres, documents">
+    <meta name="author" content="ISP Isiro">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon1.png' %}">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shortcode/shortcodes.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style-customizer.css' %}">
+    <link href="#" data-style="styles" rel="stylesheet">
+    
+    <!-- Custom CSS for Library -->
+    <style>
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .library-meta {
+            margin: 15px 0;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            margin: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+        
+        .badge-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .badge-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .badge-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .badge-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .badge-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        #resultsCount {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        
+        #advancedFilters {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .orderby-wrapper {
+            margin-bottom: 15px;
+        }
+        
+        .chosen-submit {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .chosen-submit .button {
+            margin: 0 5px;
+        }
+        
+        .library-item {
+            transition: all 0.3s ease;
+        }
+        
+        .library-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        /* Library Statistics Styles */
+        .stat-item {
+            padding: 30px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .stat-icon {
+            margin-bottom: 20px;
+        }
+        
+        .stat-item h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item p {
+            color: #666;
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        /* Library Services Styles */
+        .service-item {
+            padding: 40px 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .service-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .service-icon {
+            margin-bottom: 25px;
+        }
+        
+        .service-item h4 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .service-item p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Library Hours Styles */
+        .day-hours {
+            padding: 25px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .day-hours:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .day-icon {
+            margin-bottom: 15px;
+        }
+        
+        .day-hours h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .day-hours .time {
+            font-size: 16px;
+            color: #007bff;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* Section spacing */
+        .library-stats-area,
+        .library-services-area,
+        .library-hours-area {
+            margin-top: 80px;
+        }
+        
+        .gray-bg {
+            background-color: #f8f9fa;
+        }
+        
+        /* Library Contact Styles */
+        .contact-info {
+            padding: 30px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .contact-info:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .contact-icon {
+            margin-bottom: 20px;
+        }
+        
+        .contact-info h4 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .contact-form {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 15px;
+        }
+        
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+    
+    <!-- JavaScript Files -->
+    <script src="{% static 'js/vendor/modernizr-3.11.7.min.js' %}"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Header Area -->
+        <header class="header-area">
+            <!-- Header Top -->
+            <div class="header-top blue-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7 col-12">
+                            <div class="header-top-info">
+                                <ul>
+                                    <li>
+                                        <a href="tel:+00243812345678">
+                                            <i class="zmdi zmdi-phone"></i>
+                                            +243 81 234 56 78
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.ispisiro.ac.cd" target="_blank">
+                                            <i class="zmdi zmdi-globe"></i>
+                                            www.ispisiro.ac.cd
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5 d-none d-md-block">
+                            <div class="header-top-right">
+                                <div class="header-top-social f-right">
+                                    <p>Suivez-nous :</p>
+                                    <ul>
+                                        <li><a href="#" aria-label="Facebook"><i class="icofont icofont-social-facebook"></i></a></li>
+                                        <li><a href="#" aria-label="Twitter"><i class="icofont icofont-social-twitter"></i></a></li>
+                                        <li><a href="#" aria-label="GitHub"><i class="icofont icofont-social-github"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header Bottom -->
+            <div class="header-bottom stick-h2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-12">
+                            <div class="logo">
+                                <a href="{% url 'home' %}">
+                                    <img src="{% static 'images/logo/logoisp.png' %}" alt="Logo ISP Isiro">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8 hidden-sm d-none d-md-block">
+                            <div class="menu-area f-right">
+                                <nav>
+                                    <ul>
+                                        <li class="coloumn-one">
+                                            <a href="{% url 'home' %}">Accueil</a>
+                                        </li>
+                                        <li class="coloumn-one">
+                                            <a href="#">NOS FILIÈRES <i class="zmdi zmdi-caret-down"></i></a>
+                                            <ul>
+                                                <li><a href="#">Informatique de gestion</a></li>
+                                                <li><a href="#">Sciences de l'éducation</a></li>
+                                                <li><a href="#">Administration scolaire</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="coloumn-one">
+                                            <a href="#">INSTITUTION <i class="zmdi zmdi-caret-down"></i></a>
+                                            <ul>
+                                                <li><a href="#">Nos enseignants</a></li>
+                                                <li><a href="#">Administration</a></li>
+                                                <li><a href="#">Histoire</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="active"><a href="#">BIBLIOTHÈQUE</a></li>
+                                        <li><a href="#">À PROPOS</a></li>
+                                        <li><a class="none-padding" href="#">CONTACT</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu-area clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="d-block d-lg-none col-sm-12 col-xs-12">
+                        <div class="mobile-menu">
+                            <nav id="dropdown">
+                                <ul>
+                                    <li class="coloumn-one">
+                                        <a href="{% url 'home' %}">Accueil</a>
+                                    </li>
+                                    <li class="coloumn-one">
+                                        <a href="#">NOS FILIÈRES <i class="zmdi zmdi-caret-down"></i></a>
+                                        <ul>
+                                            <li><a href="#">Informatique de gestion</a></li>
+                                            <li><a href="#">Sciences de l'éducation</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="active"><a href="#">BIBLIOTHÈQUE</a></li>
+                                    <li><a href="#">À PROPOS</a></li>
+                                    <li><a class="none-padding" href="#">CONTACT</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breadcrumbs Area -->
+        <section class="breadcrumbs-area bg-3 ptb-110 bg-opacity bg-relative">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="breadcrumbs">
+                            <h2 class="page-title">BIBLIOTHÈQUE</h2>
+                            <ul>
+                                <li>
+                                    <a href="{% url 'home' %}">Accueil</a>
+                                </li>
+                                <li>Bibliothèque</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="news-page-area ptb-110">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="courses-area bg-2 bg-opacity bg-relative ptb-40 mb-60">
+                            <div class="courses pr-100 pl-100">
+                                <form class="ordering">
+                                    <div class="orderby-wrapper">
+                                        <select name="orderby" id="documentType" class="orderby">
+                                            <option value="" selected='selected'>Type de document</option>
+                                            <option value="livre">Livre</option>
+                                            <option value="revue">Revue</option>
+                                            <option value="these">Thèse</option>
+                                            <option value="memoire">Mémoire</option>
+                                            <option value="article">Article</option>
+                                            <option value="cd">CD/DVD</option>
+                                        </select>
+                                    </div>
+                                    <div class="orderby-wrapper mrg-chosen">
+                                        <select name="orderby" id="category" class="orderby">
+                                            <option value="" selected='selected'>Catégorie</option>
+                                            <option value="pedagogie">Pédagogie</option>
+                                            <option value="informatique">Informatique</option>
+                                            <option value="sciences">Sciences</option>
+                                            <option value="litterature">Littérature</option>
+                                            <option value="histoire">Histoire</option>
+                                            <option value="geographie">Géographie</option>
+                                        </select>
+                                    </div>
+                                    <div class="orderby-wrapper">
+                                        <select name="orderby" id="subject" class="orderby">
+                                            <option value="" selected='selected'>Sujet</option>
+                                            <option value="education">Éducation</option>
+                                            <option value="gestion">Gestion</option>
+                                            <option value="programmation">Programmation</option>
+                                            <option value="mathematiques">Mathématiques</option>
+                                            <option value="francais">Français</option>
+                                            <option value="anglais">Anglais</option>
+                                        </select>
+                                    </div>
+                                    <div class="chosen-submit">
+                                        <a class="button extra-small" href="#" id="searchBtn">
+                                            <span>Rechercher</span>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grille des résultats de la bibliothèque -->
+                <div class="row" id="libraryGrid">
+                    <div class="col-lg-4 col-md-6 library-item" 
+                         data-type="livre" 
+                         data-category="pedagogie" 
+                         data-subject="education">
+                        <div class="news-are">
+                            <div class="news-img">
+                                <img src="{% static 'images/blog/8.jpg' %}" alt="Livre de pédagogie">
+                                <div class="news-date">
+                                    <div class="blog-meta-2">
+                                        <span class="published3">
+                                            <i class="icofont icofont-ui-calendar"></i>
+                                            2023
+                                        </span>
+                                    </div>
+                                    <div class="blog-meta for-news">
+                                        <span class="published3">
+                                            <a href="#">
+                                                <i class="icofont icofont-eye"></i> 45
+                                            </a>
+                                        </span>
+                                        <span class="published4">
+                                            <a href="#">
+                                                <i class="icofont icofont-comment"></i> 12
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="img-text gray-bg">
+                                <h3><a href="#">MÉTHODES PÉDAGOGIQUES MODERNES</a></h3>
+                                <p>Guide complet sur les nouvelles approches pédagogiques et les techniques d'enseignement innovantes pour le 21ème siècle.</p>
+                                <div class="library-meta">
+                                    <span class="badge badge-primary">Livre</span>
+                                    <span class="badge badge-success">Disponible</span>
+                                    <span class="badge badge-info">Français</span>
+                                </div>
+                                <a class="button extra-small" href="#">
+                                    <span>Emprunter</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 library-item mrg-xs" 
+                         data-type="revue" 
+                         data-category="informatique" 
+                         data-subject="programmation">
+                        <div class="news-are">
+                            <div class="news-img">
+                                <img src="{% static 'images/blog/9.jpg' %}" alt="Revue informatique">
+                                <div class="news-date">
+                                    <div class="blog-meta-2">
+                                        <span class="published3">
+                                            <i class="icofont icofont-ui-calendar"></i>
+                                            2024
+                                        </span>
+                                    </div>
+                                    <div class="blog-meta for-news">
+                                        <span class="published3">
+                                            <a href="#">
+                                                <i class="icofont icofont-eye"></i> 67
+                                            </a>
+                                        </span>
+                                        <span class="published4">
+                                            <a href="#">
+                                                <i class="icofont icofont-comment"></i> 23
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="img-text gray-bg">
+                                <h3><a href="#">REVUE INFORMATIQUE QUOTIDIENNE</a></h3>
+                                <p>Actualités et analyses sur les dernières technologies, langages de programmation et outils de développement.</p>
+                                <div class="library-meta">
+                                    <span class="badge badge-warning">Revue</span>
+                                    <span class="badge badge-success">Disponible</span>
+                                    <span class="badge badge-info">Anglais</span>
+                                </div>
+                                <a class="button extra-small" href="#">
+                                    <span>Consulter</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 library-item mrg-xs" 
+                         data-type="these" 
+                         data-category="sciences" 
+                         data-subject="mathematiques">
+                        <div class="news-are">
+                            <div class="news-img">
+                                <img src="{% static 'images/blog/10.jpg' %}" alt="Thèse mathématiques">
+                                <div class="news-date">
+                                    <div class="blog-meta-2">
+                                        <span class="published3">
+                                            <i class="icofont icofont-ui-calendar"></i>
+                                            2022
+                                        </span>
+                                    </div>
+                                    <div class="blog-meta for-news">
+                                        <span class="published3">
+                                            <a href="#">
+                                                <i class="icofont icofont-eye"></i> 89
+                                            </a>
+                                        </span>
+                                        <span class="published4">
+                                            <a href="#">
+                                                <i class="icofont icofont-comment"></i> 34
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="img-text gray-bg">
+                                <h3><a href="#">THÈSE: ALGORITHMES AVANCÉS</a></h3>
+                                <p>Recherche approfondie sur les algorithmes mathématiques modernes et leurs applications dans l'informatique théorique.</p>
+                                <div class="library-meta">
+                                    <span class="badge badge-danger">Thèse</span>
+                                    <span class="badge badge-warning">Emprunté</span>
+                                    <span class="badge badge-info">Français</span>
+                                </div>
+                                <a class="button extra-small" href="#">
+                                    <span>Réserver</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 library-item" 
+                         data-type="memoire" 
+                         data-category="pedagogie" 
+                         data-subject="gestion">
+                        <div class="news-are">
+                            <div class="news-img">
+                                <img src="{% static 'images/blog/32.jpg' %}" alt="Mémoire gestion">
+                                <div class="news-date">
+                                    <div class="blog-meta-2">
+                                        <span class="published3">
+                                            <i class="icofont icofont-ui-calendar"></i>
+                                            2023
+                                        </span>
+                                    </div>
+                                    <div class="blog-meta for-news">
+                                        <span class="published3">
+                                            <a href="#">
+                                                <i class="icofont icofont-eye"></i> 56
+                                            </a>
+                                        </span>
+                                        <span class="published4">
+                                            <a href="#">
+                                                <i class="icofont icofont-comment"></i> 18
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="img-text gray-bg">
+                                <h3><a href="#">MÉMOIRE: GESTION SCOLAIRE</a></h3>
+                                <p>Étude sur l'optimisation de la gestion administrative et pédagogique dans les établissements scolaires congolais.</p>
+                                <div class="library-meta">
+                                    <span class="badge badge-info">Mémoire</span>
+                                    <span class="badge badge-success">Disponible</span>
+                                    <span class="badge badge-info">Français</span>
+                                </div>
+                                <a class="button extra-small" href="#">
+                                    <span>Emprunter</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="row">
+                    <div class="col-lg-12 text-center pt-20">
+                        <div class="pages2">
+                            <ul>
+                                <li><a href="#">01</a></li>
+                                <li><a href="#">02</a></li>
+                                <li class="active"><a href="#">03</a></li>
+                                <li><a href="#">04</a></li>
+                                <li><a href="#">05</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Area -->
+        <footer class="footer-area">
+            <div class="footer-top ptb-110">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="footer-text footer-social">
+                                <a href="{% url 'home' %}">
+                                    {% comment %} <img alt="Logo ISP Isiro" src="{% static 'images/logo/logo-2.png' %}"> {% endcomment %}
+                                </a>
+                                <p>Institut Supérieur Pédagogique d'Isiro, dédié à l'excellence dans la formation des éducateurs et la promotion de l'éducation de qualité.</p>
+                                <ul>
+                                    <li><a href="#" aria-label="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+                                    <li><a href="#" aria-label="Vimeo"><i class="zmdi zmdi-vimeo"></i></a></li>
+                                    <li><a href="#" aria-label="Tumblr"><i class="zmdi zmdi-tumblr"></i></a></li>
+                                    <li><a href="#" aria-label="Pinterest"><i class="zmdi zmdi-pinterest"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="footer-text mrg-xs mrg-sm-none">
+                                <h3>Liens Rapides</h3>
+                                <ul class="footer-text-all">
+                                    <li><a href="{% url 'home' %}">Accueil</a></li>
+                                    <li><a href="#">Horaires d'ouverture</a></li>
+                                    <li><a href="#">Nos formations</a></li>
+                                    <li><a href="#">Choisir l'ISP</a></li>
+                                    <li><a href="#">Événements à venir</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="footer-text mrg-sm3 mrg-xs">
+                                <h3>Pages</h3>
+                                <ul class="footer-text-all">
+                                    <li><a href="#">Accueil</a></li>
+                                    <li><a href="#">Institution</a></li>
+                                    <li><a href="#">Nos filières</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12">
+                            <div class="footer-text mrg-sm3 mrg-xs">
+                                <h3>Contactez-nous</h3>
+                                <form action="#" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input placeholder="Nom*" type="text" name="name" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="in-mrg" placeholder="Email*" type="email" name="email" required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <textarea placeholder="Message*" name="message" required></textarea>
+                                            <button class="submit" type="submit">Envoyer</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <div class="footer-bottom-text ptb-20">
+                                <p>
+                                    Copyrights © <a href="https://www.ispisiro.ac.cd" target="_blank">2024 ISP IISIRO</a> - Tous droits réservés || Helpmetek
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="{% static 'js/vendor/jquery-v1.12.4.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/ajax-mail.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    <!-- Enhanced Library Filter Script -->
+    <script>
+        $(document).ready(function() {
+            // Fonction de filtrage simple
+            function filterLibrary() {
+                const documentType = $('#documentType').val();
+                const category = $('#category').val();
+                const subject = $('#subject').val();
+                
+                let visibleCount = 0;
+                
+                $('.library-item').each(function() {
+                    let show = true;
+                    
+                    // Filtre par type de document
+                    if (documentType && $(this).data('type') !== documentType) {
+                        show = false;
+                    }
+                    
+                    // Filtre par catégorie
+                    if (category && $(this).data('category') !== category) {
+                        show = false;
+                    }
+                    
+                    // Filtre par sujet
+                    if (subject && $(this).data('subject') !== subject) {
+                        show = false;
+                    }
+                    
+                    // Afficher ou masquer l'élément
+                    if (show) {
+                        $(this).fadeIn(300);
+                        visibleCount++;
+                    } else {
+                        $(this).fadeOut(300);
+                    }
+                });
+                
+                // Vérifier s'il y a des résultats
+                setTimeout(function() {
+                    if (visibleCount === 0) {
+                        if ($('#noResults').length === 0) {
+                            $('#libraryGrid').append('<div class="col-12 text-center" id="noResults"><h3>Aucun résultat trouvé</h3><p>Essayez de modifier vos critères de recherche</p></div>');
+                        }
+                    } else {
+                        $('#noResults').remove();
+                    }
+                }, 300);
+            }
+            
+            // Événements de changement des filtres
+            $('#documentType, #category, #subject').on('change', function() {
+                filterLibrary();
+            });
+            
+            // Bouton de recherche
+            $('#searchBtn').on('click', function() {
+                filterLibrary();
+            });
+        });
+    </script>
+</body>
+
+</html>

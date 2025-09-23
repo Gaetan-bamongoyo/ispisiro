@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Réussie - ISPIS</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .success-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        .success-icon i {
+            font-size: 50px;
+            color: white;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 16px;
+            animation: slideInUp 0.6s ease-out 0.2s both;
+        }
+
+        .success-subtitle {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 40px;
+            animation: slideInUp 0.6s ease-out 0.4s both;
+        }
+
+        .student-info {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid #e2e8f0;
+            animation: slideInUp 0.6s ease-out 0.6s both;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            text-align: left;
+        }
+
+        .info-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .matricule-badge {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 18px;
+            display: inline-block;
+            margin: 20px 0;
+            animation: slideInUp 0.6s ease-out 0.8s both;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 40px;
+            animation: slideInUp 0.6s ease-out 1s both;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .next-steps {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            animation: slideInUp 0.6s ease-out 1.2s both;
+        }
+
+        .next-steps h3 {
+            color: #92400e;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .next-steps ul {
+            list-style: none;
+            color: #92400e;
+        }
+
+        .next-steps li {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 40px 20px;
+                margin: 20px;
+            }
+
+            .success-title {
+                font-size: 24px;
+            }
+
+            .success-subtitle {
+                font-size: 16px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <h1 class="success-title">Félicitations !</h1>
+        <p class="success-subtitle">Votre inscription a été enregistrée avec succès</p>
+
+        {% if etudiant %}
+        <div class="student-info">
+            <div class="matricule-badge">
+                <i class="fas fa-id-card"></i>
+                Matricule: {{ etudiant.matricule }}
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Nom complet</div>
+                    <div class="info-value">{{ etudiant.nom }} {{ etudiant.postnom }} {{ etudiant.prenom }}</div>
+                </div>
+
+                {% if etudiant.email %}
+                <div class="info-item">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">{{ etudiant.email }}</div>
+                </div>
+                {% endif %}
+
+                {% if etudiant.telephone %}
+                <div class="info-item">
+                    <div class="info-label">Téléphone</div>
+                    <div class="info-value">{{ etudiant.telephone }}</div>
+                </div>
+                {% endif %}
+
+                {% if etudiant.nom_ecole %}
+                <div class="info-item">
+                    <div class="info-label">École de provenance</div>
+                    <div class="info-value">{{ etudiant.nom_ecole }}</div>
+                </div>
+                {% endif %}
+
+                {% if etudiant.premier_choix %}
+                <div class="info-item">
+                    <div class="info-label">Premier choix</div>
+                    <div class="info-value">{{ etudiant.premier_choix }}</div>
+                </div>
+                {% endif %}
+
+                {% if etudiant.deuxieme_choix %}
+                <div class="info-item">
+                    <div class="info-label">Deuxième choix</div>
+                    <div class="info-value">{{ etudiant.deuxieme_choix }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="next-steps">
+            <h3>
+                <i class="fas fa-list-check"></i>
+                Prochaines étapes
+            </h3>
+            <ul>
+                <li><i class="fas fa-check"></i> Votre dossier a été enregistré</li>
+                <li><i class="fas fa-clock"></i> Validation en cours par l'administration</li>
+                <li><i class="fas fa-envelope"></i> Vous recevrez un email de confirmation</li>
+                <li><i class="fas fa-calendar"></i> Date de rentrée à confirmer</li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{% url 'etudiantapp:formulaire' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                Nouvelle inscription
+            </a>
+            <a href="{% url 'etudiantapp:liste' %}" class="btn btn-secondary">
+                <i class="fas fa-list"></i>
+                Voir la liste
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Animation de confettis (optionnel)
+        function createConfetti() {
+            const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444'];
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-10px';
+            confetti.style.borderRadius = '50%';
+            confetti.style.pointerEvents = 'none';
+            confetti.style.zIndex = '1000';
+            confetti.style.animation = 'fall 3s linear forwards';
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+
+        // Créer quelques confettis au chargement
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => createConfetti(), i * 100);
+        }
+
+        // Ajouter l'animation CSS pour les confettis
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

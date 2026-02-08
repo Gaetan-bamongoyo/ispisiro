@@ -47,11 +47,14 @@ class Etudiants(models.Model):
     quartier = models.ForeignKey(Quartiers, on_delete=models.CASCADE, related_name='quartier')
 
 class Departements(models.Model):
-    designation = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='departement', null=True)
+    initiale = models.CharField(max_length=50, null=True)
+    designation = models.CharField(max_length=50, null=True)
+    description = models.TextField()
     is_active = models.BooleanField(default=True)
 
 class Promotions(models.Model):
-    designation = models.CharField(max_length=50)
+    designation = models.CharField(max_length=50, null=True)
     is_active = models.BooleanField(default=True)
 
 class AnneeAcademiques(models.Model):
@@ -63,6 +66,7 @@ class Inscriptions(models.Model):
     promotion = models.ForeignKey(Promotions, on_delete=models.CASCADE, related_name='promotion')
     etudiant = models.ForeignKey(Etudiants, on_delete=models.CASCADE, related_name='etudiant')
     anneeacademique = models.ForeignKey(AnneeAcademiques, on_delete=models.CASCADE, related_name='anneeacademique')
+    vacation = models.CharField(max_length=1, choices=[('J', 'Jour'),('S','Soir')], null=True)
     date_inscription = models.DateField(auto_now_add=True)
     is_active = models.BooleanField()
 

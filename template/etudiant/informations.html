@@ -435,17 +435,20 @@
 
     <!-- Messages -->
     {% if error %}
-    <div class="alert alert-error" style="background: #fee2e2; color: #991b1b; padding: 12px 20px; border-radius: 8px; margin: 20px; border-left: 4px solid #ef4444;">
+    <div class="alert alert-error"
+      style="background: #fee2e2; color: #991b1b; padding: 12px 20px; border-radius: 8px; margin: 20px; border-left: 4px solid #ef4444;">
       <i class="fas fa-exclamation-circle"></i>
       {{ error }}
     </div>
     {% endif %}
 
     {% if success %}
-    <div class="alert alert-success" style="background: #dcfce7; color: #166534; padding: 12px 20px; border-radius: 8px; margin: 20px; border-left: 4px solid #10b981;">
+    <div class="alert alert-success"
+      style="background: #dcfce7; color: #166534; padding: 12px 20px; border-radius: 8px; margin: 20px; border-left: 4px solid #10b981;">
       <i class="fas fa-check-circle"></i>
       {{ success }}
-      <button onclick="resetForm()" style="float: right; background: #10b981; color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer;">
+      <button onclick="resetForm()"
+        style="float: right; background: #10b981; color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer;">
         <i class="fas fa-plus"></i> Nouvel étudiant
       </button>
     </div>
@@ -491,14 +494,13 @@
 
             <div class="form-group">
               <label class="form-label">Prénom </label>
-              <input type="text" class="form-input" value="Gaetan" name="prenom" >
+              <input type="text" class="form-input" value="Gaetan" name="prenom">
             </div>
 
             <div class="form-group">
               <label class="form-label">Date de naissance </label>
               <div class="date-input-wrapper">
-                <input type="text" class="form-input" value="22/09/2005" placeholder="DD/MM/YYYY" name="datenaissance"
->
+                <input type="text" class="form-input" value="22/09/2005" placeholder="DD/MM/YYYY" name="datenaissance">
                 <i class="fas fa-calendar-alt date-icon"></i>
               </div>
             </div>
@@ -540,7 +542,7 @@
             <div class="form-group">
               <label class="form-label">Nationalité </label>
               <div class="form-select">
-                <select class="form-input" name="nationalite" >
+                <select class="form-input" name="nationalite">
                   <option value="">Sélectionner une nationalité</option>
                   <option value="congolaise" selected>Congolaise</option>
                   <option value="canadienne">Canadienne</option>
@@ -578,7 +580,7 @@
                 <select class="form-input" name="provinceorigine">
                   <option value="">Sélectionner une province</option>
                   {% for province in provinces %}
-                    <option value="{{ province.id }}">{{ province.designation }}</option>
+                  <option value="{{ province.id }}">{{ province.designation }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -591,8 +593,7 @@
 
             <div class="form-group">
               <label class="form-label">Numero maison </label>
-              <input type="number" class="form-input" placeholder="Ex: 123"
-                name="numero" >
+              <input type="number" class="form-input" placeholder="Ex: 123" name="numero">
             </div>
 
             <div class="form-group">
@@ -606,7 +607,7 @@
                 <select class="form-input" name="quartier">
                   <option value="">Sélectionner un quartier</option>
                   {% for quartier in quartiers %}
-                    <option value="{{ quartier.id }}">{{ quartier.designation }}</option>
+                  <option value="{{ quartier.id }}">{{ quartier.designation }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -632,7 +633,8 @@
           <div class="form-grid form-grid-2">
             <div class="form-group">
               <label class="form-label">Email </label>
-              <input type="email" class="form-input" placeholder="exemple@email.com" name="email" value="gaetan.abio@email.com">
+              <input type="email" class="form-input" placeholder="exemple@email.com" name="email"
+                value="gaetan.abio@email.com">
             </div>
 
             <div class="form-group">
@@ -667,17 +669,12 @@
 
           <div class="form-grid form-grid-2">
             <div class="form-group">
-              <label class="form-label">Matricule </label>
-              <input type="text" class="form-input" placeholder="2024001" name="matricule" value="2024001">
-            </div>
-
-            <div class="form-group">
               <label class="form-label">Premier choix de programme </label>
               <div class="form-select">
-                <select class="form-input" name="departement" >
+                <select class="form-input" name="departement">
                   <option value="">Sélectionner un programme</option>
                   {% for departement in departements %}
-                    <option value="{{ departement.id }}">{{ departement.designation }}</option>
+                  <option value="{{ departement.id }}">{{ departement.designation }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -689,7 +686,7 @@
                 <select class="form-input" name="deuxiemechoix">
                   <option value="">Sélectionner un programme</option>
                   {% for departement in departements %}
-                    <option value="{{ departement.id }}">{{ departement.designation }}</option>
+                  <option value="{{ departement.id }}">{{ departement.designation }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -701,8 +698,19 @@
                 <select class="form-input" name="promotion">
                   <option value="">Sélectionner un programme</option>
                   {% for promotion in promotions %}
-                    <option value="{{ promotion.id }}">{{ promotion.designation }}</option>
+                  <option value="{{ promotion.id }}">{{ promotion.designation }}</option>
                   {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Vacation</label>
+              <div class="form-select">
+                <select class="form-input" name="vacation">
+                  <option value="">Sélectionner un programme</option>
+                  <option value="J">Jour</option>
+                  <option value="S">Soir</option>
                 </select>
               </div>
             </div>
@@ -713,7 +721,7 @@
                 <select class="form-input" name="anneacademique">
                   <option value="">Sélectionner une annee</option>
                   {% for annee in annees %}
-                    <option value="{{ annee.id }}">{{ annee.designation }}</option>
+                  <option value="{{ annee.id }}">{{ annee.designation }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -745,14 +753,13 @@
           <div class="form-grid form-grid-2">
             <div class="form-group">
               <label class="form-label">Nom de l'école </label>
-              <input type="text" class="form-input" placeholder="Ex: Lycée Technique de Kinshasa" name="nomecole"
->
+              <input type="text" class="form-input" placeholder="Ex: Lycée Technique de Kinshasa" name="nomecole">
             </div>
 
             <div class="form-group">
               <label class="form-label">Section suivie </label>
               <div class="form-select">
-                <select class="form-input" name="sectionsuivi" >
+                <select class="form-input" name="sectionsuivi">
                   <option value="">Sélectionner une section</option>
                   <option value="scientifique">Scientifique</option>
                   <option value="litteraire">Littéraire</option>
@@ -770,7 +777,7 @@
             <div class="form-group">
               <label class="form-label">Année du diplôme </label>
               <div class="form-select">
-                <select class="form-input" name="anneediplome" >
+                <select class="form-input" name="anneediplome">
                   <option value="">Sélectionner une année</option>
                   <option value="2024">2024</option>
                   <option value="2023">2023</option>
@@ -805,6 +812,7 @@
               Suivant <i class="fas fa-arrow-right"></i>
             </button>
           </div>
+        </div>
       </form>
     </div>
   </div>
@@ -857,25 +865,25 @@
       // Reset le formulaire et revenir à la première étape
       document.getElementById('studentForm').reset();
       currentStep = 1;
-      
+
       // Reset les étapes
       document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
       document.querySelectorAll('.progress-step').forEach(step => step.classList.remove('active'));
-      
+
       // Activer la première étape
       document.getElementById('step1').classList.add('active');
       document.querySelector('.progress-step:nth-child(1)').classList.add('active');
-      
+
       // Reset les radio buttons
       document.querySelectorAll('.radio-input').forEach(input => input.classList.remove('checked'));
       document.querySelector('input[name="sexe"][value="M"]').checked = true;
       document.querySelector('input[name="sexe"][value="M"]').closest('.radio-item').querySelector('.radio-input').classList.add('checked');
-      
+
       // Reset la photo
       const photoCircle = document.querySelector('.photo-circle');
       photoCircle.style.backgroundImage = '';
       photoCircle.innerHTML = '<i class="fas fa-camera photo-icon"></i><div class="photo-add"><i class="fas fa-plus"></i></div>';
-      
+
       // Scroll vers le haut
       window.scrollTo(0, 0);
     }

@@ -7,7 +7,8 @@ from etudiantapp.models import *
 def indexPage(request):
     personnel = Personnel.objects.all()
     departement = Departements.objects.all()
-    return render(request, 'client/index.html', {'person':personnel, 'departement':departement})
+    comite = Comite.objects.all()
+    return render(request, 'client/index.html', {'person':personnel, 'departement':departement, 'comite':comite})
 
 def bibliothequePage(request):
     return render(request, 'client/bibliotheque.html')

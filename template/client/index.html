@@ -25,7 +25,7 @@
         </div>
 
         <!-- Top Courses Area -->
-        <div class="top-courses-area gray-bg pb-160 pt-110">
+        <!-- <div class="top-courses-area gray-bg pb-160 pt-110">
             <div class="container">
                 <div class="section-title text-center mb-55">
                     <h1 class="uppercase">NOS FILIÈRES</h1>
@@ -49,7 +49,7 @@
                     {% endfor %}
                 </div>
             </div>
-        </div> 
+        </div>  -->
 
         <!-- Counter Area -->
         {% comment %} <div class="counter-area bg-2 bg-opacity bg-relative ptb-110">
@@ -123,14 +123,14 @@
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    {% for i in person %}
+                    {% for i in comite %}
                     <div class="col-lg-3 col-md-6">
                         <div class="single-lecturers">
                             <div class="lecturers-img">
-                                <a href="#"><img alt="Photo du directeur" src="{% static 'images/banner/dg.jpg' %}"></a>
+                                <a href="#"><img alt="" src="{{ i.personnel.photo.url }}" width="30px"></a>
                                 <div class="img-title">
-                                    <h3>P.O. Dr. Gabriel ENGAMA MAGBANGBAU </h3>
-                                    <p>Directeur Général</p>
+                                    <h3>{{ i.personnel.grade }} {{ i.personnel.prenom }} {{ i.personnel.nom }} </h3>
+                                    <p>{{ i.poste }}</p>
                                 </div>
                             </div>
                             {% comment %} <div class="lecturers-details">

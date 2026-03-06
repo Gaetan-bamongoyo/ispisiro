@@ -1,156 +1,133 @@
 {% extends 'client/include.html' %}
 {% load static %}
 {% block content %}
-        <!-- Slider Area -->
-        <div class="slider-area">
-            <div class="slider-active">
-                <div class="slider-all">
-                    <img src="{% static 'images/slider/4.jpg' %}" alt="Slider image">
-                    <div class="slider-text-wrapper">
-                        <div class="table">
-                            <div class="table-cell">
-                                <div class="slider-text animated">
-                                    <h3>La Meilleure Institution d'Apprentissage</h3>
-                                    <h2>BIENVENUE À NOTRE INSTITUT</h2>
-                                    <p>Formation d'excellence en pédagogie pour un avenir meilleur</p>
-                                    <a class="button extra-small mb-20" href="#">
-                                        <span>EN SAVOIR PLUS</span>
-                                    </a>
-                                </div>
-                            </div>
+<!-- Slider Area -->
+<div class="slider-area">
+    <div class="slider-active">
+        <div class="slider-all">
+            <img src="{% static 'images/slider/4.jpg' %}" alt="Slider image">
+            <div class="slider-text-wrapper">
+                <div class="table">
+                    <div class="table-cell">
+                        <div class="slider-text animated">
+                            <h3>La Meilleure Institution d'Apprentissage</h3>
+                            <h2>BIENVENUE À NOTRE INSTITUT</h2>
+                            <p>Formation d'excellence en pédagogie pour un avenir meilleur</p>
+                            <a class="button extra-small mb-20" href="#">
+                                <span>EN SAVOIR PLUS</span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Top Courses Area -->
-        <!-- <div class="top-courses-area gray-bg pb-160 pt-110">
-            <div class="container">
-                <div class="section-title text-center mb-55">
-                    <h1 class="uppercase">NOS FILIÈRES</h1>
-                    <p>Découvrez nos programmes de formation de qualité <br>pour devenir un professionnel de l'éducation</p>
+<!-- Top Courses Area -->
+<div class="top-courses-area gray-bg pb-160 pt-110">
+    <div class="container">
+        <div class="section-title text-center mb-55">
+            <h1 class="uppercase">NOS FILIÈRES</h1>
+            <p>Découvrez nos programmes de formation de qualité <br>pour devenir un professionnel de l'éducation</p>
+            <div class="separator my mtb-15">
+                <i class="icofont icofont-hat-alt"></i>
+            </div>
+        </div>
+        <div class="all-courses">
+            {% for i in departement %}
+            <div class="single-course-all">
+                <div class="single-course">
+                    <a href="#"><img src="{{ i.image.url }}" alt="Sciences et Technologie"></a>
+                    <div class="single-coures-text">
+                        <h3><a href="#">{{ i.designation }}</a></h3>
+                        <p>{{ i.description }}</p>
+                        <a href="#">EN SAVOIR PLUS</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Counter Area -->
+<div class="counter-area bg-2 bg-opacity bg-relative ptb-110">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
+                <div class="counter-bottom2">
+                    <div class="counter-img">
+                        <img src="{% static 'images/icons/1.png' %}" alt="Icône enseignants">
+                    </div>
+                    <div class="counter-all">
+                        <div class="counter-next2">
+                            <h2>Enseignants</h2>
+                        </div>
+                        <div class="counter cnt-two">
+                            <h1>50</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
+                <div class="counter-bottom2 mrg-xs mrg-sm-none">
+                    <div class="counter-img">
+                        <img src="{% static 'images/icons/2.png' %}" alt="Icône étudiants">
+                    </div>
+                    <div class="counter-all">
+                        <div class="counter-next2">
+                            <h2>Étudiants</h2>
+                        </div>
+                        <div class="counter cnt-two">
+                            <h1>8554</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lecturers Area -->
+<div class="lecturers-area ptb-110">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title text-center mb-60">
+                    <h1 class="uppercase">Le Comité</h1>
+                    <p>
+                        Notre équipe de direction dédiée à l'excellence académique
+                        <br>
+                        et au développement de l'institution
+                    </p>
                     <div class="separator my mtb-15">
                         <i class="icofont icofont-hat-alt"></i>
                     </div>
                 </div>
-                <div class="all-courses">
-                    {% for i in departement %}
-                    <div class="single-course-all">
-                        <div class="single-course">
-                            <a href="#"><img src="{% static 'images/banner/s1.jpg' %}" alt="Sciences et Technologie"></a>
-                            <div class="single-coures-text">
-                                <h3><a href="#">SCIENCES & TECHNOLOGIE</a></h3>
-                                <p>Formation en sciences et technologies éducatives pour intégrer les outils numériques dans l'enseignement</p>
-                                <a href="#">EN SAVOIR PLUS</a>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>  -->
-
-        <!-- Counter Area -->
-        {% comment %} <div class="counter-area bg-2 bg-opacity bg-relative ptb-110">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
-                        <div class="counter-bottom2">
-                            <div class="counter-img">
-                                <img src="{% static 'images/icons/1.png' %}" alt="Icône enseignants">
-                            </div>
-                            <div class="counter-all">
-                                <div class="counter-next2">
-                                    <h2>Enseignants</h2>
-                                </div>
-                                <div class="counter cnt-two">
-                                    <h1>50</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
-                        <div class="counter-bottom2 mrg-xs mrg-sm-none">
-                            <div class="counter-img">
-                                <img src="{% static 'images/icons/2.png' %}" alt="Icône étudiants">
-                            </div>
-                            <div class="counter-all">
-                                <div class="counter-next2">
-                                    <h2>Étudiants</h2>
-                                </div>
-                                <div class="counter cnt-two">
-                                    <h1>3554</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
-                        <div class="counter-bottom2 mrg-xs">
-                            <div class="counter-img">
-                                <img src="{% static 'images/icons/3.png' %}" alt="Icône ouvrages">
-                            </div>
-                            <div class="counter-all">
-                                <div class="counter-next2">
-                                    <h2>Ouvrages</h2>
-                                </div>
-                                <div class="counter cnt-two">
-                                    <h1>0</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> {% endcomment %}
-
-        <!-- Lecturers Area -->
-        <div class="lecturers-area ptb-110">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-title text-center mb-60">
-                            <h1 class="uppercase">Le Comité</h1>
-                            <p>
-                                Notre équipe de direction dédiée à l'excellence académique
-                                <br>
-                                et au développement de l'institution
-                            </p>
-                            <div class="separator my mtb-15">
-                                <i class="icofont icofont-hat-alt"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    {% for i in comite %}
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-lecturers">
-                            <div class="lecturers-img">
-                                <a href="#"><img alt="" src="{{ i.personnel.photo.url }}" width="30px"></a>
-                                <div class="img-title">
-                                    <h3>{{ i.personnel.grade }} {{ i.personnel.prenom }} {{ i.personnel.nom }} </h3>
-                                    <p>{{ i.poste }}</p>
-                                </div>
-                            </div>
-                            {% comment %} <div class="lecturers-details">
-                                <h3>P.O. Dr. Gabriel ENGAMA MAGBANGBAU</h3>
-                                <p>Directeur Général</p>
-                                <div class="last-about-details">
-                                    <ul>
-                                        <li><a href="#" aria-label="LinkedIn"><i class="icofont icofont-social-pinterest"></i></a></li>
-                                        <li><a href="#" aria-label="Facebook"><i class="icofont icofont-social-facebook"></i></a></li>
-                                        <li><a href="#" aria-label="Email"><i class="icofont icofont-social-dribbble"></i></a></li>
-                                        <li><a href="#" aria-label="Website"><i class="icofont icofont-social-tumblr"></i></a></li>
-                                    </ul>
-                                </div>
-                                <p>Expert en sciences de l'éducation avec plus de 15 ans d'expérience dans la formation pédagogique</p>
-                            </div> {% endcomment %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
             </div>
         </div>
-{% endblock  %}
-        
+
+        <div class="row justify-content-center">
+            {% for i in comite %}
+            <div class="col-lg-3 col-md-6">
+                <div class="single-lecturers">
+                    <div class="lecturers-img">
+                        <a href="#"><img alt="" src="{{ i.personnel.photo.url }}"></a>
+                        <div class="img-title">
+                            <h3> {{ i.personnel.grade }} {{ i.personnel.nom }} {{ i.personnel.postnom}} {{ i.personnel.prenom }} </h3>
+                            <p> {{ i.poste }}</p>
+                        </div>
+                    </div>
+                    <div class="lecturers-details">
+                        <h3>{{ i.personnel.grade }} {{ i.personnel.nom }} {{ i.personnel.postnom}} {{ i.personnel.prenom }}</h3>
+                        <p> {{ i.poste }}</p>
+                        <p>{{ i.personnel.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

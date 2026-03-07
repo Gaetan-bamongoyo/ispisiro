@@ -169,7 +169,6 @@
                                 <ul class="footer-text-all">
                                     <li><a href="{% url 'home' %}">Accueil</a></li>
                                     <li><a href="#">Horaires d'ouverture</a></li>
-                                    <li><a href="#">Nos formations</a></li>
                                     <li><a href="#">Choisir l'ISP</a></li>
                                     <li><a href="#">Événements à venir</a></li>
                                 </ul>
@@ -179,9 +178,9 @@
                             <div class="footer-text mrg-sm3 mrg-xs">
                                 <h3>Nos filières</h3>
                                 <ul class="footer-text-all">
-                                    <li><a href="#">Informatique de gestion</a></li>
-                                    <li><a href="#">Institution</a></li>
-                                    <li><a href="#">Nos filières</a></li>
+                                    {% for i in departement %}
+                                    <li><a href="#">{{ i.designation }}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>

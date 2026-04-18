@@ -4,4 +4,5 @@ from .views import *
 urlpatterns = [
     path('', indexPage, name='home'),
     path('bibliotheque/', bibliothequePage, name='bibliotheque'),
+    path('bloq/<int:id>/', bloqPage, name='bloq'),
 ]

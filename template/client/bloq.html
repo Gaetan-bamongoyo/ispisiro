@@ -1,0 +1,80 @@
+{% extends 'client/include.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Page Header / Banner -->
+<section class="page-header" {% if blog.image %}style="background: url('{{ blog.image.url }}') center/cover no-repeat;"{% endif %}>
+    <div class="page-header-overlay"></div>
+    <div class="container page-header-content">
+        <h2>{{ blog.titre }}</h2>
+        <div class="header-meta">
+            <span><i class="fas fa-calendar-alt"></i> {{ blog.date_publication|date:"d M Y" }}</span>
+            <span><i class="fas fa-folder-open"></i> {{ blog.categorie }}</span>
+            <span><i class="fas fa-user"></i> {{ blog.auteur }}</span>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Post Content -->
+<section class="blog-details section-padding">
+    <div class="container">
+        <div class="blog-details-wrapper">
+            <div class="blog-main-content">
+                {% if blog.image %}
+                <img src="{{ blog.image.url }}" alt="{{ blog.titre }}" class="main-image">
+                {% endif %}
+                <div class="content-body">
+                    {{ blog.contenu|linebreaks }}
+                    
+                    {% if blog.citation %}
+                    <div class="quote-box">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"{{ blog.citation }}"</p>
+                        {% if blog.auteur_citation %}
+                        <span>- {{ blog.auteur_citation }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="blog-sidebar">
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Détails de l'événement</h3>
+                    <ul class="event-info-list">
+                        {% if blog.lieu %}
+                        <li><i class="fas fa-map-marker-alt"></i> <strong>Lieu:</strong> {{ blog.lieu }}</li>
+                        {% endif %}
+                        {% if blog.heure %}
+                        <li><i class="fas fa-clock"></i> <strong>Heure:</strong> {{ blog.heure }}</li>
+                        {% endif %}
+                        {% comment %} {% if blog.entree %}
+                        <li><i class="fas fa-ticket-alt"></i> <strong>Entrée:</strong> {{ blog.entree }}</li>
+                        {% endif %} {% endcomment %}
+                    </ul>
+                    {% comment %} <a href="#" class="btn btn-primary w-100" style="width: 100%; text-align: center; display: block; margin-top: 15px;">S'inscrire maintenant</a> {% endcomment %}
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Événements récents</h3>
+                    {% for recent in recent_blogs %}
+                    <div class="recent-post">
+                        {% if recent.image %}
+                        <img src="{{ recent.image.url }}" alt="{{ recent.titre }}">
+                        {% endif %}
+                        <div>
+                            <h4><a href="{% url 'bloq' id=recent.id %}">{{ recent.titre }}</a></h4>
+                            <span>{{ recent.date_publication|date:"d M Y" }}</span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>Aucun événement récent.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

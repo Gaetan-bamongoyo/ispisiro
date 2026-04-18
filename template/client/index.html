@@ -1,133 +1,133 @@
 {% extends 'client/include.html' %}
 {% load static %}
 {% block content %}
-<!-- Slider Area -->
-<div class="slider-area">
-    <div class="slider-active">
-        <div class="slider-all">
-            <img src="{% static 'images/slider/4.jpg' %}" alt="Slider image">
-            <div class="slider-text-wrapper">
-                <div class="table">
-                    <div class="table-cell">
-                        <div class="slider-text animated">
-                            <h3>La Meilleure Institution d'Apprentissage</h3>
-                            <h2>BIENVENUE À NOTRE INSTITUT</h2>
-                            <p>Formation d'excellence en pédagogie pour un avenir meilleur</p>
-                            <a class="button extra-small mb-20" href="#">
-                                <span>EN SAVOIR PLUS</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <span class="badge">Bienvenue à l'ISP Isiro</span>
+        <h2>Formation d'excellence en <span>pédagogie</span> pour un avenir meilleur</h2>
+        <p>Découvrez nos programmes de formation de qualité pour devenir un professionnel de l'éducation.</p>
+        <div class="hero-buttons">
+            <a href="#" class="btn btn-primary">EN SAVOIR PLUS</a>
+            <a href="#" class="btn btn-outline">NOUS REJOINDRE</a>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Top Courses Area -->
-<div class="top-courses-area gray-bg pb-160 pt-110">
+<!-- Nos Filières Section -->
+<section class="filieres section-padding">
     <div class="container">
-        <div class="section-title text-center mb-55">
-            <h1 class="uppercase">NOS FILIÈRES</h1>
-            <p>Découvrez nos programmes de formation de qualité <br>pour devenir un professionnel de l'éducation</p>
-            <div class="separator my mtb-15">
-                <i class="icofont icofont-hat-alt"></i>
-            </div>
+        <div class="section-title">
+            <h2>Nos <span>Filières</span></h2>
+            <p>Découvrez nos départements et choisissez la voie qui façonnera votre avenir.</p>
         </div>
-        <div class="all-courses">
-            {% for i in departement %}
-            <div class="single-course-all">
-                <div class="single-course">
-                    <a href="#"><img src="{{ i.image.url }}" alt="Sciences et Technologie"></a>
-                    <div class="single-coures-text">
-                        <h3><a href="#">{{ i.designation }}</a></h3>
+
+        <div class="scrolling-wrapper">
+            <div class="scrolling-track" id="scrolling-track">
+                {% for i in departement %}
+                <div class="card">
+                    <div class="card-img">
+                        <img src="{{ i.image.url }}"
+                            >
+                        <div class="card-icon"><i class="fas fa-briefcase"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <h3>{{ i.designation }}</h3>
                         <p>{{ i.description }}</p>
-                        <a href="#">EN SAVOIR PLUS</a>
+                        <a href="#" class="read-more">En savoir plus <i class="fas fa-arrow-right"></i></a>
                     </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+    <div class="stats-overlay"></div>
+    <div class="container stats-container">
+        <div class="stat-item">
+            <i class="fas fa-user-graduate"></i>
+            <h3 class="counter" data-target="1500">0</h3>
+            <p>Étudiants Inscrits</p>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3 class="counter" data-target="120">0</h3>
+            <p>Professeurs Qualifiés</p>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-layer-group"></i>
+            <h3 class="counter" data-target="15">0</h3>
+            <p>Programmes</p>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-award"></i>
+            <h3 class="counter" data-target="45">0</h3>
+            <p>Années d'excellence</p>
+        </div>
+    </div>
+</section>
+
+<!-- Comité Section -->
+<section class="equipe section-padding">
+    <div class="container">
+        <div class="section-title">
+            <h2>Notre <span>Équipe de Direction</span></h2>
+            <p>Dédiée à l'excellence académique et au développement de l'institution</p>
+        </div>
+
+        <div class="team-grid">
+            {% for member in comite %}
+            <div class="team-member">
+                <div class="team-img">
+                    <img src="{{ member.personnel.photo.url }}">
+                    <div class="team-socials">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="team-info">
+                    <h4> {{ member.personnel.grade }} {{ member.personnel.prenom }} {{ member.personnel.nom }}</h4>
+                    <span>{{ member.poste }}</span>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-</div>
+</section>
 
-<!-- Counter Area -->
-<div class="counter-area bg-2 bg-opacity bg-relative ptb-110">
+<!-- Blog / Actualités Section -->
+<section class="blog section-padding">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
-                <div class="counter-bottom2">
-                    <div class="counter-img">
-                        <img src="{% static 'images/icons/1.png' %}" alt="Icône enseignants">
-                    </div>
-                    <div class="counter-all">
-                        <div class="counter-next2">
-                            <h2>Enseignants</h2>
-                        </div>
-                        <div class="counter cnt-two">
-                            <h1>50</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 text-center">
-                <div class="counter-bottom2 mrg-xs mrg-sm-none">
-                    <div class="counter-img">
-                        <img src="{% static 'images/icons/2.png' %}" alt="Icône étudiants">
-                    </div>
-                    <div class="counter-all">
-                        <div class="counter-next2">
-                            <h2>Étudiants</h2>
-                        </div>
-                        <div class="counter cnt-two">
-                            <h1>8554</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Lecturers Area -->
-<div class="lecturers-area ptb-110">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-title text-center mb-60">
-                    <h1 class="uppercase">Le Comité</h1>
-                    <p>
-                        Notre équipe de direction dédiée à l'excellence académique
-                        <br>
-                        et au développement de l'institution
-                    </p>
-                    <div class="separator my mtb-15">
-                        <i class="icofont icofont-hat-alt"></i>
-                    </div>
-                </div>
-            </div>
+        <div class="section-title">
+            <h2>Nos <span>Actualités</span></h2>
+            <p>Restez informé des derniers événements et annonces de notre institution.</p>
         </div>
 
-        <div class="row justify-content-center">
-            {% for i in comite %}
-            <div class="col-lg-3 col-md-6">
-                <div class="single-lecturers">
-                    <div class="lecturers-img">
-                        <a href="#"><img alt="" src="{{ i.personnel.photo.url }}"></a>
-                        <div class="img-title">
-                            <h3> {{ i.personnel.grade }} {{ i.personnel.nom }} {{ i.personnel.postnom}} {{ i.personnel.prenom }} </h3>
-                            <p> {{ i.poste }}</p>
-                        </div>
+        <div class="blog-grid">
+            {% for blog in blogs %}
+            <div class="blog-card">
+                <div class="blog-img">
+                    <img src="{{ blog.image.url }}" alt="{{ blog.titre }}">
+                    <div class="blog-date">{{ blog.date_publication|date:"d M" }}</div>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span><i class="fas fa-folder"></i> {{ blog.categorie }}</span>
                     </div>
-                    <div class="lecturers-details">
-                        <h3>{{ i.personnel.grade }} {{ i.personnel.nom }} {{ i.personnel.postnom}} {{ i.personnel.prenom }}</h3>
-                        <p> {{ i.poste }}</p>
-                        <p>{{ i.personnel.description }}</p>
-                    </div>
+                    <h3><a href="{% url 'bloq' id=blog.id %}">{{ blog.titre }}</a></h3>
+                    <p>{{ blog.description_courte }}</p>
+                    <a href="{% url 'bloq' id=blog.id %}" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
+            {% empty %}
+            <p>Aucune actualité disponible pour le moment.</p>
             {% endfor %}
         </div>
     </div>
-</div>
+</section>
+
 {% endblock %}

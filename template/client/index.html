@@ -108,19 +108,19 @@
         </div>
 
         <div class="blog-grid">
-            {% for blog in blogs %}
+            {% for i in blogs %}
             <div class="blog-card">
                 <div class="blog-img">
-                    <img src="{{ blog.image.url }}" alt="{{ blog.titre }}">
-                    <div class="blog-date">{{ blog.date_publication|date:"d M" }}</div>
+                    <img src="{{ i.image.url }}" alt="{{ i.titre }}">
+                    <div class="blog-date">{{ i.date_publication|date:"d M" }}</div>
                 </div>
                 <div class="blog-content">
                     <div class="blog-meta">
-                        <span><i class="fas fa-folder"></i> {{ blog.categorie }}</span>
+                        <span><i class="fas fa-folder"></i> {{ i.categorie }}</span>
                     </div>
-                    <h3><a href="{% url 'bloq' id=blog.id %}">{{ blog.titre }}</a></h3>
+                    <h3><a href="{% url 'bloq' id=i.encrypt_id %}">{{ blog.titre }}</a></h3>
                     <p>{{ blog.description_courte }}</p>
-                    <a href="{% url 'bloq' id=blog.id %}" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                    <a href="{% url 'bloq' id=i.encrypt_id %}" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
             {% empty %}

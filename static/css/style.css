@@ -1355,7 +1355,7 @@ ul {
 @media (max-width: 992px) {
     .details-wrapper,
     .blog-details-wrapper {
-        flex-direction: column-reverse;
+        flex-direction: column;
     }
     
     .details-sidebar, .details-main,

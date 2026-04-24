@@ -41,7 +41,7 @@
             
             <nav class="nav-menu" id="nav-menu">
                 <ul class="nav-list">
-                    <li><a href="#" class="active">ACCUEIL</a></li>
+                    <li><a href="{% url 'home' %}" class="active">ACCUEIL</a></li>
                     <li class="dropdown">
                         <a href="#">INSTITUTION <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
@@ -84,7 +84,7 @@
             <div class="footer-links">
                 <h3>Liens Rapides</h3>
                 <ul>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                    <li><a href="{% url 'home' %}"><i class="fas fa-chevron-right"></i> Accueil</a></li>
                     <li><a href="#"><i class="fas fa-chevron-right"></i> Horaires d'ouverture</a></li>
                     <li><a href="#"><i class="fas fa-chevron-right"></i> Choisir l'ISP</a></li>
                     <li><a href="#"><i class="fas fa-chevron-right"></i> Événements à venir</a></li>

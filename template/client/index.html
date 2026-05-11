@@ -118,8 +118,8 @@
                     <div class="blog-meta">
                         <span><i class="fas fa-folder"></i> {{ i.categorie }}</span>
                     </div>
-                    <h3><a href="{% url 'bloq' id=i.encrypt_id %}">{{ blog.titre }}</a></h3>
-                    <p>{{ blog.description_courte }}</p>
+                    <h3><a href="{% url 'bloq' id=i.encrypt_id %}">{{ i.titre }}</a></h3>
+                    <p>{{ i.description_courte }}</p>
                     <a href="{% url 'bloq' id=i.encrypt_id %}" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>

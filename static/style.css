@@ -54,7 +54,7 @@
 .offer-text {
     overflow: hidden;
 }
-.offer-text > h3 {
+.offer-text > h3 { 
     font-size: 16px;
     font-weight: 600;
 }

@@ -176,7 +176,7 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 .logo {
@@ -186,12 +186,12 @@ ul {
 }
 
 .logo-icon {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: var(--secondary-color);
 }
 
 .logo-text h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     line-height: 1;
     margin-bottom: 5px;
     color: var(--primary-color);
@@ -206,19 +206,19 @@ ul {
 
 .nav-list {
     display: flex;
-    gap: 30px;
+    gap: 20px;
 }
 
 .nav-list > li > a {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: var(--primary-color);
     position: relative;
-    padding: 10px 0;
+    padding: 8px 0;
 }
 
 .nav-list > li > a:hover, .nav-list > li > a.active {
-    color: var(--secondary-color);
+    color: var(--secondary-color); 
 }
 
 .nav-list > li > a::after {

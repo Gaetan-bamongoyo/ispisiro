@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from etudiantapp.models import *
 
 # Create your models here.
 
@@ -11,6 +12,19 @@ class Personnel(models.Model):
     fonction = models.CharField(max_length=50, null=True)
     description = models.TextField(null=True)
     photo = models.ImageField(upload_to='personnel')
+
+class AffectionPersonnel(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    personnel = models.ForeignKey(Personnel, on_delete=models.CASCADE)
+    departement = models.ForeignKey(Departements, on_delete=models.CASCADE)
+    date_affectation = models.DateField()
+    date_fin_affectation = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.personnel.nom
+    class Meta:
+        verbose_name = 'AffectionPersonnel'
+        verbose_name_plural = 'AffectionPersonnels'
 
 class Comite(models.Model):
     poste = models.CharField(max_length=50)

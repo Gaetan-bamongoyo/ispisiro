@@ -4,103 +4,203 @@
 {% block content %}
 
 <!-- Page Header / Banner -->
-<section class="page-header" {% if filiere.image %}style="background: url('{{ filiere.image.url }}') center/cover no-repeat;"{% endif %}>
+<section class="page-header" {% if filiere.image %}style="background: linear-gradient(rgba(13, 35, 66, 0.7), rgba(13, 35, 66, 0.8)), url('{{ filiere.image.url }}') center/cover no-repeat;"{% else %}style="background: #0d2342;"{% endif %}>
     <div class="page-header-overlay"></div>
     <div class="container page-header-content">
-        <h2>{{ filiere.designation }}</h2>
+        <h2>{{ filiere.designation|default:"Département de Pédagogie" }}</h2>
         <div class="header-meta">
             <span><i class="fas fa-university"></i> ISP ISIRO</span>
-            <span><i class="fas fa-tag"></i> {{ filiere.initiale }}</span>
-            <span><i class="fas fa-graduation-cap"></i> Formation de qualité</span>
+            <span><i class="fas fa-tag"></i> {{ filiere.initiale|default:"DP" }}</span>
+            <span><i class="fas fa-graduation-cap"></i> Formation d'Excellence</span>
         </div>
     </div>
 </section>
 
 <!-- Filiere Content Section -->
-<section class="blog-details section-padding">
+<section class="filiere-details section-padding" style="padding: 60px 0; background-color: #f4f7f6;">
     <div class="container">
-        <div class="blog-details-wrapper">
-            <div class="blog-main-content">
-                {% if filiere.image %}
-                <img src="{{ filiere.image.url }}" alt="{{ filiere.designation }}" class="main-image">
-                {% endif %}
+        <div class="blog-details-wrapper" style="display: flex; flex-wrap: wrap; gap: 40px;">
+            
+            <!-- Main Content -->
+            <div class="blog-main-content" style="flex: 1; min-width: 60%;">
                 
-                <div class="content-body">
-                    <h3 style="margin-top: 0;">Présentation du Département</h3>
-                    {{ filiere.description|linebreaks }}
+                <!-- Photos Section -->
+                <div class="gallery-section" style="margin-bottom: 30px;">
+                    <!-- Main Photo -->
+                    {% if filiere.image %}
+                    <img src="{{ filiere.image.url }}" alt="{{ filiere.designation }}" class="main-image" style="width: 100%; height: 450px; object-fit: cover; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.1);">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Image principale" style="width: 100%; height: 450px; object-fit: cover; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.1);">
+                    {% endif %}
                     
-                    <div style="margin-top: 40px;">
-                        <h3>Objectifs de la formation</h3>
-                        <p>Notre programme vise à former des cadres compétents et polyvalents, capables de répondre aux défis contemporains du secteur de l'éducation et du développement.</p>
+                    <!-- Secondary Photos (Static Design) -->
+                    <div class="secondary-photos" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px;">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Photo 1" style="width: 100%; height: 140px; object-fit: cover; border-radius: 12px; cursor: pointer; transition: all 0.3s;">
+                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Photo 2" style="width: 100%; height: 140px; object-fit: cover; border-radius: 12px; cursor: pointer; transition: all 0.3s;">
+                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Photo 3" style="width: 100%; height: 140px; object-fit: cover; border-radius: 12px; cursor: pointer; transition: all 0.3s;">
+                    </div>
+                </div>
+                
+                <div class="content-body" style="background: #fff; padding: 40px; border-radius: 16px; box-shadow: 0 5px 25px rgba(0,0,0,0.04);">
+                    
+                    <!-- Description -->
+                    <div class="description-section" style="margin-bottom: 50px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+                            <div style="width: 5px; height: 35px; background: #ff9800; border-radius: 5px;"></div>
+                            <h3 style="margin: 0; color: #0d2342; font-size: 1.8rem; font-weight: 700;">Présentation de la Filière</h3>
+                        </div>
+                        <p style="color: #555; line-height: 1.8; font-size: 1.05rem;">
+                            {% if filiere.description %}
+                                {{ filiere.description|linebreaksbr }}
+                            {% else %}
+                                Le département de pédagogie appliquée a pour mission de former des éducateurs et des professionnels de l'enseignement qualifiés. Vous serez outillé(e) des théories et pratiques modernes d'apprentissage, pour former les générations de demain. La filière s'appuie sur une pédagogie innovante et des infrastructures adaptées.
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <!-- Cours -->
+                    <div class="courses-section" style="margin-bottom: 50px;">
+                        <h3 style="color: #0d2342; font-size: 1.5rem; margin-bottom: 25px; font-weight: 700;"><i class="fas fa-book-open" style="color: #ff9800; margin-right: 12px;"></i>Programme des Cours (Aperçu)</h3>
                         
-                        <div class="goal-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
-                            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
-                                <i class="fas fa-check-circle" style="color: #007bff; margin-bottom: 10px;"></i>
-                                <p style="margin: 0; font-size: 0.9rem;">Maîtrise technologique et pédagogique.</p>
+                        <div style="border: 2px solid #f0f0f0; border-radius: 12px; overflow: hidden;">
+                            <!-- Panel L1 -->
+                            <div style="background: #fff; border-bottom: 2px solid #f0f0f0;">
+                                <div style="padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; background: #fafafa;">
+                                    <strong style="color: #0d2342; font-size: 1.1rem;">Cours de Licence 1</strong>
+                                </div>
+                                <div style="padding: 25px;">
+                                    <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+                                        <li style="display: flex; align-items: center;"><i class="fas fa-check-circle" style="color:#28a745; margin-right:10px; font-size: 1.1rem;"></i>Pédagogie Générale</li>
+                                        <li style="display: flex; align-items: center;"><i class="fas fa-check-circle" style="color:#28a745; margin-right:10px; font-size: 1.1rem;"></i>Psychologie de l'enfant</li>
+                                        <li style="display: flex; align-items: center;"><i class="fas fa-check-circle" style="color:#28a745; margin-right:10px; font-size: 1.1rem;"></i>Didactique des Disciplines</li>
+                                        <li style="display: flex; align-items: center;"><i class="fas fa-check-circle" style="color:#28a745; margin-right:10px; font-size: 1.1rem;"></i>Initiation à la recherche</li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
-                                <i class="fas fa-check-circle" style="color: #007bff; margin-bottom: 10px;"></i>
-                                <p style="margin: 0; font-size: 0.9rem;">Esprit critique et recherche.</p>
-                            </div>
-                            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
-                                <i class="fas fa-check-circle" style="color: #007bff; margin-bottom: 10px;"></i>
-                                <p style="margin: 0; font-size: 0.9rem;">Intégration professionnelle.</p>
+                            <!-- Panel L2 -->
+                            <div style="background: #fff;">
+                                <div style="padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; background: #fafafa;">
+                                    <strong style="color: #0d2342; font-size: 1.1rem;">Cours de Licence 2</strong>
+                                </div>
+                                <div style="padding: 25px;">
+                                    <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+                                        <li style="display: flex; align-items: center;"><i class="fas fa-check-circle" style="color:#007bff; margin-right:10px; font-size: 1.1rem;"></i>Administration Scolaire</li>
+                                        <li style="display: flex; align-items: center;"><i class="fas fa-check-circle" style="color:#007bff; margin-right:10px; font-size: 1.1rem;"></i>Statistiques Appliquées</li>
+                                        <li style="display: flex; align-items: center;"><i class="fas fa-check-circle" style="color:#007bff; margin-right:10px; font-size: 1.1rem;"></i>Pratique professionnelle (Stage)</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div style="margin-top: 40px;">
-                        <h3>Opportunités de Carrière</h3>
-                        <ul class="career-list" style="list-style: none; padding: 0;">
-                            <li style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                                <i class="fas fa-chalkboard-teacher" style="color: #ff9800;"></i> 
-                                <span>Enseignant dans les écoles secondaires et techniques.</span>
-                            </li>
-                            <li style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                                <i class="fas fa-user-tie" style="color: #ff9800;"></i> 
-                                <span>Conseiller pédagogique ou expert en éducation.</span>
-                            </li>
-                            <li style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                                <i class="fas fa-project-diagram" style="color: #ff9800;"></i> 
-                                <span>Gestionnaire de projets éducatifs.</span>
-                            </li>
-                        </ul>
-                    </div>
+
+
                 </div>
             </div>
 
             <!-- Sidebar -->
-            <div class="blog-sidebar">
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Informations Clés</h3>
+            <div class="blog-sidebar" style="flex: 1; min-width: 300px; max-width: 350px;">
+                <div class="sidebar-widget" style="background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 5px 25px rgba(0,0,0,0.04); margin-bottom: 30px;">
+                    <h3 class="widget-title" style="border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 25px; color: #0d2342; font-weight: 700;">Aperçu Rapide</h3>
                     <ul class="event-info-list" style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 15px;"><i class="fas fa-university"></i> <strong>Département:</strong> {{ filiere.designation }}</li>
-                        <li style="margin-bottom: 15px;"><i class="fas fa-id-badge"></i> <strong>Initiale:</strong> {{ filiere.initiale }}</li>
-                        <li style="margin-bottom: 15px;"><i class="fas fa-clock"></i> <strong>Durée:</strong> 3 à 5 ans</li>
-                        <li style="margin-bottom: 15px;"><i class="fas fa-certificate"></i> <strong>Diplôme:</strong> Licence / Master</li>
+                        <li style="margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 45px; height: 45px; border-radius: 10px; background: #e3f2fd; display: flex; align-items: center; justify-content: center; color: #1e88e5; font-size: 1.2rem; flex-shrink: 0;"><i class="fas fa-university"></i></div> 
+                            <div><strong style="display: block; color: #0d2342; font-size: 1.05rem;">Département</strong> <span style="color: #666; font-size: 0.95rem;">{{ filiere.designation|default:"Pédagogie Appliquée" }}</span></div>
+                        </li>
+                        <li style="margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 45px; height: 45px; border-radius: 10px; background: #fff3e0; display: flex; align-items: center; justify-content: center; color: #f57c00; font-size: 1.2rem; flex-shrink: 0;"><i class="fas fa-id-badge"></i></div> 
+                            <div><strong style="display: block; color: #0d2342; font-size: 1.05rem;">Initiale</strong> <span style="color: #666; font-size: 0.95rem;">{{ filiere.initiale|default:"PA" }}</span></div>
+                        </li>
+                        <li style="margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 45px; height: 45px; border-radius: 10px; background: #e8f5e9; display: flex; align-items: center; justify-content: center; color: #43a047; font-size: 1.2rem; flex-shrink: 0;"><i class="fas fa-clock"></i></div> 
+                            <div><strong style="display: block; color: #0d2342; font-size: 1.05rem;">Durée d'étude</strong> <span style="color: #666; font-size: 0.95rem;">3 à 5 ans selon cycle</span></div>
+                        </li>
+                        <li style="margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 45px; height: 45px; border-radius: 10px; background: #fce4ec; display: flex; align-items: center; justify-content: center; color: #e91e63; font-size: 1.2rem; flex-shrink: 0;"><i class="fas fa-certificate"></i></div> 
+                            <div><strong style="display: block; color: #0d2342; font-size: 1.05rem;">Diplôme</strong> <span style="color: #666; font-size: 0.95rem;">Licence & Master</span></div>
+                        </li>
                     </ul>
-                    <a href="#" class="btn btn-primary" style="width: 100%; text-align: center; display: block; margin-top: 20px;">S'inscrire maintenant</a>
+                    <a href="#" class="btn" style="width: 100%; text-align: center; display: block; margin-top: 30px; padding: 15px; border-radius: 8px; font-weight: bold; background: #ff9800; border: none; color: white; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">S'inscrire maintenant</a>
                 </div>
 
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Autres Filières</h3>
-                    {% for dept in departement %}
-                    {% if dept.id != filiere.id %}
-                    <div class="recent-post" style="display: flex; gap: 15px; margin-bottom: 20px;">
-                        {% if dept.image %}
-                        <img src="{{ dept.image.url }}" alt="{{ dept.designation }}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 5px;">
-                        {% endif %}
-                        <div>
-                            <h4 style="margin: 0; font-size: 0.95rem;"><a href="{% url 'detail_filiere' id=dept.id %}" style="color: #0d2342;">{{ dept.designation }}</a></h4>
-                            <span style="font-size: 0.8rem; color: #666;">{{ dept.initiale }}</span>
+                <div class="sidebar-widget" style="background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 5px 25px rgba(0,0,0,0.04); margin-bottom: 30px;">
+                    <h3 class="widget-title" style="border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 25px; color: #0d2342; font-weight: 700;"><i class="fas fa-chalkboard-teacher" style="color: #ff9800; margin-right: 12px;"></i>Enseignants Affectés</h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        
+                        <!-- Static Teacher 1 -->
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 12px; border: 1px solid #eee; background: #fafafa; transition: all 0.3s;" onmouseover="this.style.background='#fff'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.05)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#fafafa'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                            <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Professeur 1" style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%; border: 2px solid #ff9800;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; font-size: 1.05rem; color: #333; font-weight: 700;">Dr. Jean Dupont</h4>
+                                <p style="margin: 0; font-size: 0.8rem; color: #ff9800; font-weight: 600; text-transform: uppercase;">Prof. Ordinaire</p>
+                            </div>
                         </div>
+
+                        <!-- Static Teacher 2 -->
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 12px; border: 1px solid #eee; background: #fafafa; transition: all 0.3s;" onmouseover="this.style.background='#fff'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.05)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#fafafa'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Professeur 2" style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%; border: 2px solid #ff9800;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; font-size: 1.05rem; color: #333; font-weight: 700;">Prof. Marie Claire</h4>
+                                <p style="margin: 0; font-size: 0.8rem; color: #ff9800; font-weight: 600; text-transform: uppercase;">Chef de Travaux</p>
+                            </div>
+                        </div>
+
+                        <!-- Static Teacher 3 -->
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 12px; border: 1px solid #eee; background: #fafafa; transition: all 0.3s;" onmouseover="this.style.background='#fff'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.05)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#fafafa'; this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Professeur 3" style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%; border: 2px solid #ff9800;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; font-size: 1.05rem; color: #333; font-weight: 700;">M. Albert Nzuzi</h4>
+                                <p style="margin: 0; font-size: 0.8rem; color: #ff9800; font-weight: 600; text-transform: uppercase;">Assistant</p>
+                            </div>
+                        </div>
+
                     </div>
-                    {% endif %}
-                    {% endfor %}
+                </div>
+
+                <div class="sidebar-widget" style="background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 5px 25px rgba(0,0,0,0.04);">
+                    <h3 class="widget-title" style="border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 25px; color: #0d2342; font-weight: 700;">Découvrir d'autres Filières</h3>
+                    <!-- Static examples -->
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <a href="#" style="display: flex; gap: 15px; align-items: center; text-decoration: none; padding: 10px; border-radius: 10px; transition: all 0.3s; border: 1px solid transparent;" onmouseover="this.style.background='#f8f9fa'; this.style.borderColor='#eee'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
+                            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Filière" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; font-size: 1rem; color: #0d2342; font-weight: 600; line-height: 1.2;">Informatique de Gestion</h4>
+                                <span style="font-size: 0.8rem; color: #ff9800; font-weight: 600; background: #fff3e0; padding: 3px 8px; border-radius: 4px;">IG</span>
+                            </div>
+                        </a>
+                        <a href="#" style="display: flex; gap: 15px; align-items: center; text-decoration: none; padding: 10px; border-radius: 10px; transition: all 0.3s; border: 1px solid transparent;" onmouseover="this.style.background='#f8f9fa'; this.style.borderColor='#eee'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
+                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Filière" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; font-size: 1rem; color: #0d2342; font-weight: 600; line-height: 1.2;">Sciences Commerciales</h4>
+                                <span style="font-size: 0.8rem; color: #ff9800; font-weight: 600; background: #fff3e0; padding: 3px 8px; border-radius: 4px;">SC & Admin</span>
+                            </div>
+                        </a>
+                        <a href="#" style="display: flex; gap: 15px; align-items: center; text-decoration: none; padding: 10px; border-radius: 10px; transition: all 0.3s; border: 1px solid transparent;" onmouseover="this.style.background='#f8f9fa'; this.style.borderColor='#eee'" onmouseout="this.style.background='transparent'; this.style.borderColor='transparent'">
+                            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Filière" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; font-size: 1rem; color: #0d2342; font-weight: 600; line-height: 1.2;">Techniques Médicales</h4>
+                                <span style="font-size: 0.8rem; color: #ff9800; font-weight: 600; background: #fff3e0; padding: 3px 8px; border-radius: 4px;">ISTM</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Some minimal custom CSS for interactions and hover effects -->
+<style>
+    .teacher-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    }
+    .secondary-photos img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        z-index: 2;
+        position: relative;
+    }
+</style>
 
 {% endblock %}

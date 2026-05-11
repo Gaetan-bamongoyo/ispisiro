@@ -1,18 +1,92 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon1.png' %}">
     <title>Institut Supérieur Pédagogique || Isiro</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .nav-list li a {
+            display: inline-block;
+            padding: 10px 15px !important;
+            line-height: 1.2 !important;
+            height: auto !important;
+            min-height: 40px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .btn-connexion {
+            background: linear-gradient(135deg, #0151b0 0%, #0277bd 100%) !important;
+            color: #fff !important;
+            padding: 12px 24px !important;
+            border-radius: 30px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            transition: all 0.3s ease !important;
+            border: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            box-shadow: 0 4px 15px rgba(1, 81, 176, 0.3) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .btn-connexion::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -100% !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent) !important;
+            transition: left 0.5s !important;
+        }
+
+        .btn-connexion:hover::before {
+            left: 100% !important;
+        }
+
+        .btn-connexion:hover {
+            background: linear-gradient(135deg, #0277bd 0%, #0151b0 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(1, 81, 176, 0.4) !important;
+        }
+
+        .btn-connexion i {
+            font-size: 16px !important;
+        }
+
+        @media (max-width: 768px) {
+            .nav-list li a {
+                padding: 8px 12px !important;
+                min-height: 36px !important;
+            }
+
+            .btn-connexion {
+                padding: 10px 16px !important;
+                font-size: 14px !important;
+                margin-left: 5px !important;
+            }
+
+            .btn-connexion i {
+                font-size: 14px !important;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
     <!-- Topbar -->
@@ -36,9 +110,9 @@
         <div class="container navbar">
             <a href="#" class="logo">
                 <div class="logo-icon"><img src="{% static 'images/logo/logoisp.png' %}"></div>
-                
+
             </a>
-            
+
             <nav class="nav-menu" id="nav-menu">
                 <ul class="nav-list">
                     <li><a href="{% url 'home' %}" class="active">ACCUEIL</a></li>
@@ -53,9 +127,13 @@
                     <li><a href="#">BIBLIOTHÈQUE</a></li>
                     <li><a href="#">À PROPOS</a></li>
                     <li><a href="#">CONTACT</a></li>
+
                 </ul>
             </nav>
-            
+
+            <a href="{% url 'login' %}" class="btn-connexion"> CONNEXION
+                ETUDIANT</a>
+
             <button class="menu-toggle" id="menu-toggle">
                 <i class="fas fa-bars"></i>
             </button>
@@ -72,7 +150,8 @@
                 <div class="footer-logo">
                     <img src="{% static 'images/logo/logoisp1.png' %}">
                 </div>
-                <p>Institut Supérieur Pédagogique d'Isiro, dédié à l'excellence dans la formation des éducateurs et la promotion de l'éducation de qualité.</p>
+                <p>Institut Supérieur Pédagogique d'Isiro, dédié à l'excellence dans la formation des éducateurs et la
+                    promotion de l'éducation de qualité.</p>
                 <div class="footer-socials">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -80,7 +159,7 @@
                     <a href="#"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-            
+
             <div class="footer-links">
                 <h3>Liens Rapides</h3>
                 <ul>
@@ -90,7 +169,7 @@
                     <li><a href="#"><i class="fas fa-chevron-right"></i> Événements à venir</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-links">
                 <h3>Nos Filières</h3>
                 <ul>
@@ -99,7 +178,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            
+
             <div class="footer-contact">
                 <h3>Contactez-nous</h3>
                 <ul>
@@ -120,4 +199,5 @@
     <!-- Scripts -->
     <script src="{% static 'js/script.js' %}"></script>
 </body>
+
 </html>

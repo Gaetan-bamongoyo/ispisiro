@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['108.181.203.54','127.0.0.1','ispisiro.ac.cd','www.ispisiro.ac.cd']
 
+AUTH_USER_MODEL = 'userapp.User'
+
 
 # Application definition
 
@@ -39,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'clientapp',
-    'etudiantapp'
+    'etudiantapp',
+    'userapp',
 ]
 
 MIDDLEWARE = [

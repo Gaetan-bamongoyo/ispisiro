@@ -1,0 +1,242 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon1.png' %}">
+    <title>Institut Supérieur Pédagogique || Isiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p3YxY+Y3Z4gOy57+E2iF3c1hGkY7Y2Y1k4gZhJwFv0Q3vkW+XtJv+4ZpHA7KAlj0jW1Oo3Pe0uG2xMseHpvQw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: 'Inter', sans-serif;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f2f6fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #14213d;
+        }
+        .login-wrapper {
+            width: min(480px, calc(100% - 32px));
+            padding: 24px 32px;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(20, 33, 61, 0.12);
+            border: 1px solid rgba(20, 33, 61, 0.08);
+        }
+        .login-logo {
+            /* width: 72px;
+            height: 72px; */
+            margin: 0 auto 24px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background: #fff;
+        }
+        .login-logo img {
+            width: 40%;
+            /* height: 50%; */
+            object-fit: cover;
+            display: block;
+        }
+        .login-title {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: -0.04em;
+        }
+        .login-subtitle {
+            margin: 10px auto 30px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+        .form-group {
+            margin-bottom: 1px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #4b5563;
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 15px;
+            border: 1px solid #d6d7dc;
+            border-radius: 10px;
+            background: #f8f9fc;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .form-control:focus {
+            border-color: #0f6fff;
+            box-shadow: 0 0 0 4px rgba(15, 111, 255, 0.12);
+            background: #fff;
+        }
+        .password-field {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .error-message {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #dc2626;
+            min-height: 18px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 12px;
+            background: #0f6fff;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 16px 30px rgba(15, 111, 255, 0.18);
+        }
+        .btn-primary:hover {
+            background: #0b55d5;
+            transform: translateY(-1px);
+        }
+        .password-rules {
+            margin: 8px 0 18px;
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        .password-rules strong {
+            color: #111827;
+        }
+        .footer-text {
+            margin-top: 18px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .footer-text a {
+            color: #0f6fff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 500px) {
+            .login-wrapper {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-logo">
+            <img src="{% static 'images/logo/logoisp.png' %}" alt="Logo ISP Isiro">
+        </div>
+        <h1 class="login-title">Inscription</h1>
+        <p class="login-subtitle">Créez un compte avec votre matricule et choisissez un mot de passe sécurisé.</p>
+        <form method="post" action="" id="signup-form" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_matricule" class="form-label">Matricule</label>
+                <input id="id_matricule" name="matricule" type="text" class="form-control" placeholder="Matricule étudiant" required>
+                <div class="error-message" id="matricule-error"></div>
+            </div>
+            <div class="form-group password-field">
+                <label for="id_password" class="form-label">Mot de passe</label>
+                <input id="id_password" name="password" type="password" class="form-control" placeholder="Mot de passe" required>
+                <span class="toggle-password"><i class="fas fa-eye"></i></span>
+                <div class="error-message" id="password-error"></div>
+            </div>
+            <div class="form-group password-field">
+                <label for="id_confirm_password" class="form-label">Confirmez le mot de passe</label>
+                <input id="id_confirm_password" name="confirm_password" type="password" class="form-control" placeholder="Confirmez le mot de passe" required>
+                <span class="toggle-password"><i class="fas fa-eye"></i></span>
+                <div class="error-message" id="confirm-password-error"></div>
+            </div>
+            <button type="submit" class="btn-primary">S'inscrire</button>
+            <p class="footer-text">Vous avez déjà un compte ? <a href="{% url 'login' %}">Se connecter</a></p>
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById('signup-form');
+        const passwordInput = document.getElementById('id_password');
+        const confirmInput = document.getElementById('id_confirm_password');
+        const matriculeInput = document.getElementById('id_matricule');
+        const passwordError = document.getElementById('password-error');
+        const confirmError = document.getElementById('confirm-password-error');
+        const matriculeError = document.getElementById('matricule-error');
+        const toggles = document.querySelectorAll('.toggle-password');
+
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const field = toggle.previousElementSibling;
+                const type = field.getAttribute('type') === 'password' ? 'text' : 'password';
+                field.setAttribute('type', type);
+                toggle.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+        });
+
+        function validatePassword(password) {
+            const minLength = password.length >= 8;
+            const hasLetter = /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSymbol = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
+            return minLength && hasLetter && hasNumber && hasSymbol;
+        }
+
+        form.addEventListener('submit', (event) => {
+            let valid = true;
+            matriculeError.textContent = '';
+            passwordError.textContent = '';
+            confirmError.textContent = '';
+
+            if (!matriculeInput.value.trim()) {
+                matriculeError.textContent = 'Le matricule est requis.';
+                valid = false;
+            }
+
+            if (!validatePassword(passwordInput.value)) {
+                passwordError.textContent = 'Le mot de passe doit comporter au moins 8 caractères, une lettre, un chiffre et un symbole.';
+                valid = false;
+            }
+
+            if (passwordInput.value !== confirmInput.value) {
+                confirmError.textContent = 'Les deux mots de passe ne correspondent pas.';
+                valid = false;
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

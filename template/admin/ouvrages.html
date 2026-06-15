@@ -1,0 +1,356 @@
+{% extends 'admin/base_dashboard.html' %}
+
+{% block title %}Ouvrages{% endblock %}
+
+{% block content %}
+
+<div class="dash-page-header ouvrages-header">
+    <div>
+        <h1>Ouvrages</h1>
+        <p>Enregistrez des ouvrages et gérez les catégories de la bibliothèque.</p>
+    </div>
+    {% if user.is_administrator %}
+    <button type="button" class="dash-btn-primary" id="open-category-modal">
+        <i class="fas fa-tags"></i> Catégories
+        <span class="dash-tag dash-tag-light">{{ categories|length }}</span>
+    </button>
+    {% endif %}
+</div>
+
+<div class="ouvrages-layout">
+
+    <!-- Formulaire à gauche -->
+    <div class="ouvrages-form-col">
+        <div class="dash-card ouvrages-form-card">
+            <div class="dash-card-header">
+                <h3><i class="fas fa-plus-circle"></i> Nouvel ouvrage</h3>
+            </div>
+            <div class="dash-card-body">
+                {% if categories %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="add_article">
+                    <div class="dash-form-group">
+                        <label for="titre">Titre *</label>
+                        <input type="text" id="titre" name="titre" placeholder="Titre de l'ouvrage" required>
+                    </div>
+                    <div class="dash-form-group">
+                        <label for="auteur">Auteur *</label>
+                        <input type="text" id="auteur" name="auteur" placeholder="Nom de l'auteur" required>
+                    </div>
+                    <div class="dash-form-group">
+                        <label for="categorie">Catégorie *</label>
+                        <select id="categorie" name="categorie" required>
+                            <option value="">— Choisir —</option>
+                            {% for cat in categories %}
+                            <option value="{{ cat.id }}">{{ cat.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="dash-form-group">
+                        <label for="image">Image de couverture *</label>
+                        <input type="file" id="image" name="image" accept="image/*" required>
+                    </div>
+                    <div class="dash-form-group">
+                        <label for="contenu">Contenu / résumé *</label>
+                        <textarea id="contenu" name="contenu" rows="6" placeholder="Description ou contenu" required></textarea>
+                    </div>
+                    <div class="dash-form-group">
+                        <label for="fichier">Fichier du document</label>
+                        <input type="file" id="fichier" name="fichier" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip">
+                        <small class="dash-field-hint">PDF, Word, PowerPoint ou ZIP</small>
+                    </div>
+                    <div class="dash-form-group dash-checkbox-group">
+                        <label>
+                            <input type="checkbox" name="is_payant" id="is-payant">
+                            Document payant
+                        </label>
+                        <small>Si coché, le téléchargement sera bloqué et un contact WhatsApp sera proposé.</small>
+                    </div>
+                    <div id="payant-fields" class="ouvrages-payant-fields" style="display:none;">
+                        <div class="dash-form-group">
+                            <label for="prix">Prix (USD)</label>
+                            <input type="number" id="prix" name="prix" step="0.01" min="0" placeholder="Ex : 5.00">
+                        </div>
+                        <div class="dash-form-group">
+                            <label for="contact">Contact WhatsApp *</label>
+                            <input type="text" id="contact" name="contact" placeholder="+243 81 234 56 78">
+                        </div>
+                    </div>
+                    {% if user.is_administrator %}
+                    <div class="dash-form-group dash-checkbox-group">
+                        <label>
+                            <input type="checkbox" name="publier">
+                            Publier immédiatement
+                        </label>
+                        <small>Sinon, l'ouvrage reste en attente de validation.</small>
+                    </div>
+                    {% endif %}
+                    <button type="submit" class="dash-btn-primary dash-btn-block">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                </form>
+                {% else %}
+                <div class="dash-empty-state dash-empty-compact">
+                    <i class="fas fa-tags"></i>
+                    <p>Aucune catégorie disponible.</p>
+                    <button type="button" class="dash-btn-primary" id="open-category-modal-empty">
+                        <i class="fas fa-plus"></i> Ajouter une catégorie
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau à droite -->
+    <div class="ouvrages-table-col">
+        <div class="dash-card">
+            <div class="dash-card-header ouvrages-table-header">
+                <h3><i class="fas fa-list"></i> Liste des ouvrages</h3>
+                <span class="dash-tag">{{ articles|length }} résultat{{ articles|length|pluralize }}</span>
+            </div>
+
+            <div class="ouvrages-search-bar">
+                <i class="fas fa-search"></i>
+                <input type="search" id="article-search" placeholder="Rechercher par titre, auteur, catégorie…" value="{{ search_query }}" autocomplete="off">
+                <button type="button" class="dash-search-clear" id="clear-search" title="Effacer"><i class="fas fa-times"></i></button>
+            </div>
+
+            {% if articles %}
+            <div class="dash-table-wrap ouvrages-table-scroll">
+                <table class="dash-table" id="articles-table">
+                    <thead>
+                        <tr>
+                            <th>Ouvrage</th>
+                            <th>Catégorie</th>
+                            <th>Date</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                        <tr class="article-row"
+                            data-search="{{ article.titre|lower }} {{ article.auteur|lower }} {{ article.categorie.nom|lower }} {{ article.contenu|lower }}">
+                            <td data-label="Ouvrage">
+                                <div class="dash-doc-cell">
+                                    {% if article.image %}
+                                    <img src="{{ article.image.url }}" alt="" class="dash-doc-thumb-img">
+                                    {% else %}
+                                    <div class="dash-doc-thumb"></div>
+                                    {% endif %}
+                                    <div>
+                                        <strong>{{ article.titre|truncatechars:40 }}</strong>
+                                        <span class="dash-cell-muted">{{ article.contenu|truncatechars:45 }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Catégorie"><span class="dash-tag">{{ article.categorie.nom }}</span></td>
+                            <td data-label="Date">{{ article.date_publication|date:"d M Y" }}</td>
+                            <td data-label="Statut">
+                                {% if article.is_active %}
+                                <span class="dash-tag dash-tag-success">Publié</span>
+                                {% else %}
+                                <span class="dash-tag dash-tag-warning">En attente</span>
+                                {% endif %}
+                                {% if article.fichier %}
+                                {% if article.is_payant %}
+                                <span class="dash-tag dash-tag-warning" title="Document payant"><i class="fas fa-lock"></i> Payant</span>
+                                {% else %}
+                                <span class="dash-tag dash-tag-light" title="Téléchargement libre"><i class="fas fa-download"></i> Fichier</span>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                            <td data-label="Actions">
+                                <div class="dash-action-btns">
+                                    {% if user.is_administrator %}
+                                    {% if not article.is_active %}
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="validate_article">
+                                        <input type="hidden" name="article_id" value="{{ article.id }}">
+                                        <button type="submit" class="dash-btn-success" title="Valider"><i class="fas fa-check"></i></button>
+                                    </form>
+                                    <form method="post" onsubmit="return confirm('Refuser cet ouvrage ?');">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="reject_article">
+                                        <input type="hidden" name="article_id" value="{{ article.id }}">
+                                        <button type="submit" class="dash-btn-danger" title="Refuser"><i class="fas fa-times"></i></button>
+                                    </form>
+                                    {% endif %}
+                                    {% else %}
+                                    <form method="post" onsubmit="return confirm('Dépublier cet ouvrage ?');">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="unpublish_article">
+                                        <input type="hidden" name="article_id" value="{{ article.id }}">
+                                        <button type="submit" class="dash-btn-outline" title="Dépublier"><i class="fas fa-eye-slash"></i></button>
+                                    </form>
+                                    {% endif %}
+                                    <form method="post" onsubmit="return confirm('Supprimer définitivement ?');">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="delete_article">
+                                        <input type="hidden" name="article_id" value="{{ article.id }}">
+                                        <button type="submit" class="dash-btn-danger" title="Supprimer"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="ouvrages-table-scroll-hint"><i class="fas fa-arrows-alt-h"></i> Glissez pour voir tout le tableau</p>
+
+            <p class="dash-hint ouvrages-no-result" id="no-results" style="display:none;">
+                Aucun ouvrage ne correspond à votre recherche.
+            </p>
+            {% else %}
+            <div class="dash-empty-state">
+                <i class="fas fa-book"></i>
+                <p>Aucun ouvrage enregistré.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block modals %}
+<!-- Modal catégories (hors layout pour éviter les problèmes overflow) -->
+<div class="dash-modal" id="category-modal" aria-hidden="true">
+    <div class="dash-modal-overlay" id="category-modal-overlay"></div>
+    <div class="dash-modal-box" role="dialog" aria-labelledby="category-modal-title" aria-modal="true">
+        <div class="dash-modal-header">
+            <h3 id="category-modal-title"><i class="fas fa-tags"></i> Catégories</h3>
+            <button type="button" class="dash-modal-close" id="close-category-modal" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="dash-modal-body">
+            <form method="post" class="dash-modal-form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_category">
+                <div class="dash-form-group">
+                    <label for="modal-nom">Nouvelle catégorie</label>
+                    <input type="text" id="modal-nom" name="nom" placeholder="Ex : Mémoire, Thèse, Article…" required autocomplete="off">
+                </div>
+                <button type="submit" class="dash-btn-primary dash-btn-block">
+                    <i class="fas fa-plus"></i> Ajouter
+                </button>
+            </form>
+
+            <div class="dash-modal-divider"></div>
+
+            <h4 class="dash-modal-subtitle">Existantes <span class="dash-tag dash-tag-light">{{ categories|length }}</span></h4>
+            {% if categories %}
+            <ul class="dash-modal-list">
+                {% for cat in categories %}
+                <li>
+                    <div class="dash-modal-list-info">
+                        <strong>{{ cat.nom }}</strong>
+                        <span>{{ cat.articles_set.count }} ouvrage{{ cat.articles_set.count|pluralize }}</span>
+                    </div>
+                    <form method="post" onsubmit="return confirm('Supprimer « {{ cat.nom }} » ?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete_category">
+                        <input type="hidden" name="category_id" value="{{ cat.id }}">
+                        <button type="submit" class="dash-btn-danger dash-btn-sm" title="Supprimer">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="dash-hint">Aucune catégorie pour le moment.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var modal = document.getElementById('category-modal');
+    var overlay = document.getElementById('category-modal-overlay');
+    var openBtn = document.getElementById('open-category-modal');
+    var openEmpty = document.getElementById('open-category-modal-empty');
+    var closeBtn = document.getElementById('close-category-modal');
+    var searchInput = document.getElementById('article-search');
+    var clearBtn = document.getElementById('clear-search');
+    var noResults = document.getElementById('no-results');
+    var rows = document.querySelectorAll('.article-row');
+
+    function openModal() {
+        modal.classList.add('open');
+        document.body.classList.add('dash-modal-open');
+        document.getElementById('modal-nom')?.focus();
+    }
+
+    function closeModal() {
+        modal.classList.remove('open');
+        document.body.classList.remove('dash-modal-open');
+    }
+
+    openBtn && openBtn.addEventListener('click', openModal);
+    openEmpty && openEmpty.addEventListener('click', openModal);
+    closeBtn && closeBtn.addEventListener('click', closeModal);
+    overlay && overlay.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) {
+            e.stopPropagation();
+            closeModal();
+        }
+    });
+
+    function filterArticles() {
+        var q = (searchInput?.value || '').trim().toLowerCase();
+        var visible = 0;
+        rows.forEach(function (row) {
+            var text = row.getAttribute('data-search') || '';
+            var match = !q || text.indexOf(q) !== -1;
+            row.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+        if (noResults) {
+            noResults.style.display = (rows.length > 0 && visible === 0) ? 'block' : 'none';
+        }
+        if (clearBtn) {
+            clearBtn.style.display = q ? 'flex' : 'none';
+        }
+    }
+
+    searchInput && searchInput.addEventListener('input', filterArticles);
+    clearBtn && clearBtn.addEventListener('click', function () {
+        searchInput.value = '';
+        filterArticles();
+        searchInput.focus();
+    });
+
+    filterArticles();
+})();
+
+(function () {
+    var payantCheck = document.getElementById('is-payant');
+    var payantFields = document.getElementById('payant-fields');
+    var contactInput = document.getElementById('contact');
+    if (!payantCheck || !payantFields) return;
+
+    function togglePayantFields() {
+        var show = payantCheck.checked;
+        payantFields.style.display = show ? 'block' : 'none';
+        if (contactInput) {
+            contactInput.required = show;
+        }
+    }
+
+    payantCheck.addEventListener('change', togglePayantFields);
+    togglePayantFields();
+})();
+</script>
+{% endblock %}

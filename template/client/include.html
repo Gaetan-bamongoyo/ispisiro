@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block page_css %}{% endblock %}
     <style>
         .nav-list li a {
             display: inline-block;
@@ -69,13 +70,27 @@
             font-size: 16px !important;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .nav-list li a {
                 padding: 6px 10px !important;
                 min-height: 28px !important;
             }
-            .btn-connexion {
+            .header-connexion {
                 display: none !important;
+            }
+            .nav-connexion-item {
+                padding: 12px 30px 18px;
+            }
+            .nav-connexion-item .btn-connexion {
+                display: flex !important;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (min-width: 993px) {
+            .nav-connexion-item {
+                display: none;
             }
         }
     </style>
@@ -109,7 +124,7 @@
 
             <nav class="nav-menu" id="nav-menu">
                 <ul class="nav-list">
-                    <li><a href="{% url 'home' %}" class="active">ACCUEIL</a></li>
+                    <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>ACCUEIL</a></li>
                     <li class="dropdown">
                         <a href="#">INSTITUTION <i class="fas fa-chevron-down"></i></a>
                         <ul class="dropdown-menu">
@@ -118,15 +133,16 @@
                             <li><a href="#">Histoire</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">BIBLIOTHÈQUE</a></li>
+                    <li><a href="{% url 'bibliotheque' %}" {% if request.resolver_match.url_name == 'bibliotheque' %}class="active"{% endif %}>BIBLIOTHÈQUE</a></li>
                     <li><a href="#">À PROPOS</a></li>
                     <li><a href="#">CONTACT</a></li>
-
+                    <li class="nav-connexion-item">
+                        <a href="{% url 'login' %}" class="btn-connexion">CONNEXION</a>
+                    </li>
                 </ul>
             </nav>
 
-            <a href="{% url 'login' %}" class="btn-connexion"> CONNEXION
-                ETUDIANT</a>
+            <a href="{% url 'login' %}" class="btn-connexion header-connexion">CONNEXION</a>
 
             <button class="menu-toggle" id="menu-toggle">
                 <i class="fas fa-bars"></i>
@@ -192,6 +208,7 @@
 
     <!-- Scripts -->
     <script src="{% static 'js/script.js' %}"></script>
+    {% block page_js %}{% endblock %}
 </body>
 
 </html>

@@ -1,0 +1,79 @@
+{% extends 'admin/base_dashboard.html' %}
+
+{% block title %}Cours{% endblock %}
+
+{% block content %}
+
+<div class="dash-page-header">
+    <h1>Cours</h1>
+    <p>Gérez les supports de cours et ressources pédagogiques.</p>
+</div>
+
+<div class="dash-stats" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="dash-stat-card">
+        <div class="dash-stat-top">
+            <div class="dash-stat-icon blue"><i class="fas fa-chalkboard"></i></div>
+        </div>
+        <h4>Cours actifs</h4>
+        <div class="value">32</div>
+    </div>
+    <div class="dash-stat-card">
+        <div class="dash-stat-top">
+            <div class="dash-stat-icon orange"><i class="fas fa-file-powerpoint"></i></div>
+        </div>
+        <h4>Supports PDF</h4>
+        <div class="value">87</div>
+    </div>
+    <div class="dash-stat-card">
+        <div class="dash-stat-top">
+            <div class="dash-stat-icon green"><i class="fas fa-download"></i></div>
+        </div>
+        <h4>Téléchargements</h4>
+        <div class="value">1.8k</div>
+    </div>
+</div>
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>Mes cours</h3>
+        <button class="dash-btn-primary"><i class="fas fa-plus"></i> Ajouter un cours</button>
+    </div>
+    <div>
+        <div class="dash-list-item">
+            <div class="dash-list-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="dash-list-info">
+                <strong>Introduction à la sociologie</strong>
+                <span>L1 · Dr. Mukendi · 2024-2025</span>
+            </div>
+            <span class="dash-tag">12 fichiers</span>
+        </div>
+        <div class="dash-list-item">
+            <div class="dash-list-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="dash-list-info">
+                <strong>Psychologie de l'enfant</strong>
+                <span>L2 · Prof. Bisimwa · 2024-2025</span>
+            </div>
+            <span class="dash-tag">8 fichiers</span>
+        </div>
+        <div class="dash-list-item">
+            <div class="dash-list-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="dash-list-info">
+                <strong>Méthodologie de recherche</strong>
+                <span>L3 · Prof. Mbuyi · 2024-2025</span>
+            </div>
+            <span class="dash-tag">15 fichiers</span>
+        </div>
+        <div class="dash-list-item">
+            <div class="dash-list-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <div class="dash-list-info">
+                <strong>Didactique générale</strong>
+                <span>L2 · Prof. Lumumba · 2024-2025</span>
+            </div>
+            <span class="dash-tag">6 fichiers</span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block right_panel %}{% endblock %}

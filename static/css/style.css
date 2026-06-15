@@ -750,6 +750,40 @@ ul {
     margin-right: 5px;
 }
 
+/* En-tête fiche document (sans bannière) */
+.article-detail-top {
+    margin-bottom: 28px;
+}
+
+.article-detail-top .back-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-bottom: 18px;
+}
+
+.article-detail-top .back-link:hover {
+    text-decoration: underline;
+}
+
+.article-detail-top .doc-cat {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+}
+
+.article-detail-top h2 {
+    font-size: 2rem;
+    line-height: 1.25;
+    margin-bottom: 10px;
+}
+
+.article-detail-top .doc-meta {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
 /* ================= BLOG DETAILS ================= */
 .blog-details-wrapper {
     display: flex;
@@ -788,6 +822,97 @@ ul {
     font-size: 1.05rem;
     color: var(--text-color);
     line-height: 1.8;
+}
+
+/* --- Bloc fichier article --- */
+.doc-file-block {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px;
+    margin-bottom: 30px;
+    background: #f0f7ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+}
+
+.doc-file-block--paid {
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.doc-file-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: var(--secondary-color);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.doc-file-icon--locked {
+    background: #d97706;
+}
+
+.doc-file-info h4 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    color: var(--primary-color);
+}
+
+.doc-file-info p {
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.doc-file-price {
+    color: #92400e;
+}
+
+.doc-file-hint {
+    font-size: 0.88rem !important;
+    color: #64748b !important;
+}
+
+.doc-btn-download,
+.doc-btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.doc-btn-download {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+.doc-btn-download:hover {
+    opacity: 0.9;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.doc-btn-whatsapp {
+    background: #25d366;
+    color: #fff;
+}
+
+.doc-btn-whatsapp:hover {
+    background: #1ebe57;
+    color: #fff;
+    transform: translateY(-1px);
 }
 
 .quote-box {

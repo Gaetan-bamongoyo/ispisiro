@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon1.png' %}">
+    <title>{% block title %}Dashboard{% endblock %} | ISP Isiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    {% block extra_css %}{% endblock %} 
+</head>
+
+<body class="dash-body">
+
+    <div class="dash-layout">
+
+        <!-- Overlay mobile -->
+        <div class="dash-overlay" id="dash-overlay" aria-hidden="true"></div>
+
+        <!-- Sidebar -->
+        <aside class="dash-sidebar" id="dash-sidebar">
+            <button type="button" class="dash-sidebar-close" id="dash-sidebar-close" aria-label="Fermer le menu">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="{% url 'dash_home' %}" class="dash-brand">
+                <img src="{% static 'images/logo/logoisp.png' %}" alt="ISP Isiro">
+                <div>
+                    <span>ISP Isiro</span>
+                    <small>Espace personnel</small>
+                </div>
+            </a>
+
+            <p class="dash-nav-label">Menu</p>
+            <ul class="dash-nav">
+                <li>
+                    <a href="{% url 'dash_home' %}" class="{% if active_menu == 'dashboard' %}active{% endif %}">
+                        <i class="fas fa-th-large"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'dash_ouvrages' %}" class="{% if active_menu == 'ouvrages' %}active{% endif %}">
+                        <i class="fas fa-book"></i> Ouvrages
+                    </a>
+                </li>
+                <!-- <li>
+                    <a href="{% url 'dash_cours' %}" class="{% if active_menu == 'cours' %}active{% endif %}">
+                        <i class="fas fa-chalkboard"></i> Cours
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'dash_etudiants' %}" class="{% if active_menu == 'etudiants' %}active{% endif %}">
+                        <i class="fas fa-user-graduate"></i> Étudiants
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'dash_settings' %}" class="{% if active_menu == 'settings' %}active{% endif %}">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li> -->
+            </ul>
+
+            <div class="dash-profile">
+                <div class="dash-profile-avatar">{{ user.username|slice:":2"|upper }}</div>
+                <div class="dash-profile-info">
+                    <strong>{{ user.username }}</strong>
+                    <span>{% if user.is_administrator %}Administrateur{% else %}Personnel{% endif %}</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="dash-main-wrap">
+
+            <header class="dash-header">
+                <button type="button" class="dash-icon-btn dash-menu-toggle" id="dash-menu-toggle" aria-label="Ouvrir le menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="dash-header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="search" placeholder="Rechercher…">
+                </div>
+                <div class="dash-header-actions">
+                    <button class="dash-icon-btn" aria-label="Mode sombre"><i class="fas fa-moon"></i></button>
+                    <button class="dash-icon-btn" aria-label="Notifications"><i class="fas fa-bell"></i></button>
+                    <a href="{% url 'logout' %}" class="dash-btn-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="dash-logout-text">Déconnexion</span>
+                    </a>
+                </div>
+            </header>
+
+            <div class="dash-content-row">
+                <div class="dash-content">
+                    {% if messages %}
+                    <div class="dash-messages">
+                        {% for message in messages %}
+                        <div class="dash-alert dash-alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block modals %}{% endblock %}
+
+    <script>
+        (function () {
+            var sidebar = document.getElementById('dash-sidebar');
+            var overlay = document.getElementById('dash-overlay');
+            var toggle = document.getElementById('dash-menu-toggle');
+            var closeBtn = document.getElementById('dash-sidebar-close');
+
+            function openMenu() {
+                sidebar && sidebar.classList.add('open');
+                overlay && overlay.classList.add('open');
+                document.body.classList.add('dash-menu-open');
+            }
+
+            function closeMenu() {
+                sidebar && sidebar.classList.remove('open');
+                overlay && overlay.classList.remove('open');
+                document.body.classList.remove('dash-menu-open');
+            }
+
+            toggle && toggle.addEventListener('click', openMenu);
+            closeBtn && closeBtn.addEventListener('click', closeMenu);
+            overlay && overlay.addEventListener('click', closeMenu);
+
+            sidebar && sidebar.querySelectorAll('.dash-nav a, .dash-brand').forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
+            });
+        })();
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

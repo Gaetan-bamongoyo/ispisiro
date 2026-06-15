@@ -1,0 +1,98 @@
+{% extends 'admin/base_dashboard.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+<div class="dash-page-header">
+    <h1>Settings</h1>
+    <p>Paramètres de votre compte et préférences.</p>
+</div>
+
+<div class="dash-grid-2">
+    <div class="dash-card">
+        <div class="dash-card-header">
+            <h3>Profil</h3>
+        </div>
+        <div class="dash-card-body">
+            <div class="dash-form-group">
+                <label>Nom complet</label>
+                <input type="text" value="Enseignant ISP">
+            </div>
+            <div class="dash-form-group">
+                <label>Email</label>
+                <input type="email" value="enseignant@ispisiro.ac.cd">
+            </div>
+            <div class="dash-form-group">
+                <label>Rôle</label>
+                <select>
+                    <option>Enseignant</option>
+                    <option selected>Administrateur</option>
+                </select>
+            </div>
+            <div class="dash-form-group">
+                <label>Département</label>
+                <select>
+                    <option>Sciences de l'éducation</option>
+                    <option>Pédagogie générale</option>
+                    <option>Didactique</option>
+                </select>
+            </div>
+            <button class="dash-btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+        </div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card-header">
+            <h3>Sécurité</h3>
+        </div>
+        <div class="dash-card-body">
+            <div class="dash-form-group">
+                <label>Mot de passe actuel</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            <div class="dash-form-group">
+                <label>Nouveau mot de passe</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            <div class="dash-form-group">
+                <label>Confirmer le mot de passe</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            <button class="dash-btn-primary"><i class="fas fa-lock"></i> Mettre à jour</button>
+        </div>
+    </div>
+</div>
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>Notifications</h3>
+    </div>
+    <div class="dash-card-body">
+        <div class="dash-list-item" style="padding-left:0;padding-right:0;">
+            <div class="dash-list-info">
+                <strong>Nouveaux dépôts d'ouvrages</strong>
+                <span>Recevoir une alerte quand un étudiant dépose un document</span>
+            </div>
+            <span class="dash-tag">Activé</span>
+        </div>
+        <div class="dash-list-item" style="padding-left:0;padding-right:0;">
+            <div class="dash-list-info">
+                <strong>Inscriptions étudiants</strong>
+                <span>Notification à chaque nouvelle inscription</span>
+            </div>
+            <span class="dash-tag">Activé</span>
+        </div>
+        <div class="dash-list-item" style="padding-left:0;padding-right:0;border:none;">
+            <div class="dash-list-info">
+                <strong>Rapport hebdomadaire</strong>
+                <span>Résumé d'activité envoyé chaque lundi</span>
+            </div>
+            <span class="dash-tag" style="background:#f1f5f9;color:#64748b;">Désactivé</span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block right_panel %}{% endblock %}

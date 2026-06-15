@@ -1,0 +1,406 @@
+/* Bibliothèque académique — ISP Isiro */
+
+.lib-app {
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
+
+.lib-app ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.lib-app a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.lib-app h2,
+.lib-app h3,
+.lib-app h5 {
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Barre de recherche --- */
+.lib-app .lib-search-bar {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eee;
+}
+
+.lib-app .lib-search {
+    position: relative;
+    max-width: 560px;
+}
+
+.lib-app .lib-search i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+.lib-app .lib-search input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    font-size: 0.92rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    background: #fafafa;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.lib-app .lib-search input:focus {
+    border-color: #0151b0;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(1, 81, 176, 0.1);
+}
+
+/* --- Body layout --- */
+.lib-app .lib-body {
+    display: grid;
+    grid-template-columns: 220px 1fr 260px;
+    min-height: 600px;
+    width: 100%;
+}
+
+/* --- Sidebar gauche --- */
+.lib-app .lib-sidebar {
+    background: #f7f7f7;
+    border-right: 1px solid #eee;
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.lib-app .lib-nav-group h5 {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+}
+
+.lib-app .lib-nav-group ul li {
+    margin-bottom: 2px;
+}
+
+.lib-app .lib-nav-group ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.lib-app .lib-nav-group ul li a i {
+    width: 16px;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.lib-app .lib-nav-group ul li a:hover {
+    background: #eee;
+}
+
+.lib-app .lib-nav-group ul li a.active {
+    background: #e8e8e8;
+    color: #333;
+    font-weight: 600;
+}
+
+.lib-app .lib-btn-create {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #0151b0;
+    color: #fff !important;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.lib-app .lib-btn-create:hover {
+    background: #0d2342;
+    color: #fff !important;
+}
+
+/* --- Contenu central --- */
+.lib-app .lib-main {
+    padding: 32px 36px;
+    overflow-y: auto;
+    background: #fff;
+}
+
+.lib-app .lib-section {
+    margin-bottom: 40px;
+}
+
+.lib-app .lib-section h2 {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333 !important;
+    margin-bottom: 20px;
+}
+
+.lib-app .lib-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 20px 14px;
+}
+
+.lib-app .lib-grid-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+/* --- Carte document --- */
+.lib-app .lib-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.lib-app .lib-card:hover {
+    transform: translateY(-3px);
+}
+
+.lib-app .lib-cover {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.2s;
+}
+
+.lib-app .lib-card:hover .lib-cover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.lib-app .lib-cover span {
+    background: rgba(255, 255, 255, 0.92);
+    color: #0d2342;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    position: relative;
+    z-index: 1;
+}
+
+.lib-app .lib-cover--photo {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.lib-app .lib-cover--photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45), transparent 55%);
+}
+
+.lib-app .lib-card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.lib-app .lib-empty {
+    text-align: center;
+    padding: 48px 24px;
+    color: #888;
+}
+
+.lib-app .lib-empty i {
+    font-size: 2.5rem;
+    color: #0151b0;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.lib-app .lib-empty p {
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.lib-app .lib-nav-empty {
+    display: block;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    color: #999;
+}
+
+.lib-app .lib-no-result {
+    text-align: center;
+    padding: 32px 16px;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.lib-app .lib-activity span a {
+    color: #0151b0;
+    font-weight: 600;
+}
+
+.lib-app .lib-activity span a:hover {
+    text-decoration: underline;
+}
+
+.lib-app .cover-1  { background: linear-gradient(160deg, #0d2342, #1a4a7a); }
+.lib-app .cover-2  { background: linear-gradient(160deg, #0151b0, #0277bd); }
+.lib-app .cover-3  { background: linear-gradient(160deg, #1a5276, #2980b9); }
+.lib-app .cover-4  { background: linear-gradient(160deg, #154360, #1f618d); }
+.lib-app .cover-5  { background: linear-gradient(160deg, #0d2342, #0151b0); }
+.lib-app .cover-6  { background: linear-gradient(160deg, #1b4f72, #2e86c1); }
+.lib-app .cover-7  { background: linear-gradient(160deg, #117a65, #1abc9c); }
+.lib-app .cover-8  { background: linear-gradient(160deg, #6c3483, #8e44ad); }
+.lib-app .cover-9  { background: linear-gradient(160deg, #784212, #d68910); }
+.lib-app .cover-10 { background: linear-gradient(160deg, #1a5276, #5dade2); }
+.lib-app .cover-11 { background: linear-gradient(160deg, #0d2342, #34495e); }
+.lib-app .cover-12 { background: linear-gradient(160deg, #0151b0, #5dade2); }
+.lib-app .cover-13 { background: linear-gradient(160deg, #7d3c98, #af7ac5); }
+.lib-app .cover-14 { background: linear-gradient(160deg, #566573, #85929e); }
+
+.lib-app .lib-card h3 {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #222 !important;
+    line-height: 1.35;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.lib-app .lib-card p {
+    font-size: 0.72rem;
+    color: #999;
+    margin-bottom: 6px;
+}
+
+.lib-app .lib-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.lib-app .lib-stars i {
+    font-size: 0.6rem;
+    color: #0151b0;
+}
+
+.lib-app .lib-stars .far {
+    color: #ccc;
+}
+
+/* --- Sidebar droite --- */
+.lib-app .lib-right {
+    border-left: 1px solid #eee;
+    padding: 32px 24px;
+    background: #fff;
+}
+
+.lib-app .lib-right h5 {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.lib-app .lib-activity li {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.lib-app .lib-activity-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: #fff;
+}
+
+.lib-app .av-1 { background: #0151b0; }
+.lib-app .av-2 { background: #0d2342; }
+.lib-app .av-3 { background: #0277bd; }
+.lib-app .av-4 { background: #2980b9; }
+.lib-app .av-5 { background: #1a5276; }
+
+.lib-app .lib-activity strong {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.lib-app .lib-activity span {
+    font-size: 0.75rem;
+    color: #999;
+    line-height: 1.4;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1400px) {
+    .lib-app .lib-grid { grid-template-columns: repeat(5, 1fr); }
+    .lib-app .lib-grid-5 { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 1100px) {
+    .lib-app .lib-body { grid-template-columns: 200px 1fr; }
+    .lib-app .lib-right { display: none; }
+    .lib-app .lib-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .lib-app .lib-body { grid-template-columns: 1fr; }
+
+    .lib-app .lib-sidebar { display: none; }
+
+    .lib-app .lib-main { padding: 20px 16px; }
+
+    .lib-app .lib-search { max-width: 100%; }
+
+    .lib-app .lib-grid,
+    .lib-app .lib-grid-5 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px 12px;
+    }
+}

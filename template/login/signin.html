@@ -5,251 +5,410 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon1.png' %}">
-    <title>Institut Supérieur Pédagogique || Isiro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p3YxY+Y3Z4gOy57+E2iF3c1hGkY7Y2Y1k4gZhJwFv0Q3vkW+XtJv+4ZpHA7KAlj0jW1Oo3Pe0uG2xMseHpvQw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Connexion | ISP Isiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            color-scheme: light;
+            --isp-blue: #0d2342;
+            --isp-accent: #0151b0;
+            --isp-light: #f4f7fb;
+            --isp-border: #e2e8f0;
+            --isp-muted: #64748b;
             font-family: 'Inter', sans-serif;
         }
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            margin: 0;
             min-height: 100vh;
-            background: #f2f6fb;
+            background: var(--isp-light);
+            color: var(--isp-blue);
+        }
+        .login-page {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        /* --- Panneau gauche --- */
+        .login-welcome {
+            background: linear-gradient(160deg, var(--isp-blue) 0%, var(--isp-accent) 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 48px 40px;
+            text-align: center;
+        }
+        .login-welcome img {
+            width: min(180px, 60%);
+            margin-bottom: 32px;
+        }
+        .login-welcome h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .login-welcome p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            opacity: 0.9;
+            max-width: 340px;
+        }
+        .login-welcome .back-home {
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+        .login-welcome .back-home:hover { opacity: 1; color: #fff; }
+
+        /* --- Panneau droit --- */
+        .login-form-panel {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #14213d;
-        }
-        .login-wrapper {
-            width: min(460px, calc(100% - 32px));
-            padding: 20px 28px;
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 30px 80px rgba(20, 33, 61, 0.12);
-            border: 1px solid rgba(20, 33, 61, 0.08);
-        }
-        .login-logo {
-            /* width: 48px;
-            height: 64px; */
-            margin: 0 auto 24px;
-            display: grid;
-            place-items: center;
-            overflow: hidden;
+            padding: 40px 32px;
             background: #fff;
         }
-        .login-logo img {
-            width: 40%;
-            /* height: 100%; */
-            object-fit: cover;
-            display: block;
+        .login-form-inner {
+            width: 100%;
+            max-width: 400px;
         }
-        .login-title {
-            margin: 0;
-            font-size: 32px;
+        .login-form-inner h2 {
+            font-size: 1.5rem;
             font-weight: 700;
-            text-align: center;
-            letter-spacing: -0.04em;
+            margin-bottom: 6px;
         }
-        .login-subtitle {
-            margin: 10px auto 30px;
-            text-align: center;
-            color: #6b7280;
-            font-size: 14px;
-            line-height: 1.6;
-            max-width: 280px;
+        .login-form-inner > p {
+            color: var(--isp-muted);
+            font-size: 0.9rem;
+            margin-bottom: 28px;
         }
-        .form-group {
-            margin-bottom: 18px;
+
+        .space-switch {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            padding: 5px;
+            background: var(--isp-light);
+            border-radius: 10px;
+            margin-bottom: 24px;
         }
+        .space-option {
+            border: none;
+            background: transparent;
+            padding: 10px 8px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--isp-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .space-option.active {
+            background: #fff;
+            color: var(--isp-accent);
+            box-shadow: 0 2px 8px rgba(1, 81, 176, 0.1);
+        }
+
+        .form-group { margin-bottom: 18px; }
         .form-label {
             display: block;
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: #4b5563;
+            font-size: 0.82rem;
             font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
         }
         .form-control {
             width: 100%;
             padding: 12px 14px;
-            font-size: 15px;
-            border: 1px solid #d6d7dc;
-            border-radius: 10px;
-            background: #f8f9fc;
+            border: 1px solid var(--isp-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #fafbfc;
             outline: none;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
         .form-control:focus {
-            border-color: #0f6fff;
-            box-shadow: 0 0 0 4px rgba(15, 111, 255, 0.12);
+            border-color: var(--isp-accent);
             background: #fff;
+            box-shadow: 0 0 0 3px rgba(1, 81, 176, 0.1);
         }
-        .password-field {
-            position: relative;
-        }
+        .password-field { position: relative; }
         .toggle-password {
             position: absolute;
             right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #9ca3af;
+            color: #94a3b8;
             cursor: pointer;
-            font-size: 16px;
         }
+
         .login-actions {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            margin: 8px 0 28px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
         }
         .checkbox-group {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            color: #4b5563;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--isp-muted);
+            cursor: pointer;
         }
-        .checkbox-group input {
-            width: 16px;
-            height: 16px;
-            accent-color: #0f6fff;
-        }
+        .checkbox-group input { accent-color: var(--isp-accent); }
         .forgot-link {
-            color: #0f6fff;
+            font-size: 0.85rem;
+            color: var(--isp-accent);
             text-decoration: none;
-            font-size: 14px;
             font-weight: 600;
         }
-        .forgot-link:hover {
-            text-decoration: underline;
-        }
-        .btn-primary {
+        .forgot-link:hover { text-decoration: underline; }
+
+        .btn-submit {
             width: 100%;
-            padding: 14px 16px;
+            padding: 13px;
             border: none;
-            border-radius: 12px;
-            background: #0f6fff;
+            border-radius: 8px;
+            background: var(--isp-accent);
             color: #fff;
-            font-size: 15px;
+            font-size: 0.95rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
             cursor: pointer;
-            transition: background 0.2s ease, transform 0.2s ease;
-            box-shadow: 0 16px 30px rgba(15, 111, 255, 0.18);
+            transition: background 0.2s;
         }
-        .btn-primary:hover {
-            background: #0b55d5;
-            transform: translateY(-1px);
-        }
-        .divider {
-            display: flex;
-            align-items: center;
+        .btn-submit:hover { background: var(--isp-blue); }
+
+        .form-footer {
+            margin-top: 24px;
             text-align: center;
-            color: #9ca3af;
-            font-size: 13px;
-            gap: 14px;
-            margin: 28px 0 24px;
+            font-size: 0.88rem;
+            color: var(--isp-muted);
         }
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e5e7eb;
-        }
-        .social-btn {
-            width: 100%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 13px 14px;
-            border-radius: 12px;
-            border: 1px solid #d6d7dc;
-            background: #fff;
-            color: #111827;
-            font-weight: 700;
+        .form-footer a {
+            color: var(--isp-accent);
+            font-weight: 600;
             text-decoration: none;
-            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-            margin-bottom: 12px;
         }
-        .social-btn:hover {
-            border-color: #0f6fff;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(15, 111, 255, 0.12);
+        .form-footer a:hover { text-decoration: underline; }
+
+        .dash-messages { margin-bottom: 18px; }
+        .dash-alert {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
         }
-        .social-btn.google i {
-            color: #ea4335;
+        .dash-alert-error { background: #fee2e2; color: #991b1b; }
+        .dash-alert-success { background: #dcfce7; color: #166534; }
+        .dash-alert-info { background: #dbeafe; color: #1e40af; }
+        .dash-alert-warning { background: #fef3c7; color: #92400e; }
+
+        .login-mobile-logo {
+            display: none;
         }
-        .social-btn.facebook i {
-            color: #1877f2;
-        }
-        .footer-text {
-            margin-top: 18px;
-            text-align: center;
-            color: #6b7280;
-            font-size: 14px;
-        }
-        .footer-text a {
-            color: #0f6fff;
-            text-decoration: none;
-            font-weight: 700;
-        }
-        .footer-text a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 480px) {
-            .login-wrapper {
-                padding: 28px 20px;
-                border-radius: 20px;
+
+        /* --- Mobile : formulaire seul, centré --- */
+        @media (max-width: 860px) {
+            body {
+                background: var(--isp-light);
+            }
+            .login-page {
+                grid-template-columns: 1fr;
+                min-height: 100vh;
+                min-height: 100dvh;
+            }
+            .login-welcome {
+                display: none;
+            }
+            .login-form-panel {
+                min-height: 100vh;
+                min-height: 100dvh;
+                padding: 24px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: transparent;
+            }
+            .login-form-inner {
+                width: 100%;
+                max-width: 380px;
+                margin: 0 auto;
+                padding: 32px 24px;
+                background: #fff;
+                border-radius: 16px;
+                box-shadow: 0 8px 40px rgba(13, 35, 66, 0.08);
+                border: 1px solid var(--isp-border);
+            }
+            .login-mobile-logo {
+                display: block;
+                width: 72px;
+                margin: 0 auto 20px;
+            }
+            .login-form-inner h2,
+            .login-form-inner > p {
+                text-align: center;
+            }
+            .login-form-inner h2 {
+                font-size: 1.35rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="login-wrapper">
-        <div class="login-logo">
-            <img src="{% static 'images/logo/logoisp.png' %}" alt="Logo ISP Isiro">
+
+<div class="login-page">
+
+    <!-- Gauche : logo + bienvenue -->
+    <section class="login-welcome">
+        <img src="{% static 'images/logo/logoisp1.png' %}" alt="ISP Isiro">
+        <h1>Bienvenue à l'ISP Isiro</h1>
+        <p>Institut Supérieur Pédagogique d'Isiro — connectez-vous pour accéder à votre espace personnel.</p>
+        <a href="{% url 'home' %}" class="back-home"><i class="fas fa-arrow-left"></i> Retour au site</a>
+    </section>
+
+    <!-- Droite : formulaire -->
+    <section class="login-form-panel">
+        <div class="login-form-inner">
+            <img src="{% static 'images/logo/logoisp.png' %}" alt="ISP Isiro" class="login-mobile-logo">
+            <h2>Connexion</h2>
+            <p id="login-subtitle">Accédez à votre espace étudiant</p>
+
+            {% if messages %}
+            <div class="dash-messages">
+                {% for message in messages %}
+                <div class="dash-alert dash-alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="espace" id="espace-input" value="etudiant">
+
+                <div class="space-switch" role="tablist">
+                    <button type="button" class="space-option active" data-space="etudiant" aria-selected="true">
+                        <i class="fas fa-user-graduate"></i> Étudiant
+                    </button>
+                    <button type="button" class="space-option" data-space="personnel" aria-selected="false">
+                        <i class="fas fa-id-badge"></i> Personnel
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_login" class="form-label" id="login-id-label">Matricule</label>
+                    <input id="id_login" name="matricule" type="text" class="form-control" placeholder="Votre matricule" required>
+                </div>
+
+                <div class="form-group password-field">
+                    <label for="id_password" class="form-label">Mot de passe</label>
+                    <input id="id_password" name="password" type="password" class="form-control" placeholder="Votre mot de passe" required>
+                    <span class="toggle-password"><i class="fas fa-eye"></i></span>
+                </div>
+
+                <div class="login-actions">
+                    <label class="checkbox-group">
+                        <input type="checkbox" name="remember"> Rester connecté
+                    </label>
+                    <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+                </div>
+
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </form>
+
+            <p class="form-footer" id="register-link" style="display:none;">
+                Pas encore de compte ? <a href="{% url 'register' %}">Créer un compte personnel</a>
+            </p>
         </div>
-        <h1 class="login-title">Connexion</h1>
-        <p class="login-subtitle">Connectez-vous pour accéder à votre compte</p>
-        <form method="post" action="">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_matricule" class="form-label">Matricule</label>
-                <input id="id_matricule" name="matricule" type="text" class="form-control" placeholder="Matricule étudiant" required>
-            </div>
-            <div class="form-group password-field">
-                <label for="id_password" class="form-label">Mot de passe</label>
-                <input id="id_password" name="password" type="password" class="form-control" placeholder="Mot de passe" required>
-                <span class="toggle-password"><i class="fas fa-eye"></i></span>
-            </div>
-            <div class="login-actions">
-                <label class="checkbox-group"><input type="checkbox" name="remember"> Rester connecté</label>
-                <a href="#" class="forgot-link">Mot de passe oublié ?</a>
-            </div>
-            <button type="submit" class="btn-primary">SE CONNECTER</button>
-            <div class="divider">ou</div>
-            <p class="footer-text">Vous n’avez pas de compte ? <a href="{% url 'register' %}">Créer un compte</a></p>
-        </form>
-    </div>
-    <script>
-        const toggle = document.querySelector('.toggle-password');
-        const password = document.querySelector('#id_password');
-        if (toggle && password) {
-            toggle.addEventListener('click', () => {
-                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                password.setAttribute('type', type);
-                toggle.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-            });
+    </section>
+
+</div>
+
+<script>
+(function () {
+    var toggle = document.querySelector('.toggle-password');
+    var password = document.getElementById('id_password');
+    if (toggle && password) {
+        toggle.addEventListener('click', function () {
+            var type = password.type === 'password' ? 'text' : 'password';
+            password.type = type;
+            toggle.innerHTML = type === 'password'
+                ? '<i class="fas fa-eye"></i>'
+                : '<i class="fas fa-eye-slash"></i>';
+        });
+    }
+
+    var spaceOptions = document.querySelectorAll('.space-option');
+    var espaceInput = document.getElementById('espace-input');
+    var loginSubtitle = document.getElementById('login-subtitle');
+    var loginIdLabel = document.getElementById('login-id-label');
+    var loginIdField = document.getElementById('id_login');
+
+    var spaceConfig = {
+        etudiant: {
+            subtitle: 'Accédez à votre espace étudiant',
+            label: 'Matricule',
+            placeholder: 'Votre matricule',
+            name: 'matricule'
+        },
+        personnel: {
+            subtitle: 'Accédez à votre espace personnel',
+            label: 'Email',
+            placeholder: 'Votre adresse email',
+            name: 'email'
         }
-    </script>
+    };
+
+    spaceOptions.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var space = btn.getAttribute('data-space');
+            spaceOptions.forEach(function (opt) {
+                opt.classList.remove('active');
+                opt.setAttribute('aria-selected', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+
+            espaceInput.value = space;
+            var cfg = spaceConfig[space];
+            loginSubtitle.textContent = cfg.subtitle;
+            loginIdLabel.textContent = cfg.label;
+            loginIdField.placeholder = cfg.placeholder;
+            loginIdField.name = cfg.name;
+            loginIdField.type = space === 'personnel' ? 'email' : 'text';
+            loginIdField.value = '';
+            loginIdField.focus();
+
+            var registerLink = document.getElementById('register-link');
+            if (registerLink) {
+                registerLink.style.display = space === 'personnel' ? 'block' : 'none';
+            }
+        });
+    });
+
+    var params = new URLSearchParams(window.location.search);
+    var initialEspace = '{{ espace|default:"etudiant" }}';
+    if (params.get('espace') === 'personnel' || initialEspace === 'personnel') {
+        var personnelBtn = document.querySelector('.space-option[data-space="personnel"]');
+        if (personnelBtn) personnelBtn.click();
+    }
+})();
+</script>
 </body>
 </html>

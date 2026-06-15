@@ -8,6 +8,7 @@ class User(AbstractUser):
     matricule = models.CharField(max_length=50, null=True, blank=True)
     is_etudiant = models.BooleanField(default=False)
     is_personnel = models.BooleanField(default=False)
+    is_administrator = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'User'

@@ -22,7 +22,31 @@ def indexPage(request):
     })
 
 def bibliothequePage(request):
-    return render(request, 'client/bibliotheque.html')
+    published = Articles.objects.filter(is_active=True).select_related('categorie')
+    recent_articles = published.order_by('-date_publication')[:7]
+    activity_articles = published.order_by('-date_publication')[:5]
+
+    categories = Categories.objects.filter(
+        articles__is_active=True
+    ).distinct().order_by('nom')
+
+    categories_with_articles = []
+    for category in categories:
+        articles = published.filter(categorie=category).order_by('-date_publication')
+        if articles.exists():
+            categories_with_articles.append({
+                'category': category,
+                'articles': articles,
+            })
+
+    return render(request, 'client/articles.html', {
+        'departement': Departements.objects.all(),
+        'recent_articles': recent_articles,
+        'categories_with_articles': categories_with_articles,
+        'categories': categories,
+        'activity_articles': activity_articles,
+        'total_count': published.count(),
+    })
 
 def bloqPage(request, id):
     id_pk = decrypt_id(id)
@@ -39,4 +63,15 @@ def detail_filierePage(request, id):
     return render(request, 'client/detail_filiere.html', {
         'filiere': filiere,
         'departement': departements
+    })
+
+def articleDetailPage(request, id):
+    article = get_object_or_404(Articles, id=id, is_active=True)
+    related = Articles.objects.filter(
+        categorie=article.categorie, is_active=True
+    ).exclude(id=article.id).order_by('-date_publication')[:4]
+    return render(request, 'client/article_detail.html', {
+        'article': article,
+        'related_articles': related,
+        'departement': Departements.objects.all(),
     })

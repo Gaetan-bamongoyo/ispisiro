@@ -1,0 +1,118 @@
+{% extends 'client/include.html' %}
+{% load static %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/library.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="lib-app">
+    <div class="lib-body">
+
+        <!-- Sidebar gauche -->
+        <aside class="lib-sidebar">
+
+            {% if categories %}
+            <nav class="lib-nav-group" id="categories">
+                <h5>Catégories</h5>
+                <ul>
+                    {% for cat in categories %}
+                    <li>
+                        <a href="#cat-{{ cat.id }}">
+                            <i class="fas fa-folder"></i> {{ cat.nom }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            {% endif %}
+        </aside>
+
+        <!-- Contenu central -->
+        <main class="lib-main">
+            <div class="lib-search-bar">
+                <div class="lib-search">
+                    <i class="fas fa-search"></i>
+                    <input type="search" id="lib-search" placeholder="Rechercher un mémoire, une thèse, un article…" autocomplete="off">
+                </div>
+            </div>
+
+            {% if total_count == 0 %}
+            <div class="lib-empty">
+                <i class="fas fa-book-open"></i>
+                <p>Aucun document publié pour le moment.<br>Revenez bientôt pour découvrir la bibliothèque de l'ISP Isiro.</p>
+            </div>
+            {% else %}
+
+            <!-- Par catégorie -->
+            {% for group in categories_with_articles %}
+            <section class="lib-section" id="cat-{{ group.category.id }}">
+                <h2>{{ group.category.nom }}</h2>
+                <div class="lib-grid{% if group.articles.count <= 5 %} lib-grid-5{% endif %}">
+                    {% for article in group.articles %}
+                    {% include 'client/partials/lib_card.html' %}
+                    {% endfor %}
+                </div>
+            </section>
+            {% endfor %}
+
+            <p class="lib-no-result" id="lib-no-result" style="display:none;">
+                Aucun document ne correspond à votre recherche.
+            </p>
+
+            {% endif %}
+        </main>
+
+        <!-- Sidebar droite -->
+        <aside class="lib-right">
+            <h5>Activité récente</h5>
+            {% if activity_articles %}
+            <ul class="lib-activity">
+                {% for article in activity_articles %}
+                <li>
+                    <div class="lib-activity-avatar av-{{ forloop.counter }}"><i class="fas fa-user-graduate"></i></div>
+                    <div>
+                        <strong>{{ article.auteur }}</strong>
+                        <span>a publié « <a href="{% url 'article_detail' id=article.id %}">{{ article.titre|truncatechars:45 }}</a> »</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="lib-nav-empty">Aucune activité récente.</p>
+            {% endif %}
+        </aside>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block page_js %}
+<script>
+(function () {
+    var input = document.getElementById('lib-search');
+    var noResult = document.getElementById('lib-no-result');
+    if (!input) return;
+
+    var cards = document.querySelectorAll('.lib-card-item');
+
+    input.addEventListener('input', function () {
+        var q = input.value.trim().toLowerCase();
+        var visible = 0;
+
+        cards.forEach(function (card) {
+            var text = card.getAttribute('data-search') || '';
+            var match = !q || text.indexOf(q) !== -1;
+            card.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+
+        if (noResult) {
+            noResult.style.display = (q && visible === 0) ? 'block' : 'none';
+        }
+    });
+})();
+</script>
+{% endblock %}

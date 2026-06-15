@@ -1,0 +1,48 @@
+{% extends 'admin/base_dashboard.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- Stats -->
+<div class="dash-stats">
+    <div class="dash-stat-card">
+        <div class="dash-stat-top">
+            <div class="dash-stat-icon blue"><i class="fas fa-book"></i></div>
+            <span class="dash-stat-change up">+12%</span>
+        </div>
+        <h4>Total Ouvrages</h4>
+        <div class="value">{{ total_ouvrages|default:"0" }}</div>
+    </div>
+    <div class="dash-stat-card">
+        <div class="dash-stat-top">
+            <div class="dash-stat-icon orange"><i class="fas fa-tags"></i></div>
+        </div>
+        <h4>Catégories</h4>
+        <div class="value">{{ total_categories|default:"0" }}</div>
+    </div>
+    <div class="dash-stat-card">
+        <div class="dash-stat-top">
+            <div class="dash-stat-icon green"><i class="fas fa-check"></i></div>
+        </div>
+        <h4>Publiés</h4>
+        <div class="value">{{ total_ouvrages|default:"0" }}</div>
+    </div>
+    <div class="dash-stat-card">
+        <div class="dash-stat-top">
+            <div class="dash-stat-icon navy"><i class="fas fa-book-open"></i></div>
+        </div>
+        <h4>Total dépôts</h4>
+        <div class="value">{{ total_ouvrages|add:pending_ouvrages|default:"0" }}</div>
+    </div>
+    <div class="dash-stat-card">
+        <div class="dash-stat-top">
+            <div class="dash-stat-icon purple"><i class="fas fa-clock"></i></div>
+        </div>
+        <h4>En attente</h4>
+        <div class="value">{{ pending_ouvrages|default:"0" }}</div>
+    </div>
+</div>
+
+
+{% endblock %}

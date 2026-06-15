@@ -1,0 +1,96 @@
+{% extends 'client/include.html' %}
+{% load static %}
+{% block content %}
+
+<section class="page-header" {% if article.image %}style="background: url('{{ article.image.url }}') center/cover no-repeat;"{% endif %}>
+    <div class="page-header-overlay"></div>
+    <div class="container page-header-content">
+        <h2>{{ article.titre }}</h2>
+        <div class="header-meta">
+            <span><i class="fas fa-calendar-alt"></i> {{ article.date_publication|date:"d M Y" }}</span>
+            <span><i class="fas fa-folder-open"></i> {{ article.categorie.nom }}</span>
+            <span><i class="fas fa-user"></i> {{ article.auteur }}</span>
+        </div>
+    </div>
+</section>
+
+<section class="blog-details section-padding">
+    <div class="container">
+        <div class="blog-details-wrapper">
+            <div class="blog-main-content">
+                {% if article.image %}
+                <img src="{{ article.image.url }}" alt="{{ article.titre }}" class="main-image">
+                {% endif %}
+                <div class="content-body">
+                    {{ article.contenu|linebreaks }}
+
+                    <div class="share-post">
+                        <h4>Partager ce document :</h4>
+                        <div class="share-links">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="share-btn facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ article.titre|urlencode }}" target="_blank" class="share-btn twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="https://wa.me/?text={{ article.titre|urlencode }}%20-%20{{ request.build_absolute_uri }}" target="_blank" class="share-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ article.titre|urlencode }}" target="_blank" class="share-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blog-sidebar">
+                {% if article.fichier %}
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Document</h3>
+                    {% if article.is_payant %}
+                    <p style="margin-bottom:12px; color: var(--text-light); line-height:1.6;">
+                        Document payant{% if article.prix %} ({{ article.prix }} USD){% endif %}.
+                        Téléchargement sur demande via WhatsApp.
+                    </p>
+                    <a href="{{ article.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%; text-align:center; display:block; background:#25d366; border-color:#25d366;">
+                        <i class="fab fa-whatsapp"></i> Demander le document
+                    </a>
+                    {% else %}
+                    <p style="margin-bottom:12px; color: var(--text-light);">Téléchargement gratuit.</p>
+                    <a href="{{ article.fichier.url }}" download class="btn btn-primary" style="width:100%; text-align:center; display:block;">
+                        <i class="fas fa-download"></i> Télécharger
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Informations</h3>
+                    <ul class="event-info-list">
+                        <li><i class="fas fa-folder-open"></i> <strong>Catégorie:</strong> {{ article.categorie.nom }}</li>
+                        <li><i class="fas fa-user-edit"></i> <strong>Auteur:</strong> {{ article.auteur }}</li>
+                        <li><i class="fas fa-calendar-alt"></i> <strong>Publié le:</strong> {{ article.date_publication|date:"d M Y" }}</li>
+                        {% if article.fichier %}
+                        <li><i class="fas fa-file-alt"></i> <strong>Accès:</strong> {% if article.is_payant %}Payant{% else %}Gratuit{% endif %}</li>
+                        {% endif %}
+                        {% if article.is_payant and article.prix %}
+                        <li><i class="fas fa-tag"></i> <strong>Prix:</strong> {{ article.prix }} USD</li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                {% if related_articles %}
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Documents similaires</h3>
+                    {% for related in related_articles %}
+                    <div class="recent-post">
+                        {% if related.image %}
+                        <img src="{{ related.image.url }}" alt="{{ related.titre }}">
+                        {% endif %}
+                        <div>
+                            <h4><a href="{% url 'article_detail' id=related.id %}">{{ related.titre|truncatechars:50 }}</a></h4>
+                            <span>{{ related.date_publication|date:"d M Y" }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

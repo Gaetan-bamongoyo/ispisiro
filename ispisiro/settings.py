@@ -30,6 +30,8 @@ ALLOWED_HOSTS = ['108.181.203.54','127.0.0.1','ispisiro.ac.cd','www.ispisiro.ac.
 
 AUTH_USER_MODEL = 'userapp.User'
 
+LOGIN_URL = '/user/'
+
 
 # Application definition
 

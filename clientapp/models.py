@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from etudiantapp.models import *
+from userapp.models import User
 
 # Create your models here.
 
@@ -51,3 +52,61 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.titre
+
+class Categories(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nom = models.CharField(max_length=100)
+    def __str__(self):
+        return self.nom
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+class Articles(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    titre = models.CharField(max_length=255)
+    contenu = models.TextField()
+    image = models.ImageField(upload_to='articles/')
+    date_publication = models.DateTimeField(auto_now_add=True)
+    auteur = models.CharField(max_length=100)
+    categorie = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=False)
+    fichier = models.FileField(upload_to='articles/fichiers/', null=True, blank=True)
+    is_payant = models.BooleanField(default=False)
+    prix = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    contact = models.CharField(max_length=100, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.titre
+
+    @property
+    def whatsapp_digits(self):
+        if self.contact:
+            digits = ''.join(c for c in self.contact if c.isdigit())
+            if digits:
+                if digits.startswith('0'):
+                    return '243' + digits[1:]
+                if not digits.startswith('243'):
+                    return '243' + digits
+                return digits
+        return '243812345678'
+
+    def whatsapp_url(self):
+        from urllib.parse import quote
+        message = f"Bonjour, je souhaite obtenir le document « {self.titre} »."
+        if self.prix:
+            message += f" Prix indiqué : {self.prix} USD."
+        return f"https://wa.me/{self.whatsapp_digits}?text={quote(message)}"
+        
+    class Meta:
+        verbose_name = 'Article'
+        verbose_name_plural = 'Articles'
+
+
+class Commentaires(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    article = models.ForeignKey(Articles, on_delete=models.CASCADE)
+    auteur = models.CharField(max_length=100)
+    contenu = models.TextField()
+    date_publication = models.DateTimeField(auto_now_add=True)

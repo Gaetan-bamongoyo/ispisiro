@@ -1,0 +1,104 @@
+{% extends 'admin/base_dashboard.html' %}
+
+{% block title %}Étudiants{% endblock %}
+
+{% block content %}
+
+<div class="dash-page-header">
+    <h1>Étudiants</h1>
+    <p>Consultez et gérez la liste des étudiants inscrits.</p>
+</div>
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>Liste des étudiants</h3>
+        <div class="dash-table-actions">
+            <button class="dash-btn-primary"><i class="fas fa-plus"></i> Nouvel étudiant</button>
+        </div>
+    </div>
+    <div class="dash-table-wrap">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>Étudiant</th>
+                    <th>Matricule</th>
+                    <th>Filière</th>
+                    <th>Promotion</th>
+                    <th>Statut</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="dash-table-user">
+                            <div class="dash-table-avatar">MK</div>
+                            <div>Marie Kabongo</div>
+                        </div>
+                    </td>
+                    <td>ISP-2024-0142</td>
+                    <td>Sciences de l'éducation</td>
+                    <td>L3</td>
+                    <td><span class="dash-tag">Actif</span></td>
+                    <td><button><i class="fas fa-ellipsis-v"></i></button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="dash-table-user">
+                            <div class="dash-table-avatar">JP</div>
+                            <div>Jean-Pierre Mbuyi</div>
+                        </div>
+                    </td>
+                    <td>ISP-2024-0098</td>
+                    <td>Didactique</td>
+                    <td>L2</td>
+                    <td><span class="dash-tag">Actif</span></td>
+                    <td><button><i class="fas fa-ellipsis-v"></i></button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="dash-table-user">
+                            <div class="dash-table-avatar">GA</div>
+                            <div>Grace Amisi</div>
+                        </div>
+                    </td>
+                    <td>ISP-2023-0201</td>
+                    <td>Pédagogie générale</td>
+                    <td>L3</td>
+                    <td><span class="dash-tag">Actif</span></td>
+                    <td><button><i class="fas fa-ellipsis-v"></i></button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="dash-table-user">
+                            <div class="dash-table-avatar">ET</div>
+                            <div>Emmanuel Tshimanga</div>
+                        </div>
+                    </td>
+                    <td>ISP-2024-0056</td>
+                    <td>Sciences de l'éducation</td>
+                    <td>L1</td>
+                    <td><span class="dash-tag">Actif</span></td>
+                    <td><button><i class="fas fa-ellipsis-v"></i></button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="dash-table-user">
+                            <div class="dash-table-avatar">RK</div>
+                            <div>Rachel Kabila</div>
+                        </div>
+                    </td>
+                    <td>ISP-2024-0178</td>
+                    <td>Didactique</td>
+                    <td>L2</td>
+                    <td><span class="dash-tag" style="background:#fef3c7;color:#d97706;">En attente</span></td>
+                    <td><button><i class="fas fa-ellipsis-v"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block right_panel %}{% endblock %}

@@ -143,6 +143,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+# Favicon servi à /favicon.ico (requête automatique des navigateurs)
+WHITENOISE_ROOT = BASE_DIR / 'static' / 'root'
+
 # HTTPS / production
 CSRF_TRUSTED_ORIGINS = [
     'https://ispisiro.ac.cd',

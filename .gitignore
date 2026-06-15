@@ -1,2 +1,14 @@
 # ignore all files in the static folder
 static/media/
+# ignore all files in the __pycache__ folder
+__pycache__/
+# ignore all files in the .env file
+.env
+# ignore all files in the .env.local file
+.env.local
+# ignore all files in the .env.development.local file
+.env.development.local
+# ignore all files in the .env.production.local file
+.env.production.local
+# ignore all files in the .env.test.local file
+.env.test.local

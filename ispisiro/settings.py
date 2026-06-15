@@ -82,22 +82,22 @@ WSGI_APPLICATION = 'ispisiro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'db_ispisiro',
-#         'USER': 'admin',
-#         'PASSWORD': '@gaem2930',
-#         'HOST': '108.181.203.54',
-#         'PORT': '3306',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_ispisiro',
+        'USER': 'admin',
+        'PASSWORD': '@gaem2930',
+        'HOST': '108.181.203.54',
+        'PORT': '3306',
+    }
+}
 
 
 # Password validation

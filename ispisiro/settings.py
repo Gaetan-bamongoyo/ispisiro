@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,22 +82,22 @@ WSGI_APPLICATION = 'ispisiro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_ispisiro',
-        'USER': 'admin',
-        'PASSWORD': '@gaem2930',
-        'HOST': '108.181.203.54',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'db_ispisiro',
+#         'USER': 'admin',
+#         'PASSWORD': '@gaem2930',
+#         'HOST': '108.181.203.54',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
@@ -133,14 +134,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+# HTTPS / production
+CSRF_TRUSTED_ORIGINS = [
+    'https://ispisiro.ac.cd',
+    'https://www.ispisiro.ac.cd',
+    'http://ispisiro.ac.cd',
+    'http://www.ispisiro.ac.cd',
+    'http://108.181.203.54',
+    'https://108.181.203.54',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_DIRS =[
-    BASE_DIR /'static'
-]

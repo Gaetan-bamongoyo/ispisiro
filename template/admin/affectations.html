@@ -1,0 +1,196 @@
+{% extends 'admin/base_dashboard.html' %}
+{% load static %}
+
+{% block title %}Affectations{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/affectations.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dash-page-header">
+    <div>
+        <h1>Affectations du personnel</h1>
+        <p>Gérez le département de chaque membre du personnel.</p>
+    </div>
+    <span class="dash-tag">{{ total_count }} membre{{ total_count|pluralize }}</span>
+</div>
+
+<div class="dash-card">
+    <div class="dash-card-header affectations-table-header">
+        <h3><i class="fas fa-users"></i> Liste du personnel</h3>
+    </div>
+
+    <form method="get" class="affectations-search-bar">
+        <i class="fas fa-search"></i>
+        <input type="search" name="q" placeholder="Rechercher par nom, grade, compte…" value="{{ search_query }}" autocomplete="off">
+        {% if search_query %}
+        <a href="{% url 'dash_affectations' %}" class="dash-search-clear" title="Effacer"><i class="fas fa-times"></i></a>
+        {% endif %}
+        <button type="submit" class="dash-btn-primary affectations-search-btn">Rechercher</button>
+    </form>
+
+    {% if staff_rows %}
+    <div class="dash-table-wrap affectations-table-scroll">
+        <table class="dash-table" id="affectations-table">
+            <thead>
+                <tr>
+                    <th>Personnel</th>
+                    <th>Grade / Fonction</th>
+                    <th>Compte</th>
+                    <th>Département</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in staff_rows %}
+                {% with person=row.personnel aff=row.affectation %}
+                <tr class="affectation-row">
+                    <td data-label="Personnel">
+                        <div class="affectations-person-cell">
+                            {% if person.photo %}
+                            <img src="{{ person.photo.url }}" alt="" class="affectations-avatar">
+                            {% else %}
+                            <div class="affectations-avatar affectations-avatar-placeholder">
+                                {{ person.prenom|slice:":1"|upper }}{{ person.nom|slice:":1"|upper }}
+                            </div>
+                            {% endif %}
+                            <div>
+                                <strong>{{ person.prenom }} {{ person.nom }} {{ person.postnom }}</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-label="Grade">
+                        <strong>{{ person.grade }}</strong>
+                        {% if person.fonction %}
+                        <span class="dash-cell-muted">{{ person.fonction }}</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Compte">
+                        {% if person.user %}
+                        <strong>{{ person.user.username }}</strong>
+                        <span class="dash-cell-muted">{{ person.user.email }}</span>
+                        {% else %}
+                        <span class="dash-tag" style="background:#f1f5f9;color:#64748b;">Sans compte</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Département">
+                        {% if aff %}
+                        <span class="dash-tag">{{ aff.departement.designation|default:aff.departement.initiale }}</span>
+                        {% else %}
+                        <span class="dash-tag dash-tag-warning">Non affecté</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Date">
+                        {% if aff %}
+                        {{ aff.date_affectation|date:"d/m/Y" }}
+                        {% else %}
+                        —
+                        {% endif %}
+                    </td>
+                    <td data-label="Actions">
+                        <button type="button"
+                                class="dash-btn-outline affectation-edit-btn"
+                                data-personnel-id="{{ person.id }}"
+                                data-personnel-name="{{ person.prenom }} {{ person.nom }} {{ person.postnom }}"
+                                data-departement="{% if aff %}{{ aff.departement_id }}{% endif %}"
+                                data-date="{% if aff %}{{ aff.date_affectation|date:'Y-m-d' }}{% endif %}">
+                            <i class="fas fa-pen"></i>
+                            {% if aff %}Modifier{% else %}Affecter{% endif %}
+                        </button>
+                    </td>
+                </tr>
+                {% endwith %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="dash-empty-state">
+        <i class="fas fa-users"></i>
+        <p>{% if search_query %}Aucun personnel ne correspond à votre recherche.{% else %}Aucun profil personnel enregistré.{% endif %}</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block modals %}
+<div class="dash-modal" id="affectation-modal" aria-hidden="true">
+    <div class="dash-modal-overlay" id="affectation-modal-overlay"></div>
+    <div class="dash-modal-box" role="dialog" aria-labelledby="affectation-modal-title" aria-modal="true">
+        <div class="dash-modal-header">
+            <h3 id="affectation-modal-title"><i class="fas fa-building"></i> Affectation</h3>
+            <button type="button" class="dash-modal-close" id="close-affectation-modal" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="dash-modal-body">
+            <p class="affectations-modal-person" id="affectation-modal-person"></p>
+            <form method="post" id="affectation-modal-form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_staff_affectation">
+                <input type="hidden" name="personnel_id" id="modal-personnel-id" value="">
+                <div class="dash-form-group">
+                    <label for="modal-departement">Département *</label>
+                    <select id="modal-departement" name="departement" required>
+                        <option value="">— Choisir —</option>
+                        {% for dep in departements %}
+                        <option value="{{ dep.id }}">{{ dep.designation|default:dep.initiale }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="dash-form-group">
+                    <label for="modal-date">Date d'affectation *</label>
+                    <input type="date" id="modal-date" name="date_affectation" required>
+                </div>
+                <button type="submit" class="dash-btn-primary dash-btn-block">
+                    <i class="fas fa-save"></i> Enregistrer l'affectation
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var modal = document.getElementById('affectation-modal');
+    var overlay = document.getElementById('affectation-modal-overlay');
+    var closeBtn = document.getElementById('close-affectation-modal');
+    var personLabel = document.getElementById('affectation-modal-person');
+    var personnelIdInput = document.getElementById('modal-personnel-id');
+    var departementSelect = document.getElementById('modal-departement');
+    var dateInput = document.getElementById('modal-date');
+
+    function openModal(btn) {
+        personnelIdInput.value = btn.getAttribute('data-personnel-id');
+        personLabel.textContent = btn.getAttribute('data-personnel-name');
+        departementSelect.value = btn.getAttribute('data-departement') || '';
+        dateInput.value = btn.getAttribute('data-date') || new Date().toISOString().slice(0, 10);
+        modal.classList.add('open');
+        document.body.classList.add('dash-modal-open');
+        departementSelect.focus();
+    }
+
+    function closeModal() {
+        modal.classList.remove('open');
+        document.body.classList.remove('dash-modal-open');
+    }
+
+    document.querySelectorAll('.affectation-edit-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { openModal(btn); });
+    });
+
+    closeBtn && closeBtn.addEventListener('click', closeModal);
+    overlay && overlay.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeModal();
+    });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,306 @@
+/* Page Paramètres — onglets et formulaires */
+
+.dash-settings-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.dash-settings-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 0;
+    padding: 8px;
+    background: var(--dash-card);
+    border: 1px solid var(--dash-border);
+    border-radius: var(--dash-radius) var(--dash-radius) 0 0;
+    border-bottom: none;
+}
+
+.dash-settings-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--dash-muted);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.dash-settings-tab i {
+    font-size: 1rem;
+    width: 18px;
+    text-align: center;
+}
+
+.dash-settings-tab:hover {
+    background: #f1f5f9;
+    color: var(--dash-text);
+}
+
+.dash-settings-tab.active {
+    background: var(--dash-sidebar);
+    color: #fff;
+    border-color: var(--dash-sidebar);
+    box-shadow: 0 4px 14px rgba(13, 35, 66, 0.18);
+}
+
+.dash-settings-tab.active i {
+    color: var(--dash-orange);
+}
+
+.dash-settings-content {
+    position: relative;
+    min-height: 320px;
+    padding: 24px;
+    background: var(--dash-card);
+    border: 1px solid var(--dash-border);
+    border-radius: 0 0 var(--dash-radius) var(--dash-radius);
+    box-shadow: var(--dash-shadow);
+}
+
+.dash-settings-placeholder {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+    animation: dashSettingsFadeIn 0.35s ease;
+}
+
+.dash-settings-placeholder.is-visible {
+    display: block;
+}
+
+.dash-settings-placeholder-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8f0fe, #f4f7fb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dash-accent);
+    font-size: 1.6rem;
+}
+
+.dash-settings-placeholder h3 {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+    color: var(--dash-text);
+}
+
+.dash-settings-placeholder p {
+    color: var(--dash-muted);
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+}
+
+.dash-settings-placeholder-list {
+    list-style: none;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+.dash-settings-placeholder-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #f8fafc;
+    border: 1px solid var(--dash-border);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: var(--dash-text);
+}
+
+.dash-settings-placeholder-list li i {
+    color: var(--dash-accent);
+    width: 18px;
+}
+
+.dash-settings-panel {
+    display: none !important;
+}
+
+.dash-settings-panel.is-visible {
+    display: block !important;
+    animation: dashSettingsFadeIn 0.35s ease;
+}
+
+.dash-settings-panel[hidden] {
+    display: none !important;
+}
+
+@keyframes dashSettingsFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dash-form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.dash-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid var(--dash-border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--dash-muted);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dash-btn-secondary:hover {
+    border-color: var(--dash-accent);
+    color: var(--dash-accent);
+}
+
+.dash-settings-photo-preview {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid var(--dash-border);
+}
+
+.dash-settings-photo-preview img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dash-settings-photo-preview span {
+    font-size: 0.8rem;
+    color: var(--dash-muted);
+}
+
+.dash-settings-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.dash-settings-affectation-list .dash-list-item {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.dash-settings-affectation-item {
+    align-items: center;
+}
+
+.dash-empty-text {
+    color: var(--dash-muted);
+    font-size: 0.88rem;
+    text-align: center;
+    padding: 24px 12px;
+}
+
+.dash-tab-link {
+    border: none;
+    background: none;
+    padding: 0;
+    color: var(--dash-accent);
+    font-weight: 600;
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.dash-tab-link:hover {
+    color: var(--dash-orange);
+}
+
+.dash-settings-delete-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.dash-settings-affectation-card {
+    max-width: 640px;
+}
+
+.dash-settings-affectation-hint {
+    margin: 0 0 18px;
+}
+
+.dash-settings-affectation-readonly {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.dash-settings-affectation-readonly-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid var(--dash-border);
+    border-radius: 10px;
+}
+
+.dash-settings-affectation-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--dash-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+@media (max-width: 768px) {
+    .dash-settings-tabs {
+        flex-direction: column;
+        border-radius: var(--dash-radius) var(--dash-radius) 0 0;
+    }
+
+    .dash-settings-tab {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dash-settings-content {
+        padding: 18px 14px;
+    }
+
+    .dash-settings-placeholder {
+        padding: 32px 12px;
+    }
+
+    .dash-settings-placeholder-list {
+        width: 100%;
+    }
+}

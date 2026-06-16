@@ -1,0 +1,107 @@
+/* Page admin — affectations du personnel */
+
+.affectations-table-header {
+    border-bottom: 1px solid var(--dash-border);
+}
+
+.affectations-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--dash-border);
+    background: #f8fafc;
+}
+
+.affectations-search-bar i {
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.affectations-search-bar input[type="search"] {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    border: 1px solid var(--dash-border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    outline: none;
+    background: #fff;
+}
+
+.affectations-search-bar input[type="search"]:focus {
+    border-color: var(--dash-accent);
+}
+
+.affectations-search-btn {
+    flex-shrink: 0;
+    padding: 10px 16px;
+}
+
+.affectations-table-scroll {
+    padding: 0 4px 8px;
+}
+
+.affectations-person-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.affectations-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.affectations-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--dash-accent), var(--dash-orange));
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.affectation-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.affectations-modal-person {
+    margin: 0 0 18px;
+    padding: 12px 14px;
+    background: #f8fafc;
+    border: 1px solid var(--dash-border);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: var(--dash-text);
+}
+
+.affectations-modal-person::before {
+    content: 'Personnel : ';
+    color: var(--dash-muted);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .affectations-search-bar {
+        flex-wrap: wrap;
+    }
+
+    .affectations-search-bar input[type="search"] {
+        width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .affectations-search-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

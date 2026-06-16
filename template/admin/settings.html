@@ -1,94 +1,272 @@
 {% extends 'admin/base_dashboard.html' %}
+{% load static %}
 
-{% block title %}Settings{% endblock %}
+{% block title %}Paramètres{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock %}
 
 {% block content %}
 
 <div class="dash-page-header">
-    <h1>Settings</h1>
-    <p>Paramètres de votre compte et préférences.</p>
+    <h1>Paramètres</h1>
+    <p>Choisissez une section ci-dessous pour modifier vos informations.</p>
 </div>
 
-<div class="dash-grid-2">
-    <div class="dash-card">
-        <div class="dash-card-header">
-            <h3>Profil</h3>
-        </div>
-        <div class="dash-card-body">
-            <div class="dash-form-group">
-                <label>Nom complet</label>
-                <input type="text" value="Enseignant ISP">
-            </div>
-            <div class="dash-form-group">
-                <label>Email</label>
-                <input type="email" value="enseignant@ispisiro.ac.cd">
-            </div>
-            <div class="dash-form-group">
-                <label>Rôle</label>
-                <select>
-                    <option>Enseignant</option>
-                    <option selected>Administrateur</option>
-                </select>
-            </div>
-            <div class="dash-form-group">
-                <label>Département</label>
-                <select>
-                    <option>Sciences de l'éducation</option>
-                    <option>Pédagogie générale</option>
-                    <option>Didactique</option>
-                </select>
-            </div>
-            <button class="dash-btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
-        </div>
+<div class="dash-settings-wrap">
+    <div class="dash-settings-tabs" role="tablist" aria-label="Sections des paramètres">
+        <button type="button"
+                class="dash-settings-tab{% if active_tab == 'compte' %} active{% endif %}"
+                data-tab="compte"
+                role="tab"
+                aria-selected="{% if active_tab == 'compte' %}true{% else %}false{% endif %}"
+                aria-controls="tab-compte"
+                id="btn-tab-compte">
+            <i class="fas fa-user-circle"></i>
+            <span>Mon compte</span>
+        </button>
+        <button type="button"
+                class="dash-settings-tab{% if active_tab == 'personnel' %} active{% endif %}"
+                data-tab="personnel"
+                role="tab"
+                aria-selected="{% if active_tab == 'personnel' %}true{% else %}false{% endif %}"
+                aria-controls="tab-personnel"
+                id="btn-tab-personnel">
+            <i class="fas fa-id-card"></i>
+            <span>Profil personnel</span>
+        </button>
+        <button type="button"
+                class="dash-settings-tab{% if active_tab == 'affectation' %} active{% endif %}"
+                data-tab="affectation"
+                role="tab"
+                aria-selected="{% if active_tab == 'affectation' %}true{% else %}false{% endif %}"
+                aria-controls="tab-affectation"
+                id="btn-tab-affectation">
+            <i class="fas fa-building"></i>
+            <span>Departement</span>
+        </button>
     </div>
 
-    <div class="dash-card">
-        <div class="dash-card-header">
-            <h3>Sécurité</h3>
+    <div class="dash-settings-content">
+        <div class="dash-settings-placeholder{% if not active_tab %} is-visible{% endif %}" id="settings-placeholder" role="status">
+            <div class="dash-settings-placeholder-icon">
+                <i class="fas fa-hand-pointer"></i>
+            </div>
+            <h3>Sélectionnez une section</h3>
+            <p>Cliquez sur un onglet pour afficher et modifier vos informations.</p>
+            <ul class="dash-settings-placeholder-list">
+                <li><i class="fas fa-user-circle"></i> Identifiants et mot de passe</li>
+                <li><i class="fas fa-id-card"></i> Fiche affichée sur le site public</li>
+                <li><i class="fas fa-building"></i> Département d'affectation (lecture seule)</li>
+            </ul>
         </div>
-        <div class="dash-card-body">
-            <div class="dash-form-group">
-                <label>Mot de passe actuel</label>
-                <input type="password" placeholder="••••••••">
-            </div>
-            <div class="dash-form-group">
-                <label>Nouveau mot de passe</label>
-                <input type="password" placeholder="••••••••">
-            </div>
-            <div class="dash-form-group">
-                <label>Confirmer le mot de passe</label>
-                <input type="password" placeholder="••••••••">
-            </div>
-            <button class="dash-btn-primary"><i class="fas fa-lock"></i> Mettre à jour</button>
-        </div>
-    </div>
-</div>
 
-<div class="dash-card">
-    <div class="dash-card-header">
-        <h3>Notifications</h3>
-    </div>
-    <div class="dash-card-body">
-        <div class="dash-list-item" style="padding-left:0;padding-right:0;">
-            <div class="dash-list-info">
-                <strong>Nouveaux dépôts d'ouvrages</strong>
-                <span>Recevoir une alerte quand un étudiant dépose un document</span>
+        <!-- Onglet Compte -->
+        <div class="dash-settings-panel{% if active_tab == 'compte' %} is-visible{% endif %}"
+             id="tab-compte"
+             role="tabpanel"
+             aria-labelledby="btn-tab-compte"
+             {% if active_tab != 'compte' %}hidden{% endif %}>
+            <div class="dash-grid-2">
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3><i class="fas fa-user"></i> Informations du compte</h3>
+                    </div>
+                    <div class="dash-card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="update_account">
+                            <div class="dash-form-group">
+                                <label for="username">Identifiant</label>
+                                <input type="text" id="username" name="username" value="{{ user.username }}" required>
+                            </div>
+                            <div class="dash-form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                            </div>
+                            <div class="dash-form-row">
+                                <div class="dash-form-group">
+                                    <label for="first_name">Prénom</label>
+                                    <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}">
+                                </div>
+                                <div class="dash-form-group">
+                                    <label for="last_name">Nom</label>
+                                    <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}">
+                                </div>
+                            </div>
+                            <div class="dash-form-group">
+                                <label>Rôle</label>
+                                <input type="text" value="{% if user.is_administrator %}Administrateur{% else %}Personnel{% endif %}" disabled>
+                            </div>
+                            <button type="submit" class="dash-btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3><i class="fas fa-lock"></i> Sécurité</h3>
+                    </div>
+                    <div class="dash-card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="update_account">
+                            <input type="hidden" name="username" value="{{ user.username }}">
+                            <input type="hidden" name="email" value="{{ user.email }}">
+                            <input type="hidden" name="first_name" value="{{ user.first_name }}">
+                            <input type="hidden" name="last_name" value="{{ user.last_name }}">
+                            <div class="dash-form-group">
+                                <label for="current_password">Mot de passe actuel</label>
+                                <input type="password" id="current_password" name="current_password" placeholder="••••••••" autocomplete="current-password">
+                            </div>
+                            <div class="dash-form-group">
+                                <label for="new_password">Nouveau mot de passe</label>
+                                <input type="password" id="new_password" name="new_password" placeholder="••••••••" autocomplete="new-password">
+                            </div>
+                            <div class="dash-form-group">
+                                <label for="confirm_password">Confirmer le mot de passe</label>
+                                <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" autocomplete="new-password">
+                            </div>
+                            <button type="submit" class="dash-btn-primary"><i class="fas fa-key"></i> Mettre à jour le mot de passe</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <span class="dash-tag">Activé</span>
         </div>
-        <div class="dash-list-item" style="padding-left:0;padding-right:0;">
-            <div class="dash-list-info">
-                <strong>Inscriptions étudiants</strong>
-                <span>Notification à chaque nouvelle inscription</span>
+
+        <!-- Onglet Personnel -->
+        <div class="dash-settings-panel{% if active_tab == 'personnel' %} is-visible{% endif %}"
+             id="tab-personnel"
+             role="tabpanel"
+             aria-labelledby="btn-tab-personnel"
+             {% if active_tab != 'personnel' %}hidden{% endif %}>
+            <div class="dash-card">
+                <div class="dash-card-header">
+                    <h3><i class="fas fa-id-card"></i> Fiche personnel</h3>
+                    <span class="dash-tag">Affichée sur le site public</span>
+                </div>
+                <div class="dash-card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="update_personnel">
+                        <div class="dash-form-row">
+                            <div class="dash-form-group">
+                                <label for="nom">Nom *</label>
+                                <input type="text" id="nom" name="nom" value="{{ personnel.nom|default:'' }}" required>
+                            </div>
+                            <div class="dash-form-group">
+                                <label for="postnom">Postnom *</label>
+                                <input type="text" id="postnom" name="postnom" value="{{ personnel.postnom|default:'' }}" required>
+                            </div>
+                            <div class="dash-form-group">
+                                <label for="prenom">Prénom *</label>
+                                <input type="text" id="prenom" name="prenom" value="{{ personnel.prenom|default:'' }}" required>
+                            </div>
+                        </div>
+                        <div class="dash-form-row">
+                            <div class="dash-form-group">
+                                <label for="grade">Grade *</label>
+                                <input type="text" id="grade" name="grade" value="{{ personnel.grade|default:'' }}" placeholder="Ex : Professeur ordinaire" required>
+                            </div>
+                            <div class="dash-form-group">
+                                <label for="fonction">Fonction</label>
+                                <input type="text" id="fonction" name="fonction" value="{{ personnel.fonction|default:'' }}" placeholder="Ex : Doyen, Enseignant…">
+                            </div>
+                        </div>
+                        <div class="dash-form-group">
+                            <label for="description">Description / biographie</label>
+                            <textarea id="description" name="description" rows="5" placeholder="Présentation courte affichée sur le site">{{ personnel.description|default:'' }}</textarea>
+                        </div>
+                        <div class="dash-form-group">
+                            <label for="photo">Photo</label>
+                            {% if personnel.photo %}
+                            <div class="dash-settings-photo-preview">
+                                <img src="{{ personnel.photo.url }}" alt="Photo actuelle">
+                                <span>Photo actuelle — choisissez un fichier pour la remplacer</span>
+                            </div>
+                            {% endif %}
+                            <input type="file" id="photo" name="photo" accept="image/*" {% if not personnel %}required{% endif %}>
+                        </div>
+                        <button type="submit" class="dash-btn-primary"><i class="fas fa-save"></i> Enregistrer le profil</button>
+                    </form>
+                </div>
             </div>
-            <span class="dash-tag">Activé</span>
         </div>
-        <div class="dash-list-item" style="padding-left:0;padding-right:0;border:none;">
-            <div class="dash-list-info">
-                <strong>Rapport hebdomadaire</strong>
-                <span>Résumé d'activité envoyé chaque lundi</span>
+
+        <!-- Onglet Affectation -->
+        <div class="dash-settings-panel{% if active_tab == 'affectation' %} is-visible{% endif %}"
+             id="tab-affectation"
+             role="tabpanel"
+             aria-labelledby="btn-tab-affectation"
+             {% if active_tab != 'affectation' %}hidden{% endif %}>
+            <div class="dash-card dash-settings-affectation-card">
+                <div class="dash-card-header">
+                    <h3><i class="fas fa-building"></i> Affectation au département</h3>
+                    {% if user.is_administrator %}
+                    <span class="dash-tag">Modifiable</span>
+                    {% else %}
+                    <span class="dash-tag" style="background:#f1f5f9;color:#64748b;">Lecture seule</span>
+                    {% endif %}
+                </div>
+                <div class="dash-card-body">
+                    {% if not personnel %}
+                    <div class="dash-alert dash-alert-warning">
+                        Complétez d'abord votre <button type="button" class="dash-tab-link" data-tab="personnel">profil personnel</button>.
+                    </div>
+                    {% elif user.is_administrator %}
+                    <form method="post" id="affectation-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="update_affectation">
+                        <div class="dash-form-row">
+                            <div class="dash-form-group">
+                                <label for="departement">Département *</label>
+                                <select id="departement" name="departement" required>
+                                    <option value="">— Choisir —</option>
+                                    {% for dep in departements %}
+                                    <option value="{{ dep.id }}"{% if affectation and affectation.departement_id == dep.id %} selected{% endif %}>
+                                        {{ dep.designation|default:dep.initiale }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="dash-form-group">
+                                <label for="date_affectation">Date d'affectation *</label>
+                                <input type="date" id="date_affectation" name="date_affectation"
+                                       value="{% if affectation %}{{ affectation.date_affectation|date:'Y-m-d' }}{% endif %}" required>
+                            </div>
+                        </div>
+                        <p class="dash-field-hint dash-settings-affectation-hint">
+                            {% if affectation %}
+                            Une seule affectation par membre du personnel. Vous pouvez la modifier en tant qu'administrateur.
+                            {% else %}
+                            Définissez le département d'affectation (une seule fois).
+                            {% endif %}
+                        </p>
+                        <button type="submit" class="dash-btn-primary">
+                            <i class="fas fa-save"></i>
+                            {% if affectation %}Mettre à jour{% else %}Enregistrer l'affectation{% endif %}
+                        </button>
+                    </form>
+                    {% elif affectation %}
+                    <div class="dash-settings-affectation-readonly">
+                        <div class="dash-settings-affectation-readonly-item">
+                            <span class="dash-settings-affectation-label">Département</span>
+                            <strong>{{ affectation.departement.designation|default:affectation.departement.initiale }}</strong>
+                        </div>
+                        <div class="dash-settings-affectation-readonly-item">
+                            <span class="dash-settings-affectation-label">Date d'affectation</span>
+                            <strong>{{ affectation.date_affectation|date:'d/m/Y' }}</strong>
+                        </div>
+                    </div>
+                    <p class="dash-field-hint">Seul un administrateur peut modifier cette affectation.</p>
+                    {% else %}
+                    <div class="dash-alert dash-alert-info">
+                        Aucune affectation enregistrée. Contactez un administrateur pour être affecté à un département.
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            <span class="dash-tag" style="background:#f1f5f9;color:#64748b;">Désactivé</span>
         </div>
     </div>
 </div>
@@ -96,3 +274,54 @@
 {% endblock %}
 
 {% block right_panel %}{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.dash-settings-tab');
+    var panels = document.querySelectorAll('.dash-settings-panel');
+    var placeholder = document.getElementById('settings-placeholder');
+    var tabLinks = document.querySelectorAll('.dash-tab-link');
+
+    function showTab(name) {
+        tabs.forEach(function (tab) {
+            var isActive = tab.getAttribute('data-tab') === name;
+            tab.classList.toggle('active', isActive);
+            tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        panels.forEach(function (panel) {
+            var isVisible = panel.id === 'tab-' + name;
+            panel.classList.toggle('is-visible', isVisible);
+            panel.hidden = !isVisible;
+        });
+
+        if (placeholder) {
+            placeholder.classList.toggle('is-visible', !name);
+        }
+
+        if (history.replaceState) {
+            history.replaceState(null, '', name ? '?tab=' + name : window.location.pathname);
+        }
+    }
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            showTab(tab.getAttribute('data-tab'));
+        });
+    });
+
+    tabLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            showTab(link.getAttribute('data-tab'));
+        });
+    });
+
+    var initialTab = new URLSearchParams(window.location.search).get('tab');
+    if (initialTab && document.getElementById('tab-' + initialTab)) {
+        showTab(initialTab);
+    }
+})();
+</script>
+{% endblock %}

@@ -6,19 +6,20 @@ from userapp.models import User
 # Create your models here.
 
 class Personnel(models.Model):
-    nom = models.CharField(max_length=50)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='personnel')
+    nom = models.CharField(max_length=50) 
     postnom = models.CharField(max_length=50)
     prenom = models.CharField(max_length=50)
     grade = models.CharField(max_length=50)
-    fonction = models.CharField(max_length=50, null=True)
-    description = models.TextField(null=True)
-    photo = models.ImageField(upload_to='personnel')
+    fonction = models.CharField(max_length=50, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    photo = models.ImageField(upload_to='personnel', null=True, blank=True)
 
 class AffectionPersonnel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     personnel = models.ForeignKey(Personnel, on_delete=models.CASCADE)
     departement = models.ForeignKey(Departements, on_delete=models.CASCADE)
-    date_affectation = models.DateField()
+    date_affectation = models.DateField(auto_now_add=True)
     date_fin_affectation = models.DateField(null=True, blank=True)
 
     def __str__(self):

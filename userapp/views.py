@@ -1,9 +1,10 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, update_session_auth_hash
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from clientapp.models import Categories, Articles
+from clientapp.models import Categories, Articles, Personnel, AffectionPersonnel
+from etudiantapp.models import Departements
 from userapp.models import User
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from functools import wraps
 
 
@@ -18,6 +19,40 @@ def personnel_required(view_func):
             return redirect('login')
         return view_func(request, *args, **kwargs)
     return wrapper
+
+
+def administrator_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        if not request.user.is_personnel:
+            messages.error(request, 'Accès réservé au personnel.')
+            auth_logout(request)
+            return redirect('login')
+        if not request.user.is_administrator:
+            messages.error(request, 'Accès réservé aux administrateurs.')
+            return redirect('dash_home')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+def _save_personnel_affectation(personnel, departement, date_affectation):
+    existing = AffectionPersonnel.objects.filter(personnel=personnel).first()
+    if existing:
+        existing.departement = departement
+        existing.date_affectation = date_affectation
+        existing.date_fin_affectation = None
+        existing.save()
+        pk = existing.pk
+    else:
+        aff = AffectionPersonnel.objects.create(
+            personnel=personnel,
+            departement=departement,
+            date_affectation=date_affectation,
+        )
+        pk = aff.pk
+    AffectionPersonnel.objects.filter(personnel=personnel).exclude(pk=pk).delete()
 
 
 def login(request):
@@ -158,8 +193,6 @@ def dashboardOuvragesPage(request):
                     messages.error(request, 'Veuillez choisir une image de couverture.')
                 elif is_payant and not contact:
                     messages.error(request, 'Le numéro WhatsApp de contact est obligatoire pour un document payant.')
-                elif is_payant and not fichier:
-                    messages.error(request, 'Veuillez joindre le fichier du document.')
                 else:
                     from decimal import Decimal, InvalidOperation
                     prix = None
@@ -254,4 +287,170 @@ def dashboardEtudiantsPage(request):
 
 @personnel_required
 def dashboardSettingsPage(request):
-    return render(request, 'admin/settings.html', {'active_menu': 'settings'})
+    personnel = Personnel.objects.filter(user=request.user).first()
+    affectation = None
+    if personnel:
+        affectation = AffectionPersonnel.objects.filter(
+            personnel=personnel
+        ).select_related('departement').first()
+
+    active_tab = request.GET.get('tab', '')
+    if active_tab not in ('compte', 'personnel', 'affectation'):
+        active_tab = ''
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        redirect_tab = active_tab
+
+        if action == 'update_account':
+            redirect_tab = 'compte'
+            username = request.POST.get('username', '').strip()
+            email = request.POST.get('email', '').strip()
+            first_name = request.POST.get('first_name', '').strip()
+            last_name = request.POST.get('last_name', '').strip()
+            current_password = request.POST.get('current_password', '')
+            new_password = request.POST.get('new_password', '')
+            confirm_password = request.POST.get('confirm_password', '')
+
+            if not username or not email:
+                messages.error(request, 'Identifiant et email sont obligatoires.')
+            elif User.objects.filter(username__iexact=username).exclude(pk=request.user.pk).exists():
+                messages.error(request, f'L\'identifiant « {username} » est déjà utilisé.')
+            elif User.objects.filter(email__iexact=email).exclude(pk=request.user.pk).exists():
+                messages.error(request, 'Cet email est déjà utilisé.')
+            else:
+                user = request.user
+                user.username = username
+                user.email = email
+                user.first_name = first_name
+                user.last_name = last_name
+
+                if new_password or confirm_password or current_password:
+                    if not current_password:
+                        messages.error(request, 'Indiquez votre mot de passe actuel pour le modifier.')
+                        return redirect(f'{request.path}?tab={redirect_tab}')
+                    if new_password != confirm_password:
+                        messages.error(request, 'Les nouveaux mots de passe ne correspondent pas.')
+                        return redirect(f'{request.path}?tab={redirect_tab}')
+                    if not user.check_password(current_password):
+                        messages.error(request, 'Mot de passe actuel incorrect.')
+                        return redirect(f'{request.path}?tab={redirect_tab}')
+                    user.set_password(new_password)
+                    user.save()
+                    update_session_auth_hash(request, user)
+                    messages.success(request, 'Compte et mot de passe mis à jour.')
+                else:
+                    user.save()
+                    messages.success(request, 'Compte mis à jour.')
+
+        elif action == 'update_personnel':
+            redirect_tab = 'personnel'
+            nom = request.POST.get('nom', '').strip()
+            postnom = request.POST.get('postnom', '').strip()
+            prenom = request.POST.get('prenom', '').strip()
+            grade = request.POST.get('grade', '').strip()
+            fonction = request.POST.get('fonction', '').strip()
+            description = request.POST.get('description', '').strip()
+            photo = request.FILES.get('photo')
+
+            if not nom or not postnom or not prenom or not grade:
+                messages.error(request, 'Nom, postnom, prénom et grade sont obligatoires.')
+            elif not personnel and not photo:
+                messages.error(request, 'Veuillez ajouter une photo de profil.')
+            else:
+                if not personnel:
+                    personnel = Personnel(user=request.user)
+                personnel.nom = nom
+                personnel.postnom = postnom
+                personnel.prenom = prenom
+                personnel.grade = grade
+                personnel.fonction = fonction or None
+                personnel.description = description or None
+                if photo:
+                    personnel.photo = photo
+                personnel.user = request.user
+                personnel.save()
+                messages.success(request, 'Profil personnel enregistré.')
+ 
+        elif action == 'update_affectation':
+            redirect_tab = 'affectation'
+            if not request.user.is_administrator:
+                messages.error(request, 'Seul un administrateur peut modifier l\'affectation.')
+                return redirect(f'{request.path}?tab={redirect_tab}')
+            if not personnel:
+                messages.error(request, 'Complétez d\'abord votre profil personnel.')
+                return redirect(f'{request.path}?tab=personnel')
+
+            departement_id = request.POST.get('departement')
+            date_affectation = request.POST.get('date_affectation', '').strip()
+
+            if not departement_id or not date_affectation:
+                messages.error(request, 'Département et date d\'affectation sont obligatoires.')
+            else:
+                departement = get_object_or_404(Departements, id=departement_id)
+                _save_personnel_affectation(personnel, departement, date_affectation)
+                messages.success(request, 'Affectation enregistrée.')
+
+        return redirect(f'{request.path}?tab={redirect_tab}')
+
+    return render(request, 'admin/settings.html', {
+        'active_menu': 'settings',
+        'active_tab': active_tab,
+        'personnel': personnel,
+        'affectation': affectation,
+        'departements': Departements.objects.filter(is_active=True).order_by('designation'),
+    })
+
+
+@administrator_required
+def dashboardAffectationsPage(request):
+    departements = Departements.objects.filter(is_active=True).order_by('designation')
+    search = request.GET.get('q', '').strip()
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'update_staff_affectation':
+            personnel = get_object_or_404(Personnel, id=request.POST.get('personnel_id'))
+            departement_id = request.POST.get('departement')
+            date_affectation = request.POST.get('date_affectation', '').strip()
+
+            if not departement_id or not date_affectation:
+                messages.error(request, 'Département et date d\'affectation sont obligatoires.')
+            else:
+                departement = get_object_or_404(Departements, id=departement_id)
+                _save_personnel_affectation(personnel, departement, date_affectation)
+                nom = f'{personnel.prenom} {personnel.nom} {personnel.postnom}'.strip()
+                messages.success(request, f'Affectation de « {nom} » enregistrée.')
+        return redirect('dash_affectations')
+
+    affectations = {
+        aff.personnel_id: aff
+        for aff in AffectionPersonnel.objects.select_related('departement')
+    }
+
+    staff_list = Personnel.objects.select_related('user').order_by('nom', 'postnom', 'prenom')
+    if search:
+        staff_list = staff_list.filter(
+            Q(nom__icontains=search) |
+            Q(postnom__icontains=search) |
+            Q(prenom__icontains=search) |
+            Q(grade__icontains=search) |
+            Q(fonction__icontains=search) |
+            Q(user__username__icontains=search) |
+            Q(user__email__icontains=search)
+        )
+
+    staff_rows = []
+    for person in staff_list:
+        staff_rows.append({
+            'personnel': person,
+            'affectation': affectations.get(person.id),
+        })
+
+    return render(request, 'admin/affectations.html', {
+        'active_menu': 'affectations',
+        'staff_rows': staff_rows,
+        'departements': departements,
+        'search_query': search,
+        'total_count': len(staff_rows),
+    })

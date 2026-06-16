@@ -65,11 +65,11 @@ class Categories(models.Model):
 
 class Articles(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    titre = models.CharField(max_length=255)
+    titre = models.TextField()
     contenu = models.TextField()
     image = models.ImageField(upload_to='articles/')
     date_publication = models.DateTimeField(auto_now_add=True)
-    auteur = models.CharField(max_length=100)
+    auteur = models.TextField()
     categorie = models.ForeignKey(Categories, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     fichier = models.FileField(upload_to='articles/fichiers/', null=True, blank=True)

@@ -1102,6 +1102,18 @@ body.dash-menu-open {
     padding: 20px;
 }
 
+.ouvrages-upload-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.ouvrages-upload-notice i {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
 .dash-btn-block {
     width: 100%;
     justify-content: center;

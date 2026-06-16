@@ -7,6 +7,15 @@ from etudiantapp.models import Departements
 from userapp.models import User
 from functools import wraps
 
+ARTICLE_FILE_MAX_SIZE = 4 * 1024 * 1024  # 4 Mo par fichier
+
+
+def _check_upload_size(uploaded_file, label):
+    if uploaded_file and uploaded_file.size > ARTICLE_FILE_MAX_SIZE:
+        size_mo = uploaded_file.size / (1024 * 1024)
+        return f'{label} trop volumineux ({size_mo:.1f} Mo). Taille maximum : 4 Mo.'
+    return None
+
 
 def personnel_required(view_func):
     @wraps(view_func)
@@ -194,35 +203,39 @@ def dashboardOuvragesPage(request):
                 elif is_payant and not contact:
                     messages.error(request, 'Le numéro WhatsApp de contact est obligatoire pour un document payant.')
                 else:
-                    from decimal import Decimal, InvalidOperation
-                    prix = None
-                    if is_payant and prix_str:
-                        try:
-                            prix = Decimal(prix_str.replace(',', '.'))
-                            if prix < 0:
-                                raise InvalidOperation
-                        except InvalidOperation:
-                            messages.error(request, 'Prix invalide.')
-                            return redirect('dash_ouvrages')
-
-                    categorie = get_object_or_404(Categories, id=categorie_id)
-                    Articles.objects.create(
-                        titre=titre,
-                        auteur=auteur,
-                        contenu=contenu,
-                        categorie=categorie,
-                        image=image,
-                        fichier=fichier,
-                        is_active=publier,
-                        is_payant=is_payant,
-                        prix=prix if is_payant else None,
-                        contact=contact if is_payant else None,
-                        user=request.user,
-                    )
-                    if publier:
-                        messages.success(request, f'Ouvrage « {titre} » enregistré et publié.')
+                    size_error = _check_upload_size(image, 'L\'image de couverture') or _check_upload_size(fichier, 'Le fichier du document')
+                    if size_error:
+                        messages.error(request, size_error)
                     else:
-                        messages.success(request, f'Ouvrage « {titre} » enregistré (en attente de validation).')
+                        from decimal import Decimal, InvalidOperation
+                        prix = None
+                        if is_payant and prix_str:
+                            try:
+                                prix = Decimal(prix_str.replace(',', '.'))
+                                if prix < 0:
+                                    raise InvalidOperation
+                            except InvalidOperation:
+                                messages.error(request, 'Prix invalide.')
+                                return redirect('dash_ouvrages')
+
+                        categorie = get_object_or_404(Categories, id=categorie_id)
+                        Articles.objects.create(
+                            titre=titre,
+                            auteur=auteur,
+                            contenu=contenu,
+                            categorie=categorie,
+                            image=image,
+                            fichier=fichier,
+                            is_active=publier,
+                            is_payant=is_payant,
+                            prix=prix if is_payant else None,
+                            contact=contact if is_payant else None,
+                            user=request.user,
+                        )
+                        if publier:
+                            messages.success(request, f'Ouvrage « {titre} » enregistré et publié.')
+                        else:
+                            messages.success(request, f'Ouvrage « {titre} » enregistré (en attente de validation).')
                 return redirect('dash_ouvrages')
 
             if action == 'validate_article':

@@ -27,6 +27,10 @@
             </div>
             <div class="dash-card-body">
                 {% if categories %}
+                <div class="dash-alert dash-alert-info ouvrages-upload-notice">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Chaque fichier (image ou document) ne doit pas dépasser <strong>4 Mo</strong>.</span>
+                </div>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="add_article">
@@ -50,6 +54,7 @@
                     <div class="dash-form-group">
                         <label for="image">Image de couverture *</label>
                         <input type="file" id="image" name="image" accept="image/*" required>
+                        <small class="dash-field-hint">Maximum 4 Mo</small>
                     </div>
                     <div class="dash-form-group">
                         <label for="contenu">Contenu / résumé *</label>
@@ -58,7 +63,7 @@
                     <div class="dash-form-group">
                         <label for="fichier">Fichier du document</label>
                         <input type="file" id="fichier" name="fichier" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip">
-                        <small class="dash-field-hint">PDF, Word, PowerPoint ou ZIP</small>
+                        <small class="dash-field-hint">PDF, Word, PowerPoint ou ZIP — maximum 4 Mo</small>
                     </div>
                     <div class="dash-form-group dash-checkbox-group">
                         <label>
@@ -353,6 +358,54 @@
 
     payantCheck.addEventListener('change', togglePayantFields);
     togglePayantFields();
+})();
+
+(function () {
+    var form = document.querySelector('.ouvrages-form-card form[enctype="multipart/form-data"]');
+    if (!form) return;
+    var maxBytes = 4 * 1024 * 1024;
+    var notice = document.querySelector('.ouvrages-upload-notice');
+
+    function showFileNotice(text) {
+        if (!notice) {
+            alert(text);
+            return;
+        }
+        notice.className = 'dash-alert dash-alert-error ouvrages-upload-notice';
+        notice.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>' + text + '</span>';
+    }
+
+    function resetNotice() {
+        if (!notice) return;
+        notice.className = 'dash-alert dash-alert-info ouvrages-upload-notice';
+        notice.innerHTML = '<i class="fas fa-info-circle"></i><span>Chaque fichier (image ou document) ne doit pas dépasser <strong>4 Mo</strong>.</span>';
+    }
+
+    ['image', 'fichier'].forEach(function (name) {
+        var input = form.querySelector('[name="' + name + '"]');
+        if (!input) return;
+        input.addEventListener('change', function () {
+            resetNotice();
+            if (input.files && input.files[0] && input.files[0].size > maxBytes) {
+                var mo = (input.files[0].size / (1024 * 1024)).toFixed(1);
+                var label = name === 'image' ? 'L\'image de couverture' : 'Le fichier du document';
+                showFileNotice(label + ' fait ' + mo + ' Mo. Taille maximum : 4 Mo.');
+                input.value = '';
+            }
+        });
+    });
+
+    form.addEventListener('submit', function (e) {
+        var labels = { image: 'L\'image de couverture', fichier: 'Le fichier du document' };
+        for (var name in labels) {
+            var input = form.querySelector('[name="' + name + '"]');
+            if (input && input.files && input.files[0] && input.files[0].size > maxBytes) {
+                e.preventDefault();
+                showFileNotice(labels[name] + ' dépasse 4 Mo. Veuillez choisir un fichier plus léger.');
+                return;
+            }
+        }
+    });
 })();
 </script>
 {% endblock %}

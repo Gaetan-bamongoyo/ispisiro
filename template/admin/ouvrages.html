@@ -65,16 +65,18 @@
                             <input type="checkbox" name="is_payant" id="is-payant">
                             Document payant
                         </label>
-                        <small>Si coché, le téléchargement sera bloqué et un contact WhatsApp sera proposé.</small>
+                        <small>Si coché, le téléchargement est bloqué — le visiteur vous contacte via WhatsApp (prix facultatif).</small>
                     </div>
                     <div id="payant-fields" class="ouvrages-payant-fields" style="display:none;">
                         <div class="dash-form-group">
-                            <label for="prix">Prix (USD)</label>
-                            <input type="number" id="prix" name="prix" step="0.01" min="0" placeholder="Ex : 5.00">
-                        </div>
-                        <div class="dash-form-group">
                             <label for="contact">Contact WhatsApp *</label>
                             <input type="text" id="contact" name="contact" placeholder="+243 81 234 56 78">
+                            <small class="dash-field-hint">Obligatoire pour un document payant.</small>
+                        </div>
+                        <div class="dash-form-group">
+                            <label for="prix">Prix (USD) <span class="dash-label-optional">facultatif</span></label>
+                            <input type="number" id="prix" name="prix" step="0.01" min="0" placeholder="Laisser vide si le montant n'est pas affiché">
+                            <small class="dash-field-hint">Optionnel — le visiteur pourra vous contacter sans voir de prix.</small>
                         </div>
                     </div>
                     {% if user.is_administrator %}

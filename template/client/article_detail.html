@@ -37,18 +37,21 @@
             </div>
 
             <div class="blog-sidebar">
-                {% if article.fichier %}
+                {% if article.fichier or article.is_payant %}
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Document</h3>
                     {% if article.is_payant %}
                     <p style="margin-bottom:12px; color: var(--text-light); line-height:1.6;">
-                        Document payant{% if article.prix %} ({{ article.prix }} USD){% endif %}.
-                        Téléchargement sur demande via WhatsApp.
+                        {% if article.prix %}
+                        Document payant ({{ article.prix }} USD). Téléchargement sur demande via WhatsApp.
+                        {% else %}
+                        Document payant — contactez l'auteur via WhatsApp pour obtenir le fichier.
+                        {% endif %}
                     </p>
                     <a href="{{ article.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%; text-align:center; display:block; background:#25d366; border-color:#25d366;">
-                        <i class="fab fa-whatsapp"></i> Demander le document
+                        <i class="fab fa-whatsapp"></i> Me contacter
                     </a>
-                    {% else %}
+                    {% elif article.fichier %}
                     <p style="margin-bottom:12px; color: var(--text-light);">Téléchargement gratuit.</p>
                     <a href="{{ article.fichier.url }}" download class="btn btn-primary" style="width:100%; text-align:center; display:block;">
                         <i class="fas fa-download"></i> Télécharger
@@ -63,7 +66,7 @@
                         <li><i class="fas fa-folder-open"></i> <strong>Catégorie:</strong> {{ article.categorie.nom }}</li>
                         <li><i class="fas fa-user-edit"></i> <strong>Auteur:</strong> {{ article.auteur }}</li>
                         <li><i class="fas fa-calendar-alt"></i> <strong>Publié le:</strong> {{ article.date_publication|date:"d M Y" }}</li>
-                        {% if article.fichier %}
+                        {% if article.fichier or article.is_payant %}
                         <li><i class="fas fa-file-alt"></i> <strong>Accès:</strong> {% if article.is_payant %}Payant{% else %}Gratuit{% endif %}</li>
                         {% endif %}
                         {% if article.is_payant and article.prix %}

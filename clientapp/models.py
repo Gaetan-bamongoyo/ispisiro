@@ -98,6 +98,8 @@ class Articles(models.Model):
         message = f"Bonjour, je souhaite obtenir le document « {self.titre} »."
         if self.prix:
             message += f" Prix indiqué : {self.prix} USD."
+        else:
+            message += " Merci de me contacter pour les modalités."
         return f"https://wa.me/{self.whatsapp_digits}?text={quote(message)}"
         
     class Meta:

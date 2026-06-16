@@ -1080,6 +1080,12 @@ body.dash-menu-open {
     color: var(--dash-muted);
 }
 
+.dash-label-optional {
+    font-weight: 500;
+    color: var(--dash-muted);
+    font-size: 0.78rem;
+}
+
 .ouvrages-payant-fields {
     padding: 14px;
     margin-bottom: 16px;

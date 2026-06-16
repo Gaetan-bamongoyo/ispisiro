@@ -199,6 +199,8 @@ def dashboardOuvragesPage(request):
                     if is_payant and prix_str:
                         try:
                             prix = Decimal(prix_str.replace(',', '.'))
+                            if prix < 0:
+                                raise InvalidOperation
                         except InvalidOperation:
                             messages.error(request, 'Prix invalide.')
                             return redirect('dash_ouvrages')

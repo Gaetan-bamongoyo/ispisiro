@@ -249,7 +249,7 @@
 
             <div class="personnel-notice">
                 <i class="fas fa-info-circle"></i>
-                Cette page est réservée au <strong>personnel</strong>. Les étudiants se connectent avec leur matricule, sans inscription.
+                Cette page est réservée aux <strong>enseignants</strong> et au <strong>personnel administratif</strong>.
             </div>
 
             {% if messages %}
@@ -264,7 +264,7 @@
                 {% csrf_token %}
 
                 <div class="form-group">
-                    <label for="id_username" class="form-label">Identifiant</label>
+                    <label for="id_username" class="form-label">Nom d'utilisateur</label>
                     <input id="id_username" name="username" type="text" class="form-control" placeholder="Nom d'utilisateur" required autocomplete="username">
                     <div class="error-message" id="username-error"></div>
                 </div>
@@ -295,7 +295,7 @@
             </form>
 
             <p class="form-footer">
-                Déjà inscrit ? <a href="{% url 'login' %}?espace=personnel">Connexion personnel</a>
+                Déjà inscrit ? <a href="{% url 'login' %}">Se connecter</a>
             </p>
         </div>
     </section>

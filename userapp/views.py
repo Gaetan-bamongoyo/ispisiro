@@ -68,13 +68,15 @@ def login(request):
     if request.user.is_authenticated and request.user.is_personnel:
         return redirect('dash_home')
 
-    espace = request.GET.get('espace', 'etudiant')
+    espace = request.GET.get('espace', 'enseignant')
+    if espace not in ('enseignant', 'non_enseignant'):
+        espace = 'enseignant'
 
     if request.method == 'POST':
-        espace = request.POST.get('espace', 'etudiant')
+        espace = request.POST.get('espace', 'enseignant')
         password = request.POST.get('password', '')
 
-        if espace == 'personnel':
+        if espace in ('enseignant', 'non_enseignant'):
             identifiant = request.POST.get('email', '').strip()
             if not identifiant or not password:
                 messages.error(request, 'Email et mot de passe requis.')
@@ -94,7 +96,7 @@ def login(request):
                         return redirect('dash_home')
                     messages.error(request, 'Identifiants incorrects.')
         else:
-            messages.info(request, 'La connexion étudiant sera disponible prochainement.')
+            messages.error(request, 'Espace de connexion invalide.')
 
     return render(request, 'login/signin.html', {'espace': espace})
 

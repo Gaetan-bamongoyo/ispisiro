@@ -289,7 +289,7 @@
         <div class="login-form-inner">
             <img src="{% static 'images/logo/logoisp.png' %}" alt="ISP Isiro" class="login-mobile-logo">
             <h2>Connexion</h2>
-            <p id="login-subtitle">Accédez à votre espace étudiant</p>
+            <p id="login-subtitle">Accédez à votre espace enseignant</p>
 
             {% if messages %}
             <div class="dash-messages">
@@ -301,20 +301,13 @@
 
             <form method="post" action="">
                 {% csrf_token %}
-                <input type="hidden" name="espace" id="espace-input" value="etudiant">
+                <input type="hidden" name="espace" id="espace-input" value="enseignant">
 
-                <div class="space-switch" role="tablist">
-                    <button type="button" class="space-option active" data-space="etudiant" aria-selected="true">
-                        <i class="fas fa-user-graduate"></i> Étudiant
-                    </button>
-                    <button type="button" class="space-option" data-space="personnel" aria-selected="false">
-                        <i class="fas fa-id-badge"></i> Personnel
-                    </button>
-                </div>
+                
 
                 <div class="form-group">
-                    <label for="id_login" class="form-label" id="login-id-label">Matricule</label>
-                    <input id="id_login" name="matricule" type="text" class="form-control" placeholder="Votre matricule" required>
+                    <label for="id_login" class="form-label" id="login-id-label">Email</label>
+                    <input id="id_login" name="email" type="email" class="form-control" placeholder="Votre adresse email" required>
                 </div>
 
                 <div class="form-group password-field">
@@ -333,8 +326,8 @@
                 <button type="submit" class="btn-submit">Se connecter</button>
             </form>
 
-            <p class="form-footer" id="register-link" style="display:none;">
-                Pas encore de compte ? <a href="{% url 'register' %}">Créer un compte personnel</a>
+            <p class="form-footer" id="register-link">
+                Pas encore de compte ? <a href="{% url 'register' %}">Créer un compte</a>
             </p>
         </div>
     </section>
@@ -362,14 +355,14 @@
     var loginIdField = document.getElementById('id_login');
 
     var spaceConfig = {
-        etudiant: {
-            subtitle: 'Accédez à votre espace étudiant',
-            label: 'Matricule',
-            placeholder: 'Votre matricule',
-            name: 'matricule'
+        enseignant: {
+            subtitle: 'Accédez à votre espace enseignant',
+            label: 'Email',
+            placeholder: 'Votre adresse email',
+            name: 'email'
         },
-        personnel: {
-            subtitle: 'Accédez à votre espace personnel',
+        non_enseignant: {
+            subtitle: 'Accédez à votre espace personnel (administratif)',
             label: 'Email',
             placeholder: 'Votre adresse email',
             name: 'email'
@@ -392,22 +385,18 @@
             loginIdLabel.textContent = cfg.label;
             loginIdField.placeholder = cfg.placeholder;
             loginIdField.name = cfg.name;
-            loginIdField.type = space === 'personnel' ? 'email' : 'text';
+            loginIdField.type = 'email';
             loginIdField.value = '';
             loginIdField.focus();
-
-            var registerLink = document.getElementById('register-link');
-            if (registerLink) {
-                registerLink.style.display = space === 'personnel' ? 'block' : 'none';
-            }
         });
     });
 
     var params = new URLSearchParams(window.location.search);
-    var initialEspace = '{{ espace|default:"etudiant" }}';
-    if (params.get('espace') === 'personnel' || initialEspace === 'personnel') {
-        var personnelBtn = document.querySelector('.space-option[data-space="personnel"]');
-        if (personnelBtn) personnelBtn.click();
+    var initialEspace = '{{ espace|default:"enseignant" }}';
+    var urlEspace = params.get('espace');
+    if (urlEspace === 'non_enseignant' || initialEspace === 'non_enseignant') {
+        var nonEnseignantBtn = document.querySelector('.space-option[data-space="non_enseignant"]');
+        if (nonEnseignantBtn) nonEnseignantBtn.click();
     }
 })();
 </script>

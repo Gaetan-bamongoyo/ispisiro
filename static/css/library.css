@@ -148,7 +148,7 @@
 .lib-app .lib-main {
     padding: 32px 36px;
     overflow-y: auto;
-    background: #fff;
+    background: #ececec;
 }
 
 .lib-app .lib-section {
@@ -163,73 +163,122 @@
     margin-bottom: 20px;
 }
 
+/* Grille 2 colonnes — style mémoires / thèses */
 .lib-app .lib-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 20px 14px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 28px;
 }
 
-.lib-app .lib-grid-5 {
-    grid-template-columns: repeat(5, 1fr);
-}
-
-/* --- Carte document --- */
-.lib-app .lib-card {
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.lib-app .lib-card:hover {
-    transform: translateY(-3px);
-}
-
-.lib-app .lib-cover {
-    width: 100%;
-    aspect-ratio: 2 / 3;
-    border-radius: 4px;
-    display: flex;
-    align-items: flex-end;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transition: box-shadow 0.2s;
-}
-
-.lib-app .lib-card:hover .lib-cover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-}
-
-.lib-app .lib-cover span {
-    background: rgba(255, 255, 255, 0.92);
-    color: #0d2342;
-    font-size: 0.6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 3px 8px;
-    border-radius: 3px;
-    position: relative;
-    z-index: 1;
-}
-
-.lib-app .lib-cover--photo {
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.lib-app .lib-cover--photo::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 4px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.45), transparent 55%);
-}
-
+/* --- Carte horizontale --- */
 .lib-app .lib-card-link {
     display: block;
     color: inherit;
     text-decoration: none;
+    min-width: 0;
+}
+
+.lib-app .lib-card-horizontal {
+    display: flex;
+    align-items: stretch;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    min-height: 148px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+}
+
+.lib-app .lib-card-horizontal:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.lib-app .lib-card-cover {
+    flex: 0 0 108px;
+    width: 108px;
+    background: #f0f0f0;
+    overflow: hidden;
+}
+
+.lib-app .lib-card-cover img {
+    width: 100%;
+    height: 100%;
+    min-height: 148px;
+    object-fit: cover;
+    display: block;
+}
+
+.lib-app .lib-cover-fallback {
+    width: 100%;
+    height: 100%;
+    min-height: 148px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px 8px;
+}
+
+.lib-app .lib-cover-fallback span {
+    background: rgba(255, 255, 255, 0.92);
+    color: #0d2342;
+    font-size: 0.55rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 3px 6px;
+    border-radius: 3px;
+    line-height: 1.2;
+}
+
+.lib-app .lib-card-body {
+    flex: 1;
+    min-width: 0;
+    padding: 16px 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.lib-app .lib-card-title {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a1a !important;
+    line-height: 1.35;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lib-app .lib-card-year {
+    font-size: 0.78rem;
+    color: #888;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.lib-app .lib-stars {
+    display: flex;
+    gap: 3px;
+    margin: 2px 0 4px;
+}
+
+.lib-app .lib-stars i {
+    font-size: 0.72rem;
+    color: #d4c4a8;
+}
+
+.lib-app .lib-card-excerpt {
+    font-size: 0.78rem;
+    color: #777;
+    line-height: 1.45;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .lib-app .lib-empty {
@@ -278,48 +327,7 @@
 .lib-app .cover-3  { background: linear-gradient(160deg, #1a5276, #2980b9); }
 .lib-app .cover-4  { background: linear-gradient(160deg, #154360, #1f618d); }
 .lib-app .cover-5  { background: linear-gradient(160deg, #0d2342, #0151b0); }
-.lib-app .cover-6  { background: linear-gradient(160deg, #1b4f72, #2e86c1); }
-.lib-app .cover-7  { background: linear-gradient(160deg, #117a65, #1abc9c); }
-.lib-app .cover-8  { background: linear-gradient(160deg, #6c3483, #8e44ad); }
-.lib-app .cover-9  { background: linear-gradient(160deg, #784212, #d68910); }
-.lib-app .cover-10 { background: linear-gradient(160deg, #1a5276, #5dade2); }
-.lib-app .cover-11 { background: linear-gradient(160deg, #0d2342, #34495e); }
-.lib-app .cover-12 { background: linear-gradient(160deg, #0151b0, #5dade2); }
-.lib-app .cover-13 { background: linear-gradient(160deg, #7d3c98, #af7ac5); }
-.lib-app .cover-14 { background: linear-gradient(160deg, #566573, #85929e); }
-
-.lib-app .lib-card h3 {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: #222 !important;
-    line-height: 1.35;
-    margin-bottom: 4px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.lib-app .lib-card p {
-    font-size: 0.72rem;
-    color: #999;
-    margin-bottom: 6px;
-}
-
-.lib-app .lib-stars {
-    display: flex;
-    gap: 2px;
-}
-
-.lib-app .lib-stars i {
-    font-size: 0.6rem;
-    color: #0151b0;
-}
-
-.lib-app .lib-stars .far {
-    color: #ccc;
-}
+.lib-app .cover-6 { background: linear-gradient(160deg, #1b4f72, #2e86c1); }
 
 /* --- Sidebar droite --- */
 .lib-app .lib-right {
@@ -378,15 +386,9 @@
 }
 
 /* --- Responsive --- */
-@media (max-width: 1400px) {
-    .lib-app .lib-grid { grid-template-columns: repeat(5, 1fr); }
-    .lib-app .lib-grid-5 { grid-template-columns: repeat(4, 1fr); }
-}
-
 @media (max-width: 1100px) {
     .lib-app .lib-body { grid-template-columns: 200px 1fr; }
     .lib-app .lib-right { display: none; }
-    .lib-app .lib-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -398,9 +400,13 @@
 
     .lib-app .lib-search { max-width: 100%; }
 
-    .lib-app .lib-grid,
-    .lib-app .lib-grid-5 {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px 12px;
+    .lib-app .lib-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .lib-app .lib-card-cover {
+        flex: 0 0 96px;
+        width: 96px;
     }
 }

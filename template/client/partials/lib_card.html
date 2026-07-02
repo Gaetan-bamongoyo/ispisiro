@@ -1,11 +1,26 @@
 <a href="{% url 'article_detail' id=article.id %}" class="lib-card-link lib-card-item"
    data-search="{{ article.titre|lower }} {{ article.auteur|lower }} {{ article.categorie.nom|lower }} {{ article.contenu|lower }}">
-    <article class="lib-card">
-        <div class="lib-cover {% if article.image %}lib-cover--photo{% else %}{% cycle 'cover-1' 'cover-2' 'cover-3' 'cover-4' 'cover-5' 'cover-6' 'cover-7' 'cover-8' 'cover-9' 'cover-10' 'cover-11' 'cover-12' 'cover-13' 'cover-14' %}{% endif %}"
-             {% if article.image %}style="background-image: url('{{ article.image.url }}');"{% endif %}>
-            <span>{{ article.categorie.nom }}</span>
+    <article class="lib-card lib-card-horizontal">
+        <div class="lib-card-cover">
+            {% if article.image %}
+            <img src="{{ article.image.url }}" alt="{{ article.titre }}">
+            {% else %}
+            <div class="lib-cover-fallback {% cycle 'cover-1' 'cover-2' 'cover-3' 'cover-4' 'cover-5' 'cover-6' %}">
+                <span>{{ article.categorie.nom }}</span>
+            </div>
+            {% endif %}
         </div>
-        <h3>{{ article.titre }}</h3>
-        <p>{{ article.auteur }} · {{ article.date_publication|date:"Y" }}</p>
+        <div class="lib-card-body">
+            <h3 class="lib-card-title">{{ article.titre }}</h3>
+            <p class="lib-card-year">{{ article.date_publication|date:"Y" }}</p>
+            <div class="lib-stars" aria-hidden="true">
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            </div>
+            <p class="lib-card-excerpt">{{ article.contenu|truncatechars:160 }}</p>
+        </div>
     </article>
 </a>

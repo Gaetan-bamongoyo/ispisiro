@@ -49,7 +49,7 @@
             {% for group in categories_with_articles %}
             <section class="lib-section" id="cat-{{ group.category.id }}">
                 <h2>{{ group.category.nom }}</h2>
-                <div class="lib-grid{% if group.articles.count <= 5 %} lib-grid-5{% endif %}">
+                <div class="lib-grid">
                     {% for article in group.articles %}
                     {% include 'client/partials/lib_card.html' %}
                     {% endfor %}
